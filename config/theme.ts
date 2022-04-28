@@ -39,6 +39,23 @@ const theme = createTheme({
         },
       },
     },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontSize: '14px',
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        animated: {
+          color: '#1a202c',
+        },
+        asterisk: {
+          color: '#E53E3E',
+        },
+      },
+    },
   },
 });
 
