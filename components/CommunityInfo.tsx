@@ -3,7 +3,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Image from 'next/image';
 
-export default function CommunityInfo() {
+export default function CommunityInfo({ community }: { community: any }) {
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ background: '#fff' }}>
       <Box mb={3}>
