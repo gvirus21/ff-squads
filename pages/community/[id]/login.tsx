@@ -11,7 +11,7 @@ import connectors, { ConnectorKey } from '../../../connectors';
 
 const LoginPage: NextPage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { activate, active } = useWeb3React();
+  const { activate, active: metamaskActive } = useWeb3React();
   const { data: session, status } = useSession();
   const router = useRouter();
   const { id } = router.query;
@@ -31,16 +31,16 @@ const LoginPage: NextPage = () => {
   };
 
   useEffect(() => {
-    if (id && status === 'authenticated') {
-      router.push(`/community/${id}`);
+    if (id && status === 'authenticated' && metamaskActive) {
+      router.push(`/community/${id}/create`);
     }
-  }, [session, id]);
+  }, [session, metamaskActive, id]);
 
-  if (status !== 'unauthenticated') return null;
+  if (status === 'authenticated' && metamaskActive) return null;
 
   return (
     <Box>
-      {!active ? (
+      {!metamaskActive ? (
         <Grid container spacing={4} justifyContent="space-between">
           <Grid item xs={12} sm={6}></Grid>
           <Grid item xs={12} sm={6}>

@@ -118,123 +118,127 @@ export default function CommunityPage() {
   const handleDeleteTag = () => console.log('delete');
 
   return (
-    <Box>
-      <CommunityInfo />
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
-        <Tabs value={value} onChange={handleChange} centered>
-          <Tab label="Members (18,357)" {...a11yProps(0)} />
-          <Tab label="Projects (Coming soon)" {...a11yProps(1)} disabled />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <Box display="flex" justifyContent="center">
-          <Drawer variant="permanent" open={filterOpen}>
-            <DrawerHeader>
-              <IconButton onClick={toggleFilter}>{!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
-            </DrawerHeader>
-            <Divider />
-            <List>
-              <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
-                <ListItemText primary="Expertise" />
-                {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListItemButton>
-              <Divider />
-              <Collapse in={expertiseOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ p: 2 }}>
-                  <MultipleSelect data={EXPERTISES} />
-                </Box>
-                <Divider />
-              </Collapse>
-            </List>
-            <List>
-              <ListItemButton onClick={() => setStatusOpen(!statusOpen)}>
-                <ListItemText primary="Status" />
-                {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListItemButton>
-              <Divider />
-              <Collapse in={statusOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ p: 2 }}>
-                  <FormGroup>
-                    <FormControlLabel control={<Checkbox />} label="Open to new projects" />
-                    <FormControlLabel control={<Checkbox />} label="Not open new to projects" />
-                  </FormGroup>
-                </Box>
-                <Divider />
-              </Collapse>
-            </List>
-            <List>
-              <ListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
-                <ListItemText primary="Availability" />
-                {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListItemButton>
-              <Divider />
-              <Collapse in={availabilityOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ p: 2 }}>
-                  <FormGroup>
-                    <FormControlLabel control={<Checkbox />} label="Full-time (5-8 hrs)" />
-                    <FormControlLabel control={<Checkbox />} label="Part-time (1-4 hrs)" />
-                    <FormControlLabel control={<Checkbox />} label="Volunteer" />
-                  </FormGroup>
-                </Box>
-                <Divider />
-              </Collapse>
-            </List>
-            <List>
-              <ListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
-                <ListItemText primary="Time zone" />
-                {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListItemButton>
-              <Divider />
-              <Collapse in={timezoneOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ p: 2 }}>
-                  <FormGroup>
-                    <MultipleSelect data={TIMEZONES} />
-                  </FormGroup>
-                </Box>
-                <Divider />
-              </Collapse>
-            </List>
-          </Drawer>
-          <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }}>
-            <TextField fullWidth placeholder="Search by name, location, or expertise" />
-            <Box display="flex" alignItems="center" my={2}>
-              <Chip label="Solidity Development" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
-              <Chip label="Not open to new projects" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
-              <Chip label="Part-time" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
-              <Chip label="Volunteer" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
-            </Box>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <MemberCard />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <MemberCard />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <MemberCard />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <MemberCard />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <MemberCard />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <MemberCard />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <MemberCard />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <MemberCard />
-              </Grid>
-            </Grid>
-          </Box>
+    <AuthGuard>
+      <Box>
+        <CommunityInfo />
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
+          <Tabs value={value} onChange={handleChange} centered>
+            <Tab label="Members (18,357)" {...a11yProps(0)} />
+            <Tab label="Projects (Coming soon)" {...a11yProps(1)} disabled />
+          </Tabs>
         </Box>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-    </Box>
+        <TabPanel value={value} index={0}>
+          <Box display="flex" justifyContent="center">
+            <Drawer variant="permanent" open={filterOpen}>
+              <DrawerHeader>
+                <IconButton onClick={toggleFilter}>
+                  {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                </IconButton>
+              </DrawerHeader>
+              <Divider />
+              <List>
+                <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
+                  <ListItemText primary="Expertise" />
+                  {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Divider />
+                <Collapse in={expertiseOpen} timeout="auto" unmountOnExit>
+                  <Box sx={{ p: 2 }}>
+                    <MultipleSelect data={EXPERTISES} />
+                  </Box>
+                  <Divider />
+                </Collapse>
+              </List>
+              <List>
+                <ListItemButton onClick={() => setStatusOpen(!statusOpen)}>
+                  <ListItemText primary="Status" />
+                  {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Divider />
+                <Collapse in={statusOpen} timeout="auto" unmountOnExit>
+                  <Box sx={{ p: 2 }}>
+                    <FormGroup>
+                      <FormControlLabel control={<Checkbox />} label="Open to new projects" />
+                      <FormControlLabel control={<Checkbox />} label="Not open new to projects" />
+                    </FormGroup>
+                  </Box>
+                  <Divider />
+                </Collapse>
+              </List>
+              <List>
+                <ListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
+                  <ListItemText primary="Availability" />
+                  {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Divider />
+                <Collapse in={availabilityOpen} timeout="auto" unmountOnExit>
+                  <Box sx={{ p: 2 }}>
+                    <FormGroup>
+                      <FormControlLabel control={<Checkbox />} label="Full-time (5-8 hrs)" />
+                      <FormControlLabel control={<Checkbox />} label="Part-time (1-4 hrs)" />
+                      <FormControlLabel control={<Checkbox />} label="Volunteer" />
+                    </FormGroup>
+                  </Box>
+                  <Divider />
+                </Collapse>
+              </List>
+              <List>
+                <ListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
+                  <ListItemText primary="Time zone" />
+                  {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Divider />
+                <Collapse in={timezoneOpen} timeout="auto" unmountOnExit>
+                  <Box sx={{ p: 2 }}>
+                    <FormGroup>
+                      <MultipleSelect data={TIMEZONES} />
+                    </FormGroup>
+                  </Box>
+                  <Divider />
+                </Collapse>
+              </List>
+            </Drawer>
+            <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }}>
+              <TextField fullWidth placeholder="Search by name, location, or expertise" />
+              <Box display="flex" alignItems="center" my={2}>
+                <Chip label="Solidity Development" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
+                <Chip label="Not open to new projects" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
+                <Chip label="Part-time" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
+                <Chip label="Volunteer" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
+              </Box>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <MemberCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <MemberCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <MemberCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <MemberCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <MemberCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <MemberCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <MemberCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <MemberCard />
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Item Two
+        </TabPanel>
+      </Box>
+    </AuthGuard>
   );
 }
