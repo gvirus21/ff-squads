@@ -1,9 +1,12 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FormTextInput } from './form/FormTextInput';
 import { FormTimezone } from './form/FormTimezone';
+import { FormSelect, GroupedOption, Option } from './form/FormSelect';
+import { useMemo } from 'react';
+import { EXPERTISE_CATEGORY, SOCIAL_NAME_MAP } from '../config/constants';
 
 interface SocialInfo {
   twitter?: string;
@@ -25,7 +28,7 @@ interface MemberProfileInfo {
   country: string;
   city?: string;
   timezone: string;
-  socialIds: number[];
+  socialIds: string[];
   socialLinks: SocialInfo;
   expertise: string[];
   extraExpertise: string[];
@@ -69,8 +72,21 @@ const memberProfileSchema = yup.object().shape({
   familiarity: yup.number(),
 });
 
+const socialOptions: Option[] = Object.keys(SOCIAL_NAME_MAP).map((socialKey) => ({
+  value: socialKey,
+  label: SOCIAL_NAME_MAP[socialKey as keyof typeof SOCIAL_NAME_MAP].label,
+}));
+
+const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY).map((category) => ({
+  label: category,
+  options: EXPERTISE_CATEGORY[category as keyof typeof EXPERTISE_CATEGORY].map((item) => ({
+    label: item,
+    value: item,
+  })),
+}));
+
 const MemberProfileForm = () => {
-  const { handleSubmit, control, formState } = useForm<MemberProfileInfo>({
+  const { handleSubmit, control, watch, formState } = useForm<MemberProfileInfo>({
     mode: 'all',
     defaultValues: formDefault,
     resolver: yupResolver(memberProfileSchema),
@@ -97,6 +113,37 @@ const MemberProfileForm = () => {
       </Grid>
       <Grid item xs={12} sm={12}>
         <FormTimezone control={control} name="timezone" label="Time zone" required />
+      </Grid>
+      <Grid item xs={12} sm={12}>
+        <FormSelect
+          control={control}
+          name="socialIds"
+          options={socialOptions}
+          label="Where can we find you online?"
+          isMulti
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={12}>
+        <FormSelect control={control} name="expertise" options={expertiseOptions} label="I'm a ..." isMulti required />
+      </Grid>
+
+      <Grid item xs={12} sm={12}>
+        <FormTextInput
+          control={control}
+          name="contribution"
+          label="How would you like to contribute to our community?"
+          placeholder="I would like to help build Web3 tools for aspiring creators!"
+          required
+          multiline
+          rows={2}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={12}>
+        <Button type="submit" variant="contained">
+          Complete Profile
+        </Button>
       </Grid>
     </Grid>
   );
