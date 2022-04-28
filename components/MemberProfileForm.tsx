@@ -1,12 +1,15 @@
-import { Button, Grid } from '@mui/material';
+import { Box, Button, Grid, InputLabel, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FormTextInput } from './form/FormTextInput';
 import { FormTimezone } from './form/FormTimezone';
 import { FormSelect, GroupedOption, Option } from './form/FormSelect';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { EXPERTISE_CATEGORY, SOCIAL_NAME_MAP } from '../config/constants';
+import { FormCreatableSelect } from './form/FormCreatableSelect';
+import { FormRadioGroup } from './form/FormRadioGroup';
+import { FormSocialLinks } from './form/FormSocialLinks';
 
 interface SocialInfo {
   twitter?: string;
@@ -32,8 +35,8 @@ interface MemberProfileInfo {
   socialLinks: SocialInfo;
   expertise: string[];
   extraExpertise: string[];
-  status: number;
-  availability: number;
+  status?: number;
+  availability?: number;
   contribution: string;
   familiarity: number;
 }
@@ -49,8 +52,8 @@ const formDefault: MemberProfileInfo = {
   socialLinks: {},
   expertise: [],
   extraExpertise: [],
-  status: 0,
-  availability: 0,
+  status: undefined,
+  availability: undefined,
   contribution: '',
   familiarity: 0,
 };
@@ -91,61 +94,125 @@ const MemberProfileForm = () => {
     defaultValues: formDefault,
     resolver: yupResolver(memberProfileSchema),
   });
+  const socialIdsValue = watch('socialIds');
+
+  const onSubmit = useCallback(async (payload: MemberProfileInfo) => {
+    console.log('payload: ', payload);
+  }, []);
 
   return (
-    <Grid container justifyContent="space-between" rowSpacing={1} columnSpacing={4}>
-      <Grid item xs={12} sm={6}>
-        <FormTextInput control={control} name="username" label="Username" placeholder="Username" required />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <FormTextInput control={control} name="email" label="Email" placeholder="Email address" required />
-      </Grid>
-      <Grid item xs={12} sm={12}>
-        <FormTextInput
-          control={control}
-          name="bio"
-          label="Tell us a bit about yourself and what you're excited about"
-          placeholder="I'm currently a community manager and I'm excited to onboard more members to Web3!"
-          required
-          multiline
-          rows={2}
-        />
-      </Grid>
-      <Grid item xs={12} sm={12}>
-        <FormTimezone control={control} name="timezone" label="Time zone" required />
-      </Grid>
-      <Grid item xs={12} sm={12}>
-        <FormSelect
-          control={control}
-          name="socialIds"
-          options={socialOptions}
-          label="Where can we find you online?"
-          isMulti
-        />
-      </Grid>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Grid container justifyContent="space-between" rowSpacing={1} columnSpacing={4}>
+        <Grid item xs={12} sm={6}>
+          <FormTextInput control={control} name="username" label="Username" placeholder="Username" required />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormTextInput control={control} name="email" label="Email" placeholder="Email address" required />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <FormTextInput
+            control={control}
+            name="bio"
+            label="Tell us a bit about yourself and what you're excited about"
+            placeholder="I'm currently a community manager and I'm excited to onboard more members to Web3!"
+            required
+            multiline
+            rows={2}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <FormTimezone control={control} name="timezone" label="Time zone" required />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <FormSelect
+            control={control}
+            name="socialIds"
+            options={socialOptions}
+            label="Where can we find you online?"
+            isMulti
+          />
+        </Grid>
 
-      <Grid item xs={12} sm={12}>
-        <FormSelect control={control} name="expertise" options={expertiseOptions} label="I'm a ..." isMulti required />
-      </Grid>
+        {socialIdsValue.length ? (
+          <Grid item xs={12} sm={12}>
+            <FormSocialLinks
+              control={control}
+              parentName="socialLinks"
+              socialIds={socialIdsValue}
+              label="Social link or handle"
+              required
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
 
-      <Grid item xs={12} sm={12}>
-        <FormTextInput
-          control={control}
-          name="contribution"
-          label="How would you like to contribute to our community?"
-          placeholder="I would like to help build Web3 tools for aspiring creators!"
-          required
-          multiline
-          rows={2}
-        />
-      </Grid>
+        <Grid item xs={12} sm={12}>
+          <FormSelect
+            control={control}
+            name="expertise"
+            options={expertiseOptions}
+            label="I'm a ..."
+            isMulti
+            required
+          />
+        </Grid>
 
-      <Grid item xs={12} sm={12}>
-        <Button type="submit" variant="contained">
-          Complete Profile
-        </Button>
+        <Grid item xs={12} sm={12}>
+          <FormCreatableSelect
+            control={control}
+            name="extraExpertise"
+            label="Any other you like to share that is not listed?"
+            isMulti
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
+          <FormRadioGroup
+            control={control}
+            name="status"
+            label="Status"
+            options={[
+              { label: 'Open to new projects', value: 0 },
+              { label: 'Not open to new projects', value: 1 },
+            ]}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
+          <FormRadioGroup
+            control={control}
+            name="availability"
+            label="How much time do you have to contribute per week?"
+            options={[
+              { label: 'Full-time (5-8 hrs)', value: 0 },
+              { label: 'Part-time (1-4 hrs)', value: 1 },
+              { label: 'Volunteer', value: 2 },
+            ]}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
+          <FormTextInput
+            control={control}
+            name="contribution"
+            label="How would you like to contribute to our community?"
+            placeholder="I would like to help build Web3 tools for aspiring creators!"
+            required
+            multiline
+            rows={2}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
+          <Button type="submit" variant="contained">
+            Complete Profile
+          </Button>
+        </Grid>
       </Grid>
-    </Grid>
+    </form>
   );
 };
 
