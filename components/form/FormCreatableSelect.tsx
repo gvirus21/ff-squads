@@ -1,8 +1,8 @@
 import { Box, Fade, FormHelperText, InputLabel } from '@mui/material';
-import CreatableSelect from 'react-select/creatable';
-import { Props as SelectProps } from 'react-select';
-import { Control, Controller } from 'react-hook-form';
 import { useMemo } from 'react';
+import { Control, Controller } from 'react-hook-form';
+import { Props as SelectProps } from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 export type Option = {
   label: string;

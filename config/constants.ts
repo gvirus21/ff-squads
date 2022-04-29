@@ -24,6 +24,7 @@ export const SOCIAL_NAME_MAP = {
   website: { label: 'Website/Portfolio', image: '/images/Website.svg' },
   github: { label: 'Github', image: '/images/Github.svg' },
   other: { label: 'Other', image: '/images/Website.svg' },
+  discord: { label: 'Discord', image: '/images/Discord.svg' },
 };
 
 export const EXPERTISE_CATEGORY = {

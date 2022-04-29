@@ -1,6 +1,6 @@
 import { Box, Fade, FormHelperText, InputLabel } from '@mui/material';
-import TimezoneSelect, { Props as TimezoneSelectProps } from 'react-timezone-select';
 import { Control, Controller } from 'react-hook-form';
+import TimezoneSelect, { Props as TimezoneSelectProps } from 'react-timezone-select';
 
 export type FormTimezoneProps = {
   control?: Control<any, object>;

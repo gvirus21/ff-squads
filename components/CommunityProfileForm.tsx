@@ -1,6 +1,6 @@
+import UploadFile from '@mui/icons-material/UploadFile';
 import { Box, Button, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import UploadFile from '@mui/icons-material/UploadFile';
 import React from 'react';
 
 import { SOCIALS } from '../config/constants';

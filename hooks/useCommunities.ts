@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { Community } from '../types';
 import api from '../utils/api';
 
 const getCommunity = async (shortId: string | string[] | undefined) => {
@@ -10,7 +11,7 @@ const getCommunity = async (shortId: string | string[] | undefined) => {
 };
 
 export const useCommunity = (shortId: string | string[] | undefined) =>
-  useQuery(['community', shortId], () => getCommunity(shortId));
+  useQuery<Community>(['community', shortId], () => getCommunity(shortId));
 
 const getCommunities = async () => {
   const {

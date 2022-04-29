@@ -1,5 +1,5 @@
-import { Box, Button, Card, CardContent, CardHeader, Container, Grid, Menu, MenuItem, Typography } from '@mui/material';
 import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet';
+import { Button, Card, CardContent, CardHeader, Container, Grid, Menu, MenuItem, Typography } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import type { NextPage } from 'next';
 import { useSession, signIn } from 'next-auth/react';
@@ -7,18 +7,25 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CommunityInfo from '../../../components/CommunityInfo';
+import PageLoading from '../../../components/PageLoading';
 
 import { WEB3_CONNECTOR_KEY } from '../../../config/constants';
 import connectors, { ConnectorKey } from '../../../connectors';
 import { useCommunity } from '../../../hooks/useCommunities';
+import { useMemberInCommunity } from '../../../hooks/useMember';
 
 const LoginPage: NextPage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { activate, account } = useWeb3React();
+  const [walletLoading, setWalletLoading] = useState(false);
   const { data: session, status } = useSession();
   const router = useRouter();
   const { id } = router.query;
-  const { data: community } = useCommunity(id);
+  const { data: community, isError: isCommunityError } = useCommunity(id);
+  const { data: member } = useMemberInCommunity(
+    id,
+    `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
+  );
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -28,28 +35,47 @@ const LoginPage: NextPage = () => {
     setAnchorEl(null);
   };
 
-  const handleWeb3Login = (key: ConnectorKey) => {
-    activate(connectors[key]);
+  const handleWeb3Login = async (key: ConnectorKey) => {
+    setWalletLoading(true);
+    await activate(connectors[key]);
+    setWalletLoading(false);
     window.localStorage.setItem(WEB3_CONNECTOR_KEY, key);
     setAnchorEl(null);
   };
 
+  const initWalletFromStorage = async () => {
+    setWalletLoading(true);
+    const key = window.localStorage.getItem(WEB3_CONNECTOR_KEY);
+
+    if (key) {
+      await activate(connectors[key as ConnectorKey]);
+    }
+    setWalletLoading(false);
+  };
+
   useEffect(() => {
     if (id && status === 'authenticated' && account) {
-      router.push(`/community/${id}/create`);
+      if (member) {
+        router.push(`/community/${id}`);
+      } else {
+        router.push(`/community/${id}/member/create`);
+      }
     }
-  }, [session, account, id]);
+  }, [member, session, account, id]);
 
   useEffect(() => {
-    const key = window.localStorage.getItem(WEB3_CONNECTOR_KEY);
-    if (key) {
-      activate(connectors[key as ConnectorKey]);
+    if (isCommunityError) {
+      router.push(`/community`);
     }
+  }, [isCommunityError]);
+
+  useEffect(() => {
+    initWalletFromStorage();
   }, []);
 
-  if (status === 'authenticated' && account) return null;
-
-  if (!community) return null;
+  if (status === 'loading' || (status === 'authenticated' && account) || !community || walletLoading) {
+    return <PageLoading />;
+  }
 
   return (
     <Container maxWidth="lg">

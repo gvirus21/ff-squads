@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
   Card,
@@ -14,12 +15,11 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
-import React from 'react';
 import Image from 'next/image';
+import React from 'react';
 
-import SocialLinks from './SocialLinks';
 import { Member } from '../types';
+import SocialLinks from './SocialLinks';
 
 const Timezone = ({ country, city, timezone }: { country: string; city?: string; timezone: string }) => {
   return (
