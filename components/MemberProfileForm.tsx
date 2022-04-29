@@ -1,49 +1,29 @@
-import { Box, Button, Grid } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { LoadingButton } from '@mui/lab';
+import { Box, Grid } from '@mui/material';
+import { User } from 'next-auth';
+import { useMemo } from 'react';
+import { useForm } from 'react-hook-form';
+import countryList from 'react-select-country-list';
 import * as yup from 'yup';
+import { EXPERTISE_CATEGORY, SOCIAL_NAME_MAP } from '../config/constants';
+import { MemberProfileInfo } from '../types';
+import { FormCreatableSelect } from './form/FormCreatableSelect';
+import { FormFamiliarity } from './form/FormFamiliarity';
+import { FormRadioGroup } from './form/FormRadioGroup';
+import { FormSelect, GroupedOption, SelectOption } from './form/FormSelect';
+import { FormSocialLinks } from './form/FormSocialLinks';
 import { FormTextInput } from './form/FormTextInput';
 import { FormTimezone } from './form/FormTimezone';
-import { FormSelect, GroupedOption, SelectOption } from './form/FormSelect';
-import { useCallback, useMemo } from 'react';
-import countryList from 'react-select-country-list';
-import { EXPERTISE_CATEGORY, SOCIAL_NAME_MAP } from '../config/constants';
-import { FormCreatableSelect } from './form/FormCreatableSelect';
-import { FormRadioGroup } from './form/FormRadioGroup';
-import { FormSocialLinks } from './form/FormSocialLinks';
-import { FormFamiliarity } from './form/FormFamiliarity';
 
-interface SocialInfo {
-  twitter?: string;
-  linkedin?: string;
-  instagram?: string;
-  mirror?: string;
-  zora?: string;
-  opensea?: string;
-  foundation?: string;
-  website?: string;
-  github?: string;
-  other?: string;
+interface MemberProfileFormProps {
+  member: MemberProfileInfo;
+  onSubmit: (payload: MemberProfileInfo) => void;
+  submitting: boolean;
+  submitText?: string;
 }
 
-interface MemberProfileInfo {
-  email: string;
-  username: string;
-  bio: string;
-  country: string;
-  city?: string;
-  timezone: string;
-  socialIds: string[];
-  socialLinks: SocialInfo;
-  expertise: string[];
-  extraExpertise: string[];
-  status?: number;
-  availability?: number;
-  contribution: string;
-  familiarity: number;
-}
-
-const formDefault: MemberProfileInfo = {
+export const memberProfileFormDefault: MemberProfileInfo = {
   email: '',
   username: '',
   bio: '',
@@ -58,6 +38,8 @@ const formDefault: MemberProfileInfo = {
   availability: undefined,
   contribution: '',
   familiarity: 0,
+  discordHandle: '',
+  logoUrl: '',
 };
 
 const memberProfileSchema = yup.object().shape({
@@ -103,7 +85,7 @@ const memberProfileSchema = yup.object().shape({
   expertise: yup.array().of(yup.string()).min(1, 'Select at least 1 expertise'),
   extraExpertise: yup.array().of(yup.string()),
   status: yup.number().required('This field is required'),
-  availability: yup.string().required('This field is required'),
+  availability: yup.number().required('This field is required'),
   contribution: yup.string().required('This field is required'),
   familiarity: yup.number(),
 });
@@ -122,18 +104,17 @@ const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY).map((c
   })),
 }));
 
-const MemberProfileForm = () => {
-  const { handleSubmit, control, watch, formState } = useForm<MemberProfileInfo>({
+const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }: MemberProfileFormProps) => {
+  const { handleSubmit, control, watch } = useForm<MemberProfileInfo>({
     mode: 'all',
-    defaultValues: formDefault,
+    defaultValues: {
+      ...memberProfileFormDefault,
+      ...member,
+    },
     resolver: yupResolver(memberProfileSchema),
   });
   const socialIdsValue = watch('socialIds');
   const countryOptions = useMemo(() => countryList().getData(), []);
-
-  const onSubmit = useCallback(async (payload: MemberProfileInfo) => {
-    console.log('payload: ', payload);
-  }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -256,9 +237,9 @@ const MemberProfileForm = () => {
         </Grid>
 
         <Grid item xs={12} sm={12}>
-          <Button type="submit" variant="contained">
-            Complete Profile
-          </Button>
+          <LoadingButton type="submit" variant="contained" loading={submitting}>
+            {submitText}
+          </LoadingButton>
         </Grid>
       </Grid>
     </form>

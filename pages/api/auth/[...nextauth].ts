@@ -1,10 +1,10 @@
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 
 export default NextAuth({
   callbacks: {
     async session({ session, token, user }) {
-      session.user = token;
+      session.user = token as User;
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
@@ -12,6 +12,7 @@ export default NextAuth({
         token.id = account.id;
         token.profile = profile;
       }
+
       return token;
     },
   },

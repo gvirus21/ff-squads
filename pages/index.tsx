@@ -1,7 +1,7 @@
-import * as React from 'react';
-import type { NextPage } from 'next';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import type { NextPage } from 'next';
+import * as React from 'react';
 
 const Home: NextPage = () => {
   return (
