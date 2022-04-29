@@ -15,7 +15,7 @@ export default function AuthGuard({ children }: { children: JSX.Element }) {
     }
   }, [session, id, metamaskActive]);
 
-  if (!session) return null;
+  if (!session || !metamaskActive) return null;
 
   return <>{children}</>;
 }
