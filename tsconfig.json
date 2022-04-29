@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -16,20 +15,6 @@
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
     "incremental": true,
-    "paths": {
-      "components/*": [
-        "components/*"
-      ],
-      "pages/*": [
-        "pages/*"
-      ],
-      "types/*": [
-        "types/*"
-      ],
-      "utils/*": [
-        "utils/*"
-      ]
-    },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],

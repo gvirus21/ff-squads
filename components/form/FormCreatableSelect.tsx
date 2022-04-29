@@ -76,8 +76,14 @@ export const FormCreatableSelect = ({
               options={options}
               value={
                 isMulti
-                  ? flattenOptions?.filter((option) => value?.includes(option?.value))
-                  : flattenOptions?.find((option) => value === option.value)
+                  ? value.map(
+                      (valueItem: string) =>
+                        flattenOptions?.find((option) => valueItem === option.value) ?? {
+                          label: value,
+                          value: valueItem,
+                        }
+                    )
+                  : flattenOptions?.find((option) => value === option.value) ?? { label: value, value }
               }
               onChange={(selectedOption: SelectedOption) =>
                 Array.isArray(selectedOption)
