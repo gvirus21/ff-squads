@@ -160,7 +160,7 @@ const MemberProfileForm = () => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <FormCreatableSelect control={control} name="city" label="City" />
+          <FormCreatableSelect control={control} name="city" label="City" isClearable />
         </Grid>
 
         <Grid item xs={12} sm={12}>
