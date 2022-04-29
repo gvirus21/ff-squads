@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 import CommunityInfo from '../../../components/CommunityInfo';
 import PageLoading from '../../../components/PageLoading';
 
-import { WEB3_CONNECTOR_KEY } from '../../../config/constants';
 import connectors, { ConnectorKey } from '../../../connectors';
 import { useCommunity } from '../../../hooks/useCommunities';
 import { useMemberInCommunity } from '../../../hooks/useMember';
@@ -36,21 +35,8 @@ const LoginPage: NextPage = () => {
   };
 
   const handleWeb3Login = async (key: ConnectorKey) => {
-    setWalletLoading(true);
     await activate(connectors[key]);
-    setWalletLoading(false);
-    window.localStorage.setItem(WEB3_CONNECTOR_KEY, key);
     setAnchorEl(null);
-  };
-
-  const initWalletFromStorage = async () => {
-    setWalletLoading(true);
-    const key = window.localStorage.getItem(WEB3_CONNECTOR_KEY);
-
-    if (key) {
-      await activate(connectors[key as ConnectorKey]);
-    }
-    setWalletLoading(false);
   };
 
   useEffect(() => {
@@ -68,10 +54,6 @@ const LoginPage: NextPage = () => {
       router.push(`/community`);
     }
   }, [isCommunityError]);
-
-  useEffect(() => {
-    initWalletFromStorage();
-  }, []);
 
   if (status === 'loading' || (status === 'authenticated' && account) || !community || walletLoading) {
     return <PageLoading />;

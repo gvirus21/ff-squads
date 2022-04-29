@@ -7,7 +7,6 @@ import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography } from '@
 import { useWeb3React } from '@web3-react/core';
 import { signOut } from 'next-auth/react';
 import { useState } from 'react';
-import { WEB3_CONNECTOR_KEY } from '../config/constants';
 import { shortenAddress } from '../utils';
 
 export default function UserProfile() {
@@ -23,7 +22,6 @@ export default function UserProfile() {
   };
 
   const handleLogout = () => {
-    window.localStorage.removeItem(WEB3_CONNECTOR_KEY);
     deactivate();
     signOut();
     setAnchorEl(null);

@@ -1,5 +1,3 @@
-export const WEB3_CONNECTOR_KEY = '@ff-mdir:provider';
-
 export const SOCIALS = [
   'Twitter',
   'Linkedin',

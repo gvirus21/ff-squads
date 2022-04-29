@@ -189,154 +189,156 @@ export default function CommunityPage() {
   }, [filterItems, timezoneFilterItem]);
 
   return community ? (
-    // <AuthGuard>
-    <Box>
-      <CommunityInfo community={community} />
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
-        <Tabs value={value} onChange={handleTabChange} centered>
-          <Tab label={`Members (${community.members.length})`} {...a11yProps(0)} />
-          <Tab label="Projects (Coming soon)" {...a11yProps(1)} disabled />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <Box display="flex" justifyContent="center">
-          <Drawer variant="permanent" open={filterOpen}>
-            <DrawerHeader>
-              <IconButton onClick={toggleFilter}>{!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
-            </DrawerHeader>
-            <Divider />
-            <List>
-              <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
-                <ListItemText primary="Expertise" />
-                {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListItemButton>
-              <Divider />
-              <Collapse in={expertiseOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ p: 2 }}>
-                  <Select
-                    options={expertiseOptions}
-                    value={filterItems
-                      .filter((item) => item.filterBy === 'expertise')
-                      .map(({ filterValue }) => ({ label: filterValue, value: filterValue }))}
-                    isMulti
-                    onChange={handleExpertiseFilter}
-                  />
-                </Box>
-                <Divider />
-              </Collapse>
-            </List>
-            <List>
-              <ListItemButton onClick={() => setStatusOpen(!statusOpen)}>
-                <ListItemText primary="Status" />
-                {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListItemButton>
-              <Divider />
-              <Collapse in={statusOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ p: 2 }}>
-                  <FormGroup>
-                    {STATUS_LIST.map((status: any) => (
-                      <FormControlLabel
-                        key={status.value}
-                        control={
-                          <Checkbox
-                            checked={
-                              !!filterItems.find((x) => x.filterBy === 'status' && x.filterValue === status.value)
-                            }
-                            onChange={(e) =>
-                              handleCheckBoxFilter('status', status.value, status.displayValue, e.target.checked)
-                            }
-                          />
-                        }
-                        label={status.displayValue}
-                      />
-                    ))}
-                  </FormGroup>
-                </Box>
-                <Divider />
-              </Collapse>
-            </List>
-            <List>
-              <ListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
-                <ListItemText primary="Availability" />
-                {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListItemButton>
-              <Divider />
-              <Collapse in={availabilityOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ p: 2 }}>
-                  <FormGroup>
-                    {AVAILABILITY_LIST.map((item: any) => (
-                      <FormControlLabel
-                        key={item.value}
-                        control={
-                          <Checkbox
-                            checked={
-                              !!filterItems.find((x) => x.filterBy === 'availability' && x.filterValue === item.value)
-                            }
-                            onChange={(e) =>
-                              handleCheckBoxFilter('availability', item.value, item.displayValue, e.target.checked)
-                            }
-                          />
-                        }
-                        label={item.displayValue}
-                      />
-                    ))}
-                  </FormGroup>
-                </Box>
-                <Divider />
-              </Collapse>
-            </List>
-            <List>
-              <ListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
-                <ListItemText primary="Time zone" />
-                {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListItemButton>
-              <Divider />
-              <Collapse in={timezoneOpen} timeout="auto" unmountOnExit>
-                <Box sx={{ p: 2 }}>
-                  <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} />
-                </Box>
-                <Divider />
-              </Collapse>
-            </List>
-          </Drawer>
-          <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }}>
-            <TextField fullWidth placeholder="Search by name, location, or expertise" />
-            <Box display="flex" alignItems="center" my={2}>
-              {filterItems.map((item, i) => (
-                <Chip
-                  key={i}
-                  label={item.displayValue}
-                  onDelete={() => removeFilterItem(item)}
-                  clickable
-                  sx={{ mr: 2 }}
-                />
-              ))}
-              {timezoneFilterItem && (
-                <Chip
-                  label={timezoneFilterItem.displayValue}
-                  onDelete={() => {
-                    setTimezoneFilterItem(null);
-                    setSelectedTimezone('');
-                  }}
-                />
-              )}
-            </Box>
-            <Grid container spacing={3}>
-              {community.members.map((member: any) => (
-                <Grid item xs={12} sm={6} md={4}>
-                  <MemberCard member={member} />
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
+    <AuthGuard>
+      <Box>
+        <CommunityInfo community={community} />
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
+          <Tabs value={value} onChange={handleTabChange} centered>
+            <Tab label={`Members (${community.members.length})`} {...a11yProps(0)} />
+            <Tab label="Projects (Coming soon)" {...a11yProps(1)} disabled />
+          </Tabs>
         </Box>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-    </Box>
+        <TabPanel value={value} index={0}>
+          <Box display="flex" justifyContent="center">
+            <Drawer variant="permanent" open={filterOpen}>
+              <DrawerHeader>
+                <IconButton onClick={toggleFilter}>
+                  {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                </IconButton>
+              </DrawerHeader>
+              <Divider />
+              <List>
+                <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
+                  <ListItemText primary="Expertise" />
+                  {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Divider />
+                <Collapse in={expertiseOpen} timeout="auto" unmountOnExit>
+                  <Box sx={{ p: 2 }}>
+                    <Select
+                      options={expertiseOptions}
+                      value={filterItems
+                        .filter((item) => item.filterBy === 'expertise')
+                        .map(({ filterValue }) => ({ label: filterValue, value: filterValue }))}
+                      isMulti
+                      onChange={handleExpertiseFilter}
+                    />
+                  </Box>
+                  <Divider />
+                </Collapse>
+              </List>
+              <List>
+                <ListItemButton onClick={() => setStatusOpen(!statusOpen)}>
+                  <ListItemText primary="Status" />
+                  {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Divider />
+                <Collapse in={statusOpen} timeout="auto" unmountOnExit>
+                  <Box sx={{ p: 2 }}>
+                    <FormGroup>
+                      {STATUS_LIST.map((status: any) => (
+                        <FormControlLabel
+                          key={status.value}
+                          control={
+                            <Checkbox
+                              checked={
+                                !!filterItems.find((x) => x.filterBy === 'status' && x.filterValue === status.value)
+                              }
+                              onChange={(e) =>
+                                handleCheckBoxFilter('status', status.value, status.displayValue, e.target.checked)
+                              }
+                            />
+                          }
+                          label={status.displayValue}
+                        />
+                      ))}
+                    </FormGroup>
+                  </Box>
+                  <Divider />
+                </Collapse>
+              </List>
+              <List>
+                <ListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
+                  <ListItemText primary="Availability" />
+                  {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Divider />
+                <Collapse in={availabilityOpen} timeout="auto" unmountOnExit>
+                  <Box sx={{ p: 2 }}>
+                    <FormGroup>
+                      {AVAILABILITY_LIST.map((item: any) => (
+                        <FormControlLabel
+                          key={item.value}
+                          control={
+                            <Checkbox
+                              checked={
+                                !!filterItems.find((x) => x.filterBy === 'availability' && x.filterValue === item.value)
+                              }
+                              onChange={(e) =>
+                                handleCheckBoxFilter('availability', item.value, item.displayValue, e.target.checked)
+                              }
+                            />
+                          }
+                          label={item.displayValue}
+                        />
+                      ))}
+                    </FormGroup>
+                  </Box>
+                  <Divider />
+                </Collapse>
+              </List>
+              <List>
+                <ListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
+                  <ListItemText primary="Time zone" />
+                  {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Divider />
+                <Collapse in={timezoneOpen} timeout="auto" unmountOnExit>
+                  <Box sx={{ p: 2 }}>
+                    <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} />
+                  </Box>
+                  <Divider />
+                </Collapse>
+              </List>
+            </Drawer>
+            <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }}>
+              <TextField fullWidth placeholder="Search by name, location, or expertise" />
+              <Box display="flex" alignItems="center" my={2}>
+                {filterItems.map((item, i) => (
+                  <Chip
+                    key={i}
+                    label={item.displayValue}
+                    onDelete={() => removeFilterItem(item)}
+                    clickable
+                    sx={{ mr: 2 }}
+                  />
+                ))}
+                {timezoneFilterItem && (
+                  <Chip
+                    label={timezoneFilterItem.displayValue}
+                    onDelete={() => {
+                      setTimezoneFilterItem(null);
+                      setSelectedTimezone('');
+                    }}
+                  />
+                )}
+              </Box>
+              <Grid container spacing={3}>
+                {community.members.map((member: any) => (
+                  <Grid item xs={12} sm={6} md={4} key={member._id}>
+                    <MemberCard member={member} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </Box>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Item Two
+        </TabPanel>
+      </Box>
+    </AuthGuard>
   ) : (
-    // </AuthGuard>
     <></>
   );
 }

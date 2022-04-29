@@ -39,7 +39,14 @@ export default function MemberCard({ member }: { member: Member }) {
     <>
       <Card>
         <CardHeader
-          avatar={<Image src={member.logoUrl} width={64} height={64} style={{ borderRadius: '100%' }} />}
+          avatar={
+            <Image
+              src={member.logoUrl ?? '/images/member.png'}
+              width={64}
+              height={64}
+              style={{ borderRadius: '100%' }}
+            />
+          }
           title={member.username}
           titleTypographyProps={{ variant: 'h5', gutterBottom: true }}
           subheader={member.discordHandle}
@@ -72,7 +79,12 @@ export default function MemberCard({ member }: { member: Member }) {
         </DialogTitle>
         <DialogContent sx={{ p: 0 }}>
           <Box display="flex" alignItems="center" px={2}>
-            <Image src={member.logoUrl} width={64} height={64} style={{ borderRadius: '100%' }} />
+            <Image
+              src={member.logoUrl ?? '/images/member.png'}
+              width={64}
+              height={64}
+              style={{ borderRadius: '100%' }}
+            />
             <Box ml={2}>
               <Typography variant="h5" gutterBottom>
                 {member.username}
