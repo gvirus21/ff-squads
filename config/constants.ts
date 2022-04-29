@@ -35,6 +35,13 @@ export const EXPERTISE_CATEGORY = {
   Other: ['Student', 'Degen', 'Educator / Mentor', 'Still working it out'],
 };
 
-export const EXPERTISES = ['Solidity Development', 'Frontend Development', 'Backend Developpment'];
+export const STATUS_LIST = [
+  { value: 0, displayValue: 'Open to new projects' },
+  { value: 1, displayValue: 'Not open new to projects' },
+];
 
-export const TIMEZONES = ['Any', 'UTC+1', 'UTC+2', 'UTC+3'];
+export const AVAILABILITY_LIST = [
+  { value: 0, displayValue: 'Full-time (5-8 hrs)' },
+  { value: 1, displayValue: 'Part-time (1-4 hrs)' },
+  { value: 2, displayValue: 'Volunteer' },
+];

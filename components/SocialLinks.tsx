@@ -6,16 +6,17 @@ import { SocialLink } from '../types';
 export default function SocialLinks({ socialLinks }: { socialLinks: SocialLink }) {
   return (
     <>
-      {Object.keys(socialLinks).map((key) => (
-        <IconButton key={key}>
-          <Image
-            src={SOCIAL_NAME_MAP[key as keyof typeof SOCIAL_NAME_MAP].image}
-            alt={SOCIAL_NAME_MAP[key as keyof typeof SOCIAL_NAME_MAP].label}
-            width={20}
-            height={20}
-          />
-        </IconButton>
-      ))}
+      {socialLinks &&
+        Object.keys(socialLinks).map((key) => (
+          <IconButton key={key}>
+            <Image
+              src={SOCIAL_NAME_MAP[key as keyof typeof SOCIAL_NAME_MAP].image}
+              alt={SOCIAL_NAME_MAP[key as keyof typeof SOCIAL_NAME_MAP].label}
+              width={20}
+              height={20}
+            />
+          </IconButton>
+        ))}
     </>
   );
 }
