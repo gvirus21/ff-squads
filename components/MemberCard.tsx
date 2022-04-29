@@ -39,7 +39,7 @@ export default function MemberCard({ member }: { member: Member }) {
     <>
       <Card>
         <CardHeader
-          avatar={<Image src="/images/member.png" width={64} height={64} style={{ borderRadius: '100%' }} />}
+          avatar={<Image src={member.logoUrl} width={64} height={64} style={{ borderRadius: '100%' }} />}
           title={member.username}
           titleTypographyProps={{ variant: 'h5', gutterBottom: true }}
           subheader={member.discordHandle}
@@ -55,7 +55,7 @@ export default function MemberCard({ member }: { member: Member }) {
           </Button>
         </CardActions>
       </Card>
-      <Dialog maxWidth="sm" open={dialogOpen} onClose={toggleDialog}>
+      <Dialog fullWidth maxWidth="md" open={dialogOpen} onClose={toggleDialog}>
         <DialogTitle sx={{ m: 0, p: 2 }}>
           <IconButton
             aria-label="close"
@@ -72,7 +72,7 @@ export default function MemberCard({ member }: { member: Member }) {
         </DialogTitle>
         <DialogContent sx={{ p: 0 }}>
           <Box display="flex" alignItems="center" px={2}>
-            <Image src="/images/member.png" width={64} height={64} style={{ borderRadius: '100%' }} />
+            <Image src={member.logoUrl} width={64} height={64} style={{ borderRadius: '100%' }} />
             <Box ml={2}>
               <Typography variant="h5" gutterBottom>
                 {member.username}
@@ -91,37 +91,46 @@ export default function MemberCard({ member }: { member: Member }) {
             <Typography variant="body2" fontWeight={700} gutterBottom>
               About Me
             </Typography>
-            <Typography variant="body2">
-              Hi, I'm Timi, a software engineer who loves building mobile and web applications that are scalable and
-              efficient under the hood.
-            </Typography>
+            <Typography variant="body2">{member.bio}</Typography>
           </Box>
           <Box mt={2} px={2}>
             <Typography variant="body2" fontWeight={700} gutterBottom>
               I'm a ...
             </Typography>
             <Box display="flex" alignItems="center" flexWrap="wrap">
-              <Chip label="Frontend developer" sx={{ mr: 1, mb: 1 }} />
-              <Chip label="Web3 Expert / Strategist" sx={{ mr: 1, mb: 1 }} />
+              {member.expertise.map((exp, i) => (
+                <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} />
+              ))}
+              {member.extraExpertise.map((exp, i) => (
+                <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} />
+              ))}
             </Box>
           </Box>
           <Box mt={1} px={2}>
             <Typography variant="body2" fontWeight={700} gutterBottom>
               Status
             </Typography>
-            <Typography variant="body2">Not open to new projects</Typography>
+            <Typography variant="body2">
+              {member.status === 0 ? 'Open to new projects' : 'Not open to new projects'}
+            </Typography>
           </Box>
           <Box mt={2} px={2}>
             <Typography variant="body2" fontWeight={700} gutterBottom>
               Availability
             </Typography>
-            <Typography variant="body2">Part-time (1-4 hrs)</Typography>
+            <Typography variant="body2">
+              {member.availability === 0
+                ? 'Full-time (5-8 hrs)'
+                : member.availability === 1
+                ? 'Part-time (1-4 hrs)'
+                : 'Volunteer'}
+            </Typography>
           </Box>
           <Box mt={2} px={2}>
             <Typography variant="body2" fontWeight={700} gutterBottom>
               How I want to contribute
             </Typography>
-            <Typography variant="body2">I would like to help build Web3 tools for aspiring creators!</Typography>
+            <Typography variant="body2">{member.contribution}</Typography>
           </Box>
           <Box my={2} px={2}>
             <Typography variant="body2" fontWeight={700} gutterBottom>

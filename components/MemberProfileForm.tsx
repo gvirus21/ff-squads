@@ -114,7 +114,7 @@ const socialOptions: SelectOption[] = Object.keys(SOCIAL_NAME_MAP).map((socialKe
   icon: SOCIAL_NAME_MAP[socialKey as keyof typeof SOCIAL_NAME_MAP].image,
 }));
 
-const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY).map((category) => ({
+export const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY).map((category) => ({
   label: category,
   options: EXPERTISE_CATEGORY[category as keyof typeof EXPERTISE_CATEGORY].map((item) => ({
     label: item,

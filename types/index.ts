@@ -19,6 +19,7 @@ export type TokenInfo = {
 
 export type Member = {
   username: string;
+  logoUrl: string;
   email: string;
   bio: string;
   country: string;
