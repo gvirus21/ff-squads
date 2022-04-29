@@ -12,7 +12,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import AuthGuard from '../../../components/AuthGuard';
@@ -20,6 +21,7 @@ import CommunityInfo from '../../../components/CommunityInfo';
 import MultipleSelect from '../../../components/MultipleSelect';
 import { EXPERTISES, TIMEZONES } from '../../../config/constants';
 import MemberCard from '../../../components/MemberCard';
+import { useCommunity } from '../../../hooks/useCommunities';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -107,7 +109,8 @@ export default function CommunityPage() {
   const [statusOpen, setStatusOpen] = React.useState(true);
   const [availabilityOpen, setAvailabiltyOpen] = React.useState(true);
   const [timezoneOpen, setTimezoneOpen] = React.useState(true);
-  const theme = useTheme();
+  const router = useRouter();
+  const { id } = router.query;
 
   const toggleFilter = () => setFilterOpen(!filterOpen);
 
@@ -117,13 +120,15 @@ export default function CommunityPage() {
 
   const handleDeleteTag = () => console.log('delete');
 
-  return (
+  const { data: community } = useCommunity(id);
+
+  return community ? (
     <AuthGuard>
       <Box>
-        <CommunityInfo />
+        <CommunityInfo community={community} />
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
           <Tabs value={value} onChange={handleChange} centered>
-            <Tab label="Members (18,357)" {...a11yProps(0)} />
+            <Tab label={`Members (${community.members.length})`} {...a11yProps(0)} />
             <Tab label="Projects (Coming soon)" {...a11yProps(1)} disabled />
           </Tabs>
         </Box>
@@ -207,30 +212,11 @@ export default function CommunityPage() {
                 <Chip label="Volunteer" onDelete={handleDeleteTag} clickable sx={{ mr: 2 }} />
               </Box>
               <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MemberCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MemberCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MemberCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MemberCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MemberCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MemberCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MemberCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MemberCard />
-                </Grid>
+                {community.members.map((member: any) => (
+                  <Grid item xs={12} sm={6} md={4}>
+                    <MemberCard member={member} />
+                  </Grid>
+                ))}
               </Grid>
             </Box>
           </Box>
@@ -240,5 +226,7 @@ export default function CommunityPage() {
         </TabPanel>
       </Box>
     </AuthGuard>
+  ) : (
+    <></>
   );
 }
