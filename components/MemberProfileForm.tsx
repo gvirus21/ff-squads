@@ -1,15 +1,17 @@
-import { Box, Button, Grid, InputLabel, TextField } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FormTextInput } from './form/FormTextInput';
 import { FormTimezone } from './form/FormTimezone';
-import { FormSelect, GroupedOption, Option } from './form/FormSelect';
+import { FormSelect, GroupedOption, SelectOption } from './form/FormSelect';
 import { useCallback, useMemo } from 'react';
+import countryList from 'react-select-country-list';
 import { EXPERTISE_CATEGORY, SOCIAL_NAME_MAP } from '../config/constants';
 import { FormCreatableSelect } from './form/FormCreatableSelect';
 import { FormRadioGroup } from './form/FormRadioGroup';
 import { FormSocialLinks } from './form/FormSocialLinks';
+import { FormFamiliarity } from './form/FormFamiliarity';
 
 interface SocialInfo {
   twitter?: string;
@@ -66,7 +68,38 @@ const memberProfileSchema = yup.object().shape({
   city: yup.string(),
   timezone: yup.string().required('This field is required'),
   socialIds: yup.array().of(yup.string()),
-  socialLinks: yup.object(),
+  socialLinks: yup.object().shape({
+    twitter: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('twitter') || val?.length ? true : false;
+    }),
+    linkedin: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('linkedin') || val?.length ? true : false;
+    }),
+    instagram: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('instagram') || val?.length ? true : false;
+    }),
+    mirror: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('mirror') || val?.length ? true : false;
+    }),
+    zora: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('zora') || val?.length ? true : false;
+    }),
+    opensea: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('opensea') || val?.length ? true : false;
+    }),
+    foundation: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('foundation') || val?.length ? true : false;
+    }),
+    website: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('website') || val?.length ? true : false;
+    }),
+    github: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('github') || val?.length ? true : false;
+    }),
+    other: yup.string().test('socialId-check', 'This field is required', function (val) {
+      return !(this.options as any).from[1].value.socialIds?.includes('other') || val?.length ? true : false;
+    }),
+  }),
   expertise: yup.array().of(yup.string()).min(1, 'Select at least 1 expertise'),
   extraExpertise: yup.array().of(yup.string()),
   status: yup.number().required('This field is required'),
@@ -75,9 +108,10 @@ const memberProfileSchema = yup.object().shape({
   familiarity: yup.number(),
 });
 
-const socialOptions: Option[] = Object.keys(SOCIAL_NAME_MAP).map((socialKey) => ({
+const socialOptions: SelectOption[] = Object.keys(SOCIAL_NAME_MAP).map((socialKey) => ({
   value: socialKey,
   label: SOCIAL_NAME_MAP[socialKey as keyof typeof SOCIAL_NAME_MAP].label,
+  icon: SOCIAL_NAME_MAP[socialKey as keyof typeof SOCIAL_NAME_MAP].image,
 }));
 
 const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY).map((category) => ({
@@ -95,6 +129,7 @@ const MemberProfileForm = () => {
     resolver: yupResolver(memberProfileSchema),
   });
   const socialIdsValue = watch('socialIds');
+  const countryOptions = useMemo(() => countryList().getData(), []);
 
   const onSubmit = useCallback(async (payload: MemberProfileInfo) => {
     console.log('payload: ', payload);
@@ -117,9 +152,17 @@ const MemberProfileForm = () => {
             placeholder="I'm currently a community manager and I'm excited to onboard more members to Web3!"
             required
             multiline
-            rows={2}
+            rows={3}
           />
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormSelect control={control} name="country" options={countryOptions} label="Country" required />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormCreatableSelect control={control} name="city" label="City" />
+        </Grid>
+
         <Grid item xs={12} sm={12}>
           <FormTimezone control={control} name="timezone" label="Time zone" required />
         </Grid>
@@ -202,8 +245,14 @@ const MemberProfileForm = () => {
             placeholder="I would like to help build Web3 tools for aspiring creators!"
             required
             multiline
-            rows={2}
+            rows={3}
           />
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
+          <Box marginBottom={4}>
+            <FormFamiliarity control={control} name="familiarity" label="How much do you know about crypto?" />
+          </Box>
         </Grid>
 
         <Grid item xs={12} sm={12}>

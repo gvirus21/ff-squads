@@ -30,15 +30,17 @@ export const FormSocialLinks = ({ label, parentName, control, required, socialId
       {socialIds.map((socialId) => (
         <Box key={socialId}>
           <Controller
-            name={`${parentName}[${socialId}]`}
+            name={`${parentName}.${socialId}`}
             control={control}
-            render={({ field: { value, onChange, ...field }, fieldState: { invalid, error } }) => (
+            render={({ field, fieldState: { invalid, error } }) => (
               <>
                 <TextField
                   {...field}
+                  name={`social-links-${parentName}.${socialId}`}
                   size="small"
                   error={invalid}
                   fullWidth
+                  placeholder="https://domain.com/handle"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment
@@ -65,6 +67,7 @@ export const FormSocialLinks = ({ label, parentName, control, required, socialId
                       </InputAdornment>
                     ),
                   }}
+                  sx={{ '& .MuiInputBase-root': { paddingLeft: '56px' } }}
                 />
                 <Fade in={invalid}>
                   <FormHelperText error>{error?.message || ' '}</FormHelperText>
