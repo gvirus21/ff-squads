@@ -35,7 +35,6 @@ export type Member = {
   familiarity: number;
   discordHandle: string;
   community: Community;
-  logoUrl: string;
 };
 
 export type Community = {
