@@ -56,6 +56,16 @@ const theme = createTheme({
         },
       },
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: '#1a202c',
+        },
+        asterisk: {
+          color: '#E53E3E',
+        },
+      },
+    },
   },
 });
 

@@ -811,6 +811,11 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-select-country-list@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-select-country-list/-/react-select-country-list-2.2.0.tgz#26cb825cc72943ea5775c305abecfc06f15784b4"
+  integrity sha512-VECRojGGvbnkhXZUYmMS+AiGe5O/jzVpD5BXXlOC532qJCGNAJ+Pgm6ka9rEz7qi12v26/GwnyqrNn51IMdrZg==
+
 "@types/react-transition-group@^4.4.0", "@types/react-transition-group@^4.4.4":
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.4.tgz#acd4cceaa2be6b757db61ed7b432e103242d163e"
@@ -3381,6 +3386,11 @@ react-query@^3.38.0:
     "@babel/runtime" "^7.5.5"
     broadcast-channel "^3.4.1"
     match-sorter "^6.0.2"
+
+react-select-country-list@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/react-select-country-list/-/react-select-country-list-2.2.3.tgz#af263072a7797a660e7bd67702495dd1f95268ab"
+  integrity sha512-eRgXL613dVyJiE99yKDYLvSBKDxvIlhkmvO2DVIjdKVyUQq6kBqoMUV/2zuRIAsbRXgBGmKjeL1dxjf7zTfszg==
 
 react-select@^5.2.2, react-select@^5.3.1:
   version "5.3.1"
