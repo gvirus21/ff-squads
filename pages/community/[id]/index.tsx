@@ -24,6 +24,7 @@ import MemberCard from '../../../components/MemberCard';
 import { expertiseOptions } from '../../../components/MemberProfileForm';
 import { useCommunity } from '../../../hooks/useCommunities';
 import { AVAILABILITY_LIST, STATUS_LIST } from '../../../config/constants';
+import { Member } from '../../../types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -123,6 +124,7 @@ export default function CommunityPage() {
   const [selectedTimezone, setSelectedTimezone] = React.useState<string | ITimezone>('');
   const [timezoneFilterItem, setTimezoneFilterItem] = React.useState<FilterItem | null>(null);
   const [filterItems, setFilterItems] = React.useState<FilterItem[]>([]);
+  const [members, setMembers] = React.useState<Member[] | undefined>([]);
 
   const toggleFilter = () => setFilterOpen(!filterOpen);
 
@@ -187,6 +189,10 @@ export default function CommunityPage() {
       console.log(timezoneFilterItem);
     }
   }, [filterItems, timezoneFilterItem]);
+
+  React.useEffect(() => {
+    setMembers(community?.members);
+  }, [community]);
 
   return community ? (
     <AuthGuard>
@@ -324,11 +330,12 @@ export default function CommunityPage() {
                 )}
               </Box>
               <Grid container spacing={3}>
-                {community.members.map((member: any) => (
-                  <Grid item xs={12} sm={6} md={4} key={member._id}>
-                    <MemberCard member={member} />
-                  </Grid>
-                ))}
+                {members &&
+                  members.map((member: any) => (
+                    <Grid item xs={12} sm={6} md={4} key={member._id}>
+                      <MemberCard member={member} />
+                    </Grid>
+                  ))}
               </Grid>
             </Box>
           </Box>

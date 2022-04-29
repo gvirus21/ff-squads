@@ -21,8 +21,10 @@ const getMemberInCommunity = async (communityId: string | string[] | undefined, 
 };
 
 const createMember = async (payload: MemberProfileRequest) => {
-  const { data: response } = await api.post(`/members`, payload);
-  return response.data;
+  const {
+    data: { member },
+  } = await api.post(`/members`, payload);
+  return member;
 };
 
 export const useMemberInCommunity = (communityId: string | string[] | undefined, discordHandle: string) =>
