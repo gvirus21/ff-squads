@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { SessionProvider } from 'next-auth/react';
-import Head from 'next/head';
-import { AppProps } from 'next/app';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { Web3ReactProvider } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import { Web3ReactProvider } from '@web3-react/core';
+import { SessionProvider } from 'next-auth/react';
+import { AppProps } from 'next/app';
+import Head from 'next/head';
+import * as React from 'react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Layout from '../components/Layout';
-import theme from '../config/theme';
 import createEmotionCache from '../config/createEmotionCache';
+import theme from '../config/theme';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

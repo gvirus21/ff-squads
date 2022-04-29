@@ -1,14 +1,14 @@
-import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LaunchIcon from '@mui/icons-material/Launch';
 import LogoutIcon from '@mui/icons-material/Logout';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
+import { signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { WEB3_CONNECTOR_KEY } from '../config/constants';
 import { shortenAddress } from '../utils';
-import { signOut } from 'next-auth/react';
 
 export default function UserProfile() {
   const [anchorEl, setAnchorEl] = useState(null);
