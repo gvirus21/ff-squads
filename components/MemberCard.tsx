@@ -14,15 +14,14 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import GithubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
 import Image from 'next/image';
 
-const Timezone = ({ country, city, timezone }: { country: string; city: string; timezone: string }) => {
+import SocialLinks from './SocialLinks';
+import { Member } from '../types';
+
+const Timezone = ({ country, city, timezone }: { country: string; city?: string; timezone: string }) => {
   return (
     <Box display="flex" alignItems="center">
       <Chip label={`${city}, ${country}`} sx={{ mr: 1 }} />
@@ -31,23 +30,7 @@ const Timezone = ({ country, city, timezone }: { country: string; city: string; 
   );
 };
 
-const SocialIcons = ({ socialLinks }: { socialLinks: any }) => {
-  return (
-    <>
-      <IconButton>
-        <TwitterIcon color="primary" />
-      </IconButton>
-      <IconButton>
-        <LinkedInIcon color="primary" />
-      </IconButton>
-      <IconButton>
-        <InstagramIcon color="primary" />
-      </IconButton>
-    </>
-  );
-};
-
-export default function MemberCard({ member }: { member: any }) {
+export default function MemberCard({ member }: { member: Member }) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const toggleDialog = () => setDialogOpen(!dialogOpen);
@@ -66,7 +49,7 @@ export default function MemberCard({ member }: { member: any }) {
           <Timezone country={member.country} city={member.city} timezone={member.timezone} />
         </CardContent>
         <CardActions disableSpacing>
-          <SocialIcons socialLinks={member.socialLinks} />
+          <SocialLinks socialLinks={member.socialLinks} />
           <Button size="small" variant="contained" color="secondary" sx={{ marginLeft: 'auto' }} onClick={toggleDialog}>
             View
           </Button>
@@ -101,7 +84,7 @@ export default function MemberCard({ member }: { member: any }) {
             <Timezone country={member.country} city={member.city} timezone={member.timezone} />
           </Box>
           <Box my={1} px={2}>
-            <SocialIcons socialLinks={member.socialLinks} />
+            <SocialLinks socialLinks={member.socialLinks} />
           </Box>
           <Divider />
           <Box mt={2} px={2}>

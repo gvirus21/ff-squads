@@ -1,9 +1,9 @@
-import { Box, Chip, IconButton, Typography } from '@mui/material';
-import LanguageIcon from '@mui/icons-material/Language';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import { Box, Chip, Typography } from '@mui/material';
 import Image from 'next/image';
+import { Community } from '../types';
+import SocialLinks from './SocialLinks';
 
-export default function CommunityInfo({ community }: { community: any }) {
+export default function CommunityInfo({ community }: { community: Community }) {
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{ background: '#fff' }}>
       <Box mb={3}>
@@ -20,15 +20,7 @@ export default function CommunityInfo({ community }: { community: any }) {
         {community.description}
       </Typography>
       <Box mt={1} display="flex" justifyContent="center" alignItems="center">
-        <IconButton color="primary" sx={{ mr: 3 }}>
-          <LanguageIcon />
-        </IconButton>
-        <IconButton color="primary" sx={{ mr: 3 }}>
-          <LanguageIcon />
-        </IconButton>
-        <IconButton color="primary">
-          <TwitterIcon />
-        </IconButton>
+        <SocialLinks socialLinks={community.socialLinks} />
       </Box>
     </Box>
   );

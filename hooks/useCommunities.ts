@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import api from '../utils/api';
 
-const getCommunity = async (shortId: string) => {
+const getCommunity = async (shortId: string | string[] | undefined) => {
   const {
     data: { community },
   } = await api.get(`/communities/${shortId}`);
@@ -9,7 +9,8 @@ const getCommunity = async (shortId: string) => {
   return community;
 };
 
-export const useCommunity = (shortId: string) => useQuery(['community', shortId], () => getCommunity(shortId));
+export const useCommunity = (shortId: string | string[] | undefined) =>
+  useQuery(['community', shortId], () => getCommunity(shortId));
 
 const getCommunities = async () => {
   const {
