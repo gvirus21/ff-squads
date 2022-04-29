@@ -1,13 +1,21 @@
 import { useQuery } from 'react-query';
-import axios from 'axios';
+import api from '../utils/api';
+
+const getCommunity = async (shortId: string) => {
+  const {
+    data: { community },
+  } = await api.get(`/communities/${shortId}`);
+
+  return community;
+};
+
+export const useCommunity = (shortId: string) => useQuery(['community', shortId], () => getCommunity(shortId));
 
 const getCommunities = async () => {
   const {
     data: { communities },
-  } = await axios.get(`${process.env.API_URL}/communities`);
+  } = await api.get(`/communities`);
   return communities;
 };
 
-export default function useCommunities() {
-  return useQuery('communities', getCommunities);
-}
+export const useCommunities = () => useQuery('communities', getCommunities);
