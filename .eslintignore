@@ -1,6 +1,0 @@
-node_modules
-!eiq-shared/src/icons/
-dist
-tsconfig.json
-storybook-static
-bbq/e2e-harness/recordings/
