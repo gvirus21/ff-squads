@@ -204,15 +204,8 @@ export default function CommunityPage() {
     if (timezoneFilterItem) {
       result = [...result, ...community.members.filter((x) => x.timezone === timezoneFilterItem.filterValue)];
     }
-    if (keyword) {
-      result = result.filter(
-        (x) =>
-          x.username.toLowerCase().includes(keyword.toLowerCase()) ||
-          x.bio.toLowerCase().includes(keyword.toLowerCase())
-      );
-    }
     setMembers(result);
-  }, [filterItems, timezoneFilterItem, keyword]);
+  }, [filterItems, timezoneFilterItem]);
 
   React.useEffect(() => {
     setMembers(community?.members);
