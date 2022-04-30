@@ -9,7 +9,7 @@ import AuthGuard from '../../../../components/AuthGuard';
 import MemberProfileForm from '../../../../components/MemberProfileForm';
 import PageLoading from '../../../../components/PageLoading';
 import { useCommunity } from '../../../../hooks/useCommunities';
-import { useCreateMember, useMemberInCommunity } from '../../../../hooks/useMember';
+import { useMemberInCommunity, useUpdateMember } from '../../../../hooks/useMember';
 import { MemberProfileInfo, MemberProfileRequest } from '../../../../types';
 
 const MemberEditPage: NextPage = () => {
@@ -17,11 +17,11 @@ const MemberEditPage: NextPage = () => {
   const { id } = router.query;
   const { data: session } = useSession();
   const { data: community, isLoading: loadingCommunity } = useCommunity(id);
-  const { data: member } = useMemberInCommunity(
+  const { data: member, isError: isMemberError } = useMemberInCommunity(
     id,
     `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
   );
-  const { mutate: editMember, isLoading } = useCreateMember();
+  const { mutate: editMember, isLoading } = useUpdateMember(member?._id ?? '');
 
   const onSubmit = useCallback((profileInfo: MemberProfileInfo) => {
     const payload = {
@@ -30,25 +30,18 @@ const MemberEditPage: NextPage = () => {
     };
     editMember(payload as MemberProfileRequest);
   }, []);
-  console.log('id: ', id);
 
-  // React.useEffect(() => {
-  //   if (!session?.user) {
-  //     router.push(`/community/${id}/login`);
-  //   }
-  // }, [session]);
+  React.useEffect(() => {
+    if (!community && !loadingCommunity) {
+      router.push(`/community`);
+    }
+  }, [community, loadingCommunity]);
 
-  // React.useEffect(() => {
-  //   if (!community && !loadingCommunity) {
-  //     router.push(`/community`);
-  //   }
-  // }, [community, loadingCommunity]);
-
-  // React.useEffect(() => {
-  //   if (!member) {
-  //     router.push(`/community/${id}`);
-  //   }
-  // }, [member]);
+  React.useEffect(() => {
+    if (isMemberError) {
+      router.push(`/community/${id}`);
+    }
+  }, [isMemberError]);
 
   if (!session?.user || loadingCommunity || !member) {
     return <PageLoading />;

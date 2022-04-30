@@ -5,13 +5,23 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useMemberInCommunity } from '../hooks/useMember';
 import { shortenAddress } from '../utils';
 
 export default function UserProfile() {
+  const router = useRouter();
+  const { id } = router.query;
   const [anchorEl, setAnchorEl] = useState(null);
   const { deactivate, account } = useWeb3React();
+  const { data: session } = useSession();
+  const { data: member } = useMemberInCommunity(
+    id,
+    `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
+  );
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -27,6 +37,11 @@ export default function UserProfile() {
     setAnchorEl(null);
   };
 
+  const handleEditProfile = () => {
+    router.push(`/community/${id}/member/edit`);
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <AccountCircleOutlinedIcon />
@@ -36,12 +51,31 @@ export default function UserProfile() {
       </Button>
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
         <MenuItem>
+          <Typography sx={{ marginRight: 2 }}>Metamask</Typography>
           <Chip label={shortenAddress(account)} />
           <IconButton sx={{ ml: 5 }}>
             <LaunchIcon fontSize="small" />
           </IconButton>
         </MenuItem>
         <Divider />
+        {member ? (
+          <>
+            <MenuItem onClick={handleEditProfile}>
+              <Image
+                src={member.logoUrl ?? '/images/Profile.svg'}
+                alt={member.username}
+                width={28}
+                height={28}
+                style={{ borderRadius: '100%' }}
+              />
+              <Typography sx={{ marginLeft: 2 }}>{member.username}</Typography>
+            </MenuItem>
+            <Divider />
+          </>
+        ) : (
+          <></>
+        )}
+
         <MenuItem onClick={handleLogout}>
           <LogoutIcon color="error" />
           <Typography variant="body1" sx={{ ml: 1.5 }} color="error">
