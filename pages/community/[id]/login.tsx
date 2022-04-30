@@ -1,4 +1,5 @@
 import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Button, Card, CardContent, CardHeader, Container, Grid, Menu, MenuItem, Typography, Box, Snackbar,    } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import type { NextPage } from 'next';
@@ -188,9 +189,9 @@ export default LoginPage;
 
 const WalletConnectIcon = () => {
     return (
-        <Box  >
+        <Box>
             <Image src="/images/Line1.svg" width={20} height={17} alt="logo" />
-            <Image src="/images/Vector.svg" width={20} height={17} alt="logo" />
+            <Image src="/images/Vector.svg" width={20} height={15} alt="logo" />
         </Box>
         )
 }

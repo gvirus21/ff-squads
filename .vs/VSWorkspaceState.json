@@ -6,6 +6,6 @@
     "\\pages\\community",
     "\\pages\\community\\[id]"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\components\\MemberCard.tsx",
   "PreviewInSolutionExplorer": false
 }
