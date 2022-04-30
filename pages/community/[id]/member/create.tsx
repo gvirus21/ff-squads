@@ -55,8 +55,8 @@ const MemberCreatePage: NextPage = () => {
 
   return (
     <AuthGuard>
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <Box sx={{ width: '50vw' }}>
+          <Box display="flex" justifyContent="center" alignItems="center" mb={12} sx={{position:'relative'}}>
+        <Box sx={{ width: '50vw'}}>
           <Card sx={{ overflow: 'visible' }}>
             <CardHeader avatar={<PersonIcon />} title="Create Profile" titleTypographyProps={{ variant: 'h6' }} />
             <CardContent sx={{ padding: 4 }}>

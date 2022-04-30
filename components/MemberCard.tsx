@@ -49,9 +49,10 @@ export default function MemberCard({ member }: { member: Member }) {
     router.push(`/community/${id}/member/edit`);
   };
 
+   
   return (
     <>
-      <Card>
+          <Card sx={{ boxShadow: "2px 10px 45px #E5ECE3, inset 2px 8px 8px #E5ECE3;", background: '#FCFDF0', height: "268px", width: "232px", margin : "0px 5px" }}>
         <CardHeader
           avatar={
             <Image
@@ -62,19 +63,29 @@ export default function MemberCard({ member }: { member: Member }) {
               style={{ borderRadius: '100%' }}
             />
           }
-          title={member.username}
+         
           titleTypographyProps={{ variant: 'h5', gutterBottom: true }}
-          subheader={member.discordHandle}
+                  subheader={<SocialLinks socialLinks={member.socialLinks} />}
           subheaderTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
         />
-        <CardContent>
-          <Timezone country={member.country} city={member.city} timezone={member.timezone} />
+              <CardContent>
+                  <Box>
+                      <Typography variant="font16" sx={{fontWeight:600}}>{member.username}</Typography>
+                  </Box>
+                  <Box>
+                      <Typography variant="font12" sx={{ color: "#616D6C" }}>{member.discordHandle}</Typography>
+                  </Box>
+                  <Box >
+                      <Typography variant="font12" sx={{ color: "#616D6C", background: "#eaeaea", padding: "3px 6px", borderRadius : "5px" }}>{member.country}</Typography>
+                  </Box>
+                   <Box>
+                      <Typography variant="font16">{member.timezone}</Typography>
+                  </Box>
+                 
         </CardContent>
         <CardActions disableSpacing>
-          <SocialLinks socialLinks={member.socialLinks} />
-          <Button size="small" variant="contained" color="secondary" sx={{ marginLeft: 'auto' }} onClick={toggleDialog}>
-            View
-          </Button>
+           
+       
         </CardActions>
       </Card>
       <Dialog fullWidth maxWidth="md" open={dialogOpen} onClose={toggleDialog}>

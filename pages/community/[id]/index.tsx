@@ -13,13 +13,17 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
+
+import Link from 'next/link'
+
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Select from 'react-select';
 import TimezoneSelect, { ITimezone, ITimezoneOption } from 'react-timezone-select';
 
 import AuthGuard from '../../../components/AuthGuard';
-import CommunityInfo from '../../../components/CommunityInfo';
+import CommunityInfoWithBanner from '../../../components/CommunityInfoWithBanner';
 import MemberCard from '../../../components/MemberCard';
 import { expertiseOptions } from '../../../components/MemberProfileForm';
 import { useCommunity } from '../../../hooks/useCommunities';
@@ -55,7 +59,7 @@ function a11yProps(index: number) {
   };
 }
 
-const drawerWidth = 300;
+const drawerWidth = 270;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -74,10 +78,8 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(7)} + 1px)`,
-  },
+  width: 0,
+   
 });
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -113,7 +115,7 @@ type FilterItem = {
 
 export default function CommunityPage() {
   const [value, setValue] = React.useState(0);
-  const [filterOpen, setFilterOpen] = React.useState(true);
+  const [filterOpen, setFilterOpen] = React.useState(false);
   const [expertiseOpen, setExpertiseOpen] = React.useState(true);
   const [statusOpen, setStatusOpen] = React.useState(true);
   const [availabilityOpen, setAvailabiltyOpen] = React.useState(true);
@@ -218,24 +220,27 @@ export default function CommunityPage() {
   }, [community]);
 
   return community ? (
-    <AuthGuard>
-      <Box>
-        <CommunityInfo community={community} />
+      <AuthGuard>
+          <CommunityInfoWithBanner community={community} />
+          <Box display="flex" flexDirection="row" justifyContent="flex-end" px={8} >
+              <Link href={`/community/${id}/edit`}>
+                  <span style={{background:"#c1c1c1", padding : "2px 8px", borderRadius : "5px", color: "#676", cursor: "pointer"}}>Edit</span>
+              </Link>
+          </Box>
+          <Box mb={12} sx={{ position: 'relative' }}>
+           
+
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
           <Tabs value={value} onChange={handleTabChange} centered>
-            <Tab label={`Members (${community.members.length})`} {...a11yProps(0)} />
-            <Tab label="Projects (Coming soon)" {...a11yProps(1)} disabled />
+             <Tab icon={<CustomIcon _src="/images/CommunityGroup.svg" />} iconPosition="start" label={`Members (${community.members.length})`} {...a11yProps(0)} />
+             <Tab icon={<CustomIcon _src="/images/ProjectsIcon.svg" />} iconPosition="start" label="Projects (Coming soon)" {...a11yProps(1)} disabled />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <Box display="flex" justifyContent="center">
-            <Drawer variant="permanent" open={filterOpen}>
-              <DrawerHeader>
-                <IconButton onClick={toggleFilter}>
-                  {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </IconButton>
-              </DrawerHeader>
-              <Divider />
+          <Box display="flex" justifyContent="center"> 
+                      <Drawer open={filterOpen} onClose={toggleFilter}   variant="permanent"
+                        >
+             
               <List>
                 <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
                   <ListItemText primary="Expertise" />
@@ -330,13 +335,20 @@ export default function CommunityPage() {
                 </Collapse>
               </List>
             </Drawer>
-            <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }}>
+                      <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }} >
+                          <Box sx={{ display: "flex"}} >
+                          <IconButton onClick={toggleFilter}>
+                                  {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                                  <CustomIcon _src="/images/FilterIcon.svg" />
+                        </IconButton>
+                              
               <TextField
-                fullWidth
+                sx={{ margin: ".1rem 1rem", width : "100%" } }
                 placeholder="Search by name..."
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-              />
+                          />
+                              </Box>
               <Box display="flex" alignItems="center" my={2}>
                 {filterItems.map((item, i) => (
                   <Chip
@@ -357,12 +369,12 @@ export default function CommunityPage() {
                   />
                 )}
               </Box>
-              <Grid container spacing={3}>
+              <Grid container  >
                 {members &&
                   members.map((member: any) => (
-                    <Grid item xs={12} sm={6} md={4} key={member._id}>
-                      <MemberCard member={member} />
-                    </Grid>
+                      <Grid item xs={12} sm={6} md={3} key={member._id}   alignItems="center">
+                        <MemberCard member={member} />
+                      </Grid>
                   ))}
               </Grid>
             </Box>
@@ -376,4 +388,13 @@ export default function CommunityPage() {
   ) : (
     <></>
   );
+}
+
+
+const CustomIcon = ({_src}) => {
+    return (
+        <Box>
+            <Image src={_src} width={20} height={17} alt="logo" />              
+        </Box>
+    )
 }

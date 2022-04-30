@@ -3,7 +3,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LaunchIcon from '@mui/icons-material/Launch';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography, Box } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -43,7 +43,20 @@ export default function UserProfile() {
   };
 
   return (
-    <>
+      <Box display="flex">
+          {member ? (
+              <Box display="flex" sx={{margin:"2px 5px"}}>       
+                      <Image
+                          src={member.logoUrl ?? '/images/Profile.svg'}
+                          alt={member.username}
+                          width={28}
+                          height={24}
+                          style={{ borderRadius: '100%'  }}
+                      />
+              </Box>
+          ) : (
+                  <></>
+              )}
       <AccountCircleOutlinedIcon />
       <Button variant="contained" color="primary" onClick={handleClick} endIcon={<KeyboardArrowDownIcon />}>
         <AccountBalanceWalletIcon />
@@ -83,6 +96,6 @@ export default function UserProfile() {
           </Typography>
         </MenuItem>
       </Menu>
-    </>
+      </Box>
   );
 }

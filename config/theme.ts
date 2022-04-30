@@ -1,6 +1,8 @@
 import { red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
+ 
+
 // Create a theme instance.
 const theme = createTheme({
   palette: {
@@ -18,8 +20,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Helvetica',
-    fontWeightMedium: 400,
+      fontFamily: 'Helvetica',
     h4: {
       fontSize: 24,
     },
@@ -29,9 +30,18 @@ const theme = createTheme({
     h6: {
       fontSize: 18,
     },
-    body1: {
+      font12: {
+          fontSize: 12,
+      },
+      font16: {
       fontSize: 16,
     },
+    font18: {
+        fontSize: 18,
+      },
+      font40: {
+          fontSize: 40,
+      },
   },
   components: {
     MuiList: {
@@ -68,8 +78,11 @@ const theme = createTheme({
           color: '#E53E3E',
         },
       },
-    },
+      },
+      
   },
 });
 
+ 
+ 
 export default theme;

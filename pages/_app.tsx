@@ -62,7 +62,7 @@ export default function MyApp(props: MyAppProps) {
             </Web3ProviderNetwork>
           </Web3ReactProvider>
         </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
+              {/*   <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </SessionProvider>
   );
