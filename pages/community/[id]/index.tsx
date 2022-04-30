@@ -185,27 +185,33 @@ export default function CommunityPage() {
   React.useEffect(() => {
     if (!community) return;
 
-    if (filterItems.length === 0 && !timezoneFilterItem) {
-      setMembers(community.members);
+    let result: Member[] = community.members;
+
+    if (keyword) {
+      result = result.filter((x) => x.username.toLowerCase().includes(keyword.toLowerCase()));
     }
 
-    let result: Member[] = [];
-    if (filterItems.length > 0) {
-      filterItems.map(({ filterBy, filterValue }) => {
-        if (filterBy === 'expertise') {
-          result = [...result, ...community.members.filter((x) => x.expertise.includes(filterValue as string))];
-        } else if (filterBy === 'status') {
-          result = [...result, ...community.members.filter((x) => x.status === (filterValue as number))];
-        } else if (filterBy === 'availability') {
-          result = [...result, ...community.members.filter((x) => x.availability === (filterValue as number))];
-        }
-      });
-    }
-    if (timezoneFilterItem) {
-      result = [...result, ...community.members.filter((x) => x.timezone === timezoneFilterItem.filterValue)];
+    if (filterItems.length !== 0 || !!timezoneFilterItem) {
+      let finalResult: Member[] = [];
+      if (filterItems.length > 0) {
+        filterItems.map(({ filterBy, filterValue }) => {
+          if (filterBy === 'expertise') {
+            finalResult = [...finalResult, ...result.filter((x) => x.expertise.includes(filterValue as string))];
+          } else if (filterBy === 'status') {
+            finalResult = [...finalResult, ...result.filter((x) => x.status === (filterValue as number))];
+          } else if (filterBy === 'availability') {
+            finalResult = [...finalResult, ...result.filter((x) => x.availability === (filterValue as number))];
+          }
+        });
+      }
+      if (timezoneFilterItem) {
+        finalResult = [...finalResult, ...result.filter((x) => x.timezone === timezoneFilterItem.filterValue)];
+      }
+      setMembers(finalResult);
+      return;
     }
     setMembers(result);
-  }, [filterItems, timezoneFilterItem]);
+  }, [filterItems, timezoneFilterItem, keyword]);
 
   React.useEffect(() => {
     setMembers(community?.members);
