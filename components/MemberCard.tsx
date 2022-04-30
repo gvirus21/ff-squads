@@ -15,8 +15,11 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { useMemberInCommunity } from '../hooks/useMember';
 
 import { Member } from '../types';
 import SocialLinks from './SocialLinks';
@@ -31,9 +34,20 @@ const Timezone = ({ country, city, timezone }: { country: string; city?: string;
 };
 
 export default function MemberCard({ member }: { member: Member }) {
+  const router = useRouter();
+  const { id } = router.query;
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const { data: session } = useSession();
+  const { data: me } = useMemberInCommunity(
+    id,
+    `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
+  );
 
   const toggleDialog = () => setDialogOpen(!dialogOpen);
+
+  const handleEditProfile = () => {
+    router.push(`/community/${id}/member/edit`);
+  };
 
   return (
     <>
@@ -41,7 +55,8 @@ export default function MemberCard({ member }: { member: Member }) {
         <CardHeader
           avatar={
             <Image
-              src={member.logoUrl ?? '/images/member.png'}
+              src={member.logoUrl ?? '/images/Profile.svg'}
+              alt={member.username}
               width={64}
               height={64}
               style={{ borderRadius: '100%' }}
@@ -77,21 +92,34 @@ export default function MemberCard({ member }: { member: Member }) {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ p: 0 }}>
-          <Box display="flex" alignItems="center" px={2}>
-            <Image
-              src={member.logoUrl ?? '/images/member.png'}
-              width={64}
-              height={64}
-              style={{ borderRadius: '100%' }}
-            />
-            <Box ml={2}>
-              <Typography variant="h5" gutterBottom>
-                {member.username}
-              </Typography>
-              <Typography variant="body1">{member.discordHandle}</Typography>
+        <DialogContent sx={{ m: 2, p: '20px !important', border: '1px solid #E2E8F0', borderRadius: '6px' }}>
+          <Box display="flex" justifyContent="space-between">
+            <Box display="flex" alignItems="center" px={2}>
+              <Image
+                src={member.logoUrl ?? '/images/Profile.svg'}
+                alt={member.username}
+                width={64}
+                height={64}
+                style={{ borderRadius: '100%' }}
+              />
+              <Box ml={2}>
+                <Typography variant="h5" gutterBottom>
+                  {member.username}
+                </Typography>
+                <Typography variant="body1">{member.discordHandle}</Typography>
+              </Box>
             </Box>
+            {me?._id === member._id ? (
+              <Box>
+                <Button color="secondary" variant="contained" onClick={handleEditProfile}>
+                  EDIT
+                </Button>
+              </Box>
+            ) : (
+              <></>
+            )}
           </Box>
+
           <Box mt={3} px={2}>
             <Timezone country={member.country} city={member.city} timezone={member.timezone} />
           </Box>

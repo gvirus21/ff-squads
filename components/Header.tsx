@@ -10,7 +10,7 @@ const AppBarWrapper = styled(AppBar)(({ theme }) => ({
 
 export default function Header() {
   const { active } = useWeb3React();
-  console.log(active);
+
   return (
     <AppBarWrapper position="fixed">
       <Toolbar>
