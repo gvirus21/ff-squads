@@ -15,7 +15,9 @@ export const useMember = (id: string) => useQuery(['member', id], () => getMembe
 const getMemberInCommunity = async (communityId: string | string[] | undefined, discordHandle: string) => {
   const {
     data: { member },
-  } = await api.get(`/communities/${communityId}/member?discordHandle=${encodeURIComponent(discordHandle)}`);
+  } = await api.get<{ member: Member }>(
+    `/communities/${communityId}/member?discordHandle=${encodeURIComponent(discordHandle)}`
+  );
 
   return member;
 };
@@ -25,6 +27,13 @@ const createMember = async (payload: MemberProfileRequest) => {
     data: { member },
   } = await api.post(`/members`, payload);
   return member;
+};
+
+const updateMember = async (id: string, payload: MemberProfileRequest) => {
+  const {
+    data: { status },
+  } = await api.put(`/members/${id}`, payload);
+  return status;
 };
 
 export const useMemberInCommunity = (communityId: string | string[] | undefined, discordHandle: string) =>
@@ -40,6 +49,23 @@ export const useCreateMember = ({
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries(['community/member', data.community.shortId, data.discordHandle]);
       onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+};
+
+export const useUpdateMember = (
+  id: string,
+  { onSuccess, ...options }: MutationOptions<boolean, any, MemberProfileRequest, any> = {}
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation((payload) => updateMember(id, payload), {
+    onSuccess(data, variables, context) {
+      if (data) {
+        queryClient.invalidateQueries(['community/member', variables.communityId, variables.discordHandle]);
+        onSuccess?.(data, variables, context);
+      }
     },
     ...options,
   });
