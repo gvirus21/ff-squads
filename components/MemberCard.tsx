@@ -144,12 +144,12 @@ export default function MemberCard({ member }: { member: Member }) {
             </Typography>
             <Typography variant="body2">{member.contribution}</Typography>
           </Box>
-          <Box my={2} px={2}>
+          {/* <Box my={2} px={2}>
             <Typography variant="body2" fontWeight={700} gutterBottom>
               Joined
             </Typography>
             <Chip label="30, Mar 2022" />
-          </Box>
+          </Box> */}
         </DialogContent>
       </Dialog>
     </>

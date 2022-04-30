@@ -174,20 +174,36 @@ export default function CommunityPage() {
     setSelectedTimezone(timezone);
     setTimezoneFilterItem({
       filterBy: 'timezone',
-      filterValue: timezone.label,
-      displayValue: timezone.label,
+      filterValue: timezone.value,
+      displayValue: timezone.value,
     });
   };
 
   const { data: community } = useCommunity(id);
 
   React.useEffect(() => {
+    if (!community) return;
+
+    if (filterItems.length === 0 && !timezoneFilterItem) {
+      setMembers(community.members);
+    }
+
+    let result: Member[] = [];
     if (filterItems.length > 0) {
-      console.log(filterItems);
+      filterItems.map(({ filterBy, filterValue }) => {
+        if (filterBy === 'expertise') {
+          result = [...result, ...community.members.filter((x) => x.expertise.includes(filterValue as string))];
+        } else if (filterBy === 'status') {
+          result = [...result, ...community.members.filter((x) => x.status === (filterValue as number))];
+        } else if (filterBy === 'availability') {
+          result = [...result, ...community.members.filter((x) => x.availability === (filterValue as number))];
+        }
+      });
     }
     if (timezoneFilterItem) {
-      console.log(timezoneFilterItem);
+      result = [...result, ...community.members.filter((x) => x.timezone === timezoneFilterItem.filterValue)];
     }
+    setMembers(result);
   }, [filterItems, timezoneFilterItem]);
 
   React.useEffect(() => {

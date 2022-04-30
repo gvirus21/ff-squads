@@ -8,7 +8,7 @@ export default function SocialLinks({ socialLinks }: { socialLinks: SocialLink }
     <>
       {socialLinks &&
         Object.keys(socialLinks).map((key) => (
-          <IconButton key={key}>
+          <IconButton key={key} href={socialLinks[key as keyof SocialLink] as string} target="_blank">
             <Image
               src={SOCIAL_NAME_MAP[key as keyof typeof SOCIAL_NAME_MAP].image}
               alt={SOCIAL_NAME_MAP[key as keyof typeof SOCIAL_NAME_MAP].label}
