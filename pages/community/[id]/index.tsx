@@ -123,6 +123,7 @@ export default function CommunityPage() {
 
   const [selectedTimezone, setSelectedTimezone] = React.useState<string | ITimezone>('');
   const [timezoneFilterItem, setTimezoneFilterItem] = React.useState<FilterItem | null>(null);
+  const [keyword, setKeyword] = React.useState('');
   const [filterItems, setFilterItems] = React.useState<FilterItem[]>([]);
   const [members, setMembers] = React.useState<Member[] | undefined>([]);
 
@@ -203,8 +204,15 @@ export default function CommunityPage() {
     if (timezoneFilterItem) {
       result = [...result, ...community.members.filter((x) => x.timezone === timezoneFilterItem.filterValue)];
     }
+    if (keyword) {
+      result = result.filter(
+        (x) =>
+          x.username.toLowerCase().includes(keyword.toLowerCase()) ||
+          x.bio.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
     setMembers(result);
-  }, [filterItems, timezoneFilterItem]);
+  }, [filterItems, timezoneFilterItem, keyword]);
 
   React.useEffect(() => {
     setMembers(community?.members);
@@ -324,7 +332,12 @@ export default function CommunityPage() {
               </List>
             </Drawer>
             <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }}>
-              <TextField fullWidth placeholder="Search by name, location, or expertise" />
+              <TextField
+                fullWidth
+                placeholder="Search by name..."
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
               <Box display="flex" alignItems="center" my={2}>
                 {filterItems.map((item, i) => (
                   <Chip
