@@ -221,6 +221,7 @@ export default function CommunityPage() {
 
   return community ? (
       <AuthGuard>
+          <>
           <CommunityInfoWithBanner community={community} />
           <Box display="flex" flexDirection="row" justifyContent="flex-end" px={8} >
               <Link href={`/community/${id}/edit`}>
@@ -383,7 +384,8 @@ export default function CommunityPage() {
         <TabPanel value={value} index={1}>
           Item Two
         </TabPanel>
-      </Box>
+        </Box>
+        </>
     </AuthGuard>
   ) : (
     <></>
@@ -391,7 +393,7 @@ export default function CommunityPage() {
 }
 
 
-const CustomIcon = ({_src}) => {
+const CustomIcon = ({ _src } :{ _src:any}) => {
     return (
         <Box>
             <Image src={_src} width={20} height={17} alt="logo" />              

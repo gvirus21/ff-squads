@@ -30,18 +30,7 @@ const theme = createTheme({
     h6: {
       fontSize: 18,
     },
-      font12: {
-          fontSize: 12,
-      },
-      font16: {
-      fontSize: 16,
-    },
-    font18: {
-        fontSize: 18,
-      },
-      font40: {
-          fontSize: 40,
-      },
+   
   },
   components: {
     MuiList: {

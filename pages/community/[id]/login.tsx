@@ -85,18 +85,18 @@ const LoginPage: NextPage = () => {
           <Grid item xs={12} sm={6}>
                       <Box>
                           <Box>
-                          <Typography variant="font16" xs={{ fontWeight: 300,   }}>
+                          <Typography sx={{ fontWeight: 300, fontSize : "16px"   }}>
                                   Forfront Studio 
                           </Typography>
                           </Box>
                           <Box>
-                          <Typography variant="font18" xs={{ fontWeight: 600  }}  >
+                              <Typography  sx={{ fontWeight: 600, fontSize: "18px" }}  >
                               Member Directory.
                               <Image src="/images/BETA.svg" width={35} height={25} alt="logo" />
                               </Typography>
                           </Box>
                           <Box pt={5}>
-                              <Typography variant="font40"  xs={{ fontWeight: 400, lineHeight: "56px",  }}>
+                              <Typography   sx={{ fontWeight: 400, lineHeight: "56px", fontSize: "40px" }}>
                                   Find, connect, and plan projects with community members
                           </Typography>
                           </Box>
@@ -154,7 +154,7 @@ const LoginPage: NextPage = () => {
               />
               <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 4, pt: 0 }}>
                 <Typography variant="body1" textAlign="center" sx={{ width: '80%', py: 5}}>
-                  Login with your Discord account to help us verify that you're a member of the community.
+                  Login with your Discord account to help us verify that you are a member of the community.
                   <br />
                   We will bring you right back after logging in!
                 </Typography>

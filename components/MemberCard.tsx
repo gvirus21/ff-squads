@@ -70,16 +70,16 @@ export default function MemberCard({ member }: { member: Member }) {
         />
               <CardContent>
                   <Box>
-                      <Typography variant="font16" sx={{fontWeight:600}}>{member.username}</Typography>
+                      <Typography   sx={{fontWeight:600, fontSize:"16px"}}>{member.username}</Typography>
                   </Box>
                   <Box>
-                      <Typography variant="font12" sx={{ color: "#616D6C" }}>{member.discordHandle}</Typography>
+                      <Typography sx={{ color: "#616D6C", fontSize: "12px" }}>{member.discordHandle}</Typography>
                   </Box>
                   <Box >
-                      <Typography variant="font12" sx={{ color: "#616D6C", background: "#eaeaea", padding: "3px 6px", borderRadius : "5px" }}>{member.country}</Typography>
+                      <Typography sx={{ color: "#616D6C", background: "#eaeaea", padding: "3px 6px", borderRadius: "5px", fontSize: "12px"  }}>{member.country}</Typography>
                   </Box>
                    <Box>
-                      <Typography variant="font16">{member.timezone}</Typography>
+                      <Typography sx={{  ontSize: "16px" }}  >{member.timezone}</Typography>
                   </Box>
                  
         </CardContent>
@@ -146,7 +146,7 @@ export default function MemberCard({ member }: { member: Member }) {
           </Box>
           <Box mt={2} px={2}>
             <Typography variant="body2" fontWeight={700} gutterBottom>
-              I'm a ...
+                          {`I'm a ...`}
             </Typography>
             <Box display="flex" alignItems="center" flexWrap="wrap">
               {member.expertise.map((exp, i) => (

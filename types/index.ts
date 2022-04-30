@@ -42,6 +42,7 @@ export type Community = {
   shortId: string;
   name: string;
   logoUrl: string;
+  coverUrl: string;
   description: string;
   socialIds: string[];
   socialLinks: SocialLink;

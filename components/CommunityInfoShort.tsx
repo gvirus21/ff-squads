@@ -10,7 +10,7 @@ export default function CommunityInfo({ community }: { community: Community }) {
         
        
       <Box  display="flex" justifyContent="center" alignItems="center">
-              <Image src={community.logoUrl ?? '/images/forefront.png'} width={40} height={40} />
+        <Image src={community.logoUrl ?? '/images/forefront.png'} width={40} height={40} />
         <Typography variant="h4" sx={{ mx: 2.5 }}>
           {community.name}
         </Typography>
