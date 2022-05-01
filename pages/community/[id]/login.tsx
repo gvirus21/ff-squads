@@ -1,5 +1,5 @@
 import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+ 
 import { Button, Card, CardContent, CardHeader, Container, Grid, Menu, MenuItem, Typography, Box, Snackbar,    } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import type { NextPage } from 'next';
@@ -80,59 +80,59 @@ const LoginPage: NextPage = () => {
     }
 
   return (
-    <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ position: 'relative' , mb : 12 }}>
       {!account ? (
         <Grid container spacing={1} justifyContent="space-between" alignItems="center">
           <Grid item xs={12} sm={6}>
-                      <Box>
+                      <Box mt={0}>
                           <Box>
-                          <Typography sx={{ fontWeight: 300, fontSize : "16px"   }}>
+                          <Typography sx={{ fontWeight: 300, fontSize : "16px" }}>
                                   Forfront Studio 
                           </Typography>
                           </Box>
-                          <Box>
+                          <Box mt={-1}>
                               <Typography  sx={{ fontWeight: 600, fontSize: "18px" }}  >
                               Member Directory.
                               <Image src="/images/BETA.svg" width={35} height={25} alt="logo" />
                               </Typography>
                           </Box>
                           <Box pt={5}>
-                              <Typography   sx={{ fontWeight: 400, lineHeight: "56px", fontSize: "40px" }}>
+                              <Typography   sx={{ fontWeight: 400, lineHeight: "56px", fontSize: "40px" ,mr : "3rem" }}>
                                   Find, connect, and plan projects with community members
-                          </Typography>
+                              </Typography>
                           </Box>
-            </Box>
+                      </Box>
                          
           </Grid>
           <Grid item xs={12} sm={6}>
-                      <Card sx={{ boxShadow: "2px 10px 45px #E5ECE3;"}}>
+            <Card sx={{ boxShadow: "2px 10px 45px #E5ECE3;"  }}>
               <CardHeader
                 avatar={<AccountBalanceWallet />}
                 title="Connect Wallet"
                 titleTypographyProps={{ variant: 'h6' }}
-                sx={{ px: 10, pt: 1, color: "#4AAA7B"}}
+                sx={{ px: 4, pt: 1, color: "#4AAA7B"}}
               />
-              <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 10, pt: 0 }}>
-                <Typography variant="body1" textAlign="center" sx={{ width: '80%', py: 2}}>
+              <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 1, pt: 0 }}>
+                <Typography   textAlign="center" sx={{ width: '80%', py: 4 , fontSize : '16px'}}>
                                   To unlock Member Directory (BETA), connect your wallet and create a profile with your Discord account!
                 </Typography>
                 <CommunityInfoShort community={community} />
                               <Button variant="contained" onClick={handleClick} sx={{
-                                  mb: 8, background: '#83BCFF', color: "#000", fontWeight: 700 , ':hover': {
+                                  mb: 8, background: '#83BCFF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', fontSize : '16px' ,  color: "#000", fontWeight: 700 , ':hover': {
                                       opacity: .7, background: '#83BCFF', color: "#000"
                                   }, }} endIcon={<WalletConnectIcon />}>
                   Connect Wallet
                 </Button>
                 <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
-                                  <MenuItem onClick={() => handleWeb3Login('injected')} sx={{width:'200px'}}>
+                   <MenuItem onClick={() => handleWeb3Login('injected')} sx={{width:'225px'}}>
                     <Image src="/images/metamask.svg" width={40} height={20} alt="metamask" />
                     <span>Metamask</span>
                   </MenuItem>
-                  <MenuItem onClick={() => handleWeb3Login('walletConnect')}>
+                  <MenuItem onClick={() => handleWeb3Login('walletConnect')} >
                     <Image src="/images/walletconnect.svg" width={40} height={20} alt="walletConnect" />
                     <span>WalletConnect</span>
                   </MenuItem>
-                  <MenuItem onClick={() => handleWeb3Login('coinbaseWallet')}>
+                  <MenuItem onClick={() => handleWeb3Login('coinbaseWallet')} >
                     <Image src="/images/coinbase.svg" width={40} height={20} alt="coinbaseWallet" />
                     <span>Coinbase Wallet</span>
                   </MenuItem>
@@ -145,8 +145,9 @@ const LoginPage: NextPage = () => {
         </Grid>
       ) : (
         <Grid container spacing={4} justifyContent="center">
-          <Grid item xs={6}>
-                          <Card sx={{ boxShadow: "2px 10px 45px #E5ECE3"}}>
+                       
+         <Grid item xs={12} md={6}>
+            <Card sx={{ boxShadow: "2px 10px 45px #E5ECE3"}}>
               <CardHeader
                 avatar={<Image src="/images/DiscordGreen.svg" alt="discord" width={20} height={20} />}
                 title="Login with Discord"
@@ -156,10 +157,10 @@ const LoginPage: NextPage = () => {
               <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 4, pt: 0 }}>
                 <Typography variant="body1" textAlign="center" sx={{ width: '80%', py: 5}}>
                   Login with your Discord account to help us verify that you are a member of the community.
-                  <br />
+                  <br /><br />
                   We will bring you right back after logging in!
                 </Typography>
-                <Button variant="contained" color="primary" onClick={() => signIn('discord')} sx={{ mb: 20 }}>
+                <Button variant="contained" color="primary" onClick={() => signIn('discord')} sx={{ mb: 10, fontSize: '16px', fontWeight : 700 }}>
                   Login with Discord
                 </Button>
               </CardContent>
@@ -176,7 +177,7 @@ const LoginPage: NextPage = () => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
        
           >
-              <Box  sx={{ background: '#4AAA99' , color : "#fff" , px : 3 , py : 2 }}>
+              <Box sx={{ background: '#4AAA99', color: "#fff", px: 3, py: 2, borderRadius: '5px', boxShadow: ' 0px 5px 10px rgba(0, 0, 0, 0.12)' }}>
                   Nice! Your wallet is now connected.
               </Box >
           </Snackbar>

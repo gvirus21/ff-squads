@@ -11,11 +11,11 @@ export default function CommunityInfo({ community }: { community: Community }) {
        
       <Box  display="flex" justifyContent="center" alignItems="center">
         <Image src={community.logoUrl ?? '/images/forefront.png'} width={40} height={40} />
-        <Typography variant="h4" sx={{ mx: 2.5 }}>
+        <Typography   sx={{ mx: 2.5 , fontSize : '18px' }}>
           {community.name}
         </Typography>
         <Image src="/images/ethereum.svg" width={12} height={20} />
-        <Chip label={`$${community.tokenInfo.symbol}`} sx={{ ml: 1 }} />
+              <Chip label={`$${community.tokenInfo.symbol}`} sx={{ ml: 1, fontSize: '12px'}} />
       </Box>
       
       <Box mt={1} display="flex" justifyContent="center" alignItems="center">

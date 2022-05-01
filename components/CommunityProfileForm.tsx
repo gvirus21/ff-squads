@@ -65,7 +65,7 @@ export default function CommunityProfileForm() {
         <Typography variant="body2" gutterBottom>
           Where can we find your community online?
         </Typography>
-        <MultipleSelect data={SOCIALS} />
+              <MultipleSelect data={SOCIALS} background_color={'#A0A4CC'} />
       </Box>
       <Box mb={3}>
         <Typography variant="body2" gutterBottom>

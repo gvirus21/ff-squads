@@ -5,7 +5,8 @@ import { createTheme } from '@mui/material/styles';
 
 // Create a theme instance.
 const theme = createTheme({
-  palette: {
+    palette: {
+    mode : 'light',
     primary: {
       main: '#000000',
     },
@@ -16,8 +17,11 @@ const theme = createTheme({
       main: red.A400,
     },
     text: {
-      primary: '#1a202c',
+        primary: '#1a202c',
     },
+    background: {
+        default: '#FCFDF0'
+    }
   },
   typography: {
       fontFamily: 'Helvetica',
@@ -29,7 +33,8 @@ const theme = createTheme({
     },
     h6: {
       fontSize: 18,
-    },
+      },
+
    
   },
   components: {

@@ -6,7 +6,7 @@ import UserProfile from './UserProfile';
 import Link from 'next/link'
 
 const AppBarWrapper = styled(AppBar)(({ theme }) => ({
-    background: '#fff',
+    background: '#FCFDF0',
     boxShadow: 'none'
 }));
 

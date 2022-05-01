@@ -45,19 +45,19 @@ export default function UserProfile() {
   return (
       <Box display="flex">
           {member ? (
-              <Box display="flex" sx={{margin:"2px 5px"}}>       
+              <Box display="flex" sx={{ height: '24px', width: '24px', margin: '5px 10px'   }}>       
                       <Image
                           src={member.logoUrl ?? '/images/Profile.svg'}
                           alt={member.username}
-                          width={28}
+                          width={24}
                           height={24}
-                          style={{ borderRadius: '100%'  }}
+                          style={{ borderRadius: '100%' , objectFit : 'fill' }}
                       />
               </Box>
           ) : (
                   <></>
               )}
-      <AccountCircleOutlinedIcon />
+ 
       <Button variant="contained" color="primary" onClick={handleClick} endIcon={<KeyboardArrowDownIcon />}>
         <AccountBalanceWalletIcon />
         <Divider orientation="vertical" flexItem sx={{ borderColor: '#fff', ml: 1.5 }} />

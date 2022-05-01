@@ -54,31 +54,33 @@ export default function MemberCard({ member }: { member: Member }) {
     <>
           <Card sx={{ boxShadow: "2px 10px 45px #E5ECE3, inset 2px 8px 8px #E5ECE3;", background: '#FCFDF0', height: "268px", width: "232px", margin : "0px 5px" }}>
         <CardHeader
-          avatar={
-            <Image
-              src={member.logoUrl ?? '/images/Profile.svg'}
-              alt={member.username}
-              width={64}
-              height={64}
-              style={{ borderRadius: '100%' }}
-            />
-          }
-         
-          titleTypographyProps={{ variant: 'h5', gutterBottom: true }}
-                  subheader={<SocialLinks socialLinks={member.socialLinks} />}
-          subheaderTypographyProps={{ variant: 'body1', color: 'textPrimary' }}
+                  avatar={
+                      <img
+                          src={member.logoUrl ?? '/images/Profile.svg'}
+                          alt={member.username}
+                          width={64}
+                          height={64}
+                          style={{ borderRadius: '100%', border: '4.4px solid #E5ECE3' }}
+                      />
+                  }
+
+                  titleTypographyProps={{ variant: 'h5', gutterBottom: true }}
+                  subheader={<Box mt={4}><SocialLinks socialLinks={member.socialLinks} /></Box>}
+           
         />
               <CardContent>
-                  <Box>
+                  <Box mt={-4}>
                       <Typography   sx={{fontWeight:600, fontSize:"16px"}}>{member.username}</Typography>
                   </Box>
                   <Box>
                       <Typography sx={{ color: "#616D6C", fontSize: "12px" }}>{member.discordHandle}</Typography>
                   </Box>
-                  <Box >
-                      <Typography sx={{ color: "#616D6C", background: "#eaeaea", padding: "3px 6px", borderRadius: "5px", fontSize: "12px"  }}>{member.country}</Typography>
+                  <Box mt={2} sx={{ background: '#E5ECE3', opacity: 0.8, boxShadow: '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)', borderRadius: '10.0767px', display: 'inline-block' }}>
+
+                      <Typography sx={{ color: "#616D6C", padding: "3px 6px", borderRadius: "5px", fontSize: "12px", margin: 'auto' }}>{member.country}</Typography>
+
                   </Box>
-                   <Box>
+                  <Box mt={2}>
                       <Typography sx={{  ontSize: "16px" }}  >{member.timezone}</Typography>
                   </Box>
                  

@@ -36,7 +36,7 @@ const { Option: OptionComponent } = components;
 const IconOption = (props: OptionProps<SelectOption>) => (
   <OptionComponent {...props}>
     <Box display="flex" alignItems="center">
-      {props.data.icon ? (
+            {props.data.icon ? (
         <Box marginRight={1} display="flex" alignItems="center">
           <Image src={props.data.icon} alt={props.data.label} width={16} height={16} />
         </Box>
@@ -67,7 +67,7 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
     <>
       {label ? (
         <Box display="block" mb={1}>
-          <InputLabel htmlFor={id ?? `select-${name}`} required={required}>
+          <InputLabel htmlFor={id ?? `select-${name}`} required={required} >
             {label}
           </InputLabel>
         </Box>
@@ -80,22 +80,23 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
         render={({ field: { value, onChange, ...field }, fieldState: { invalid, error } }) => (
           <>
             <Select
-              options={options}
-              value={
-                isMulti
-                  ? flattenOptions?.filter((option) => value?.includes(option?.value))
-                  : flattenOptions?.find((option) => value === option.value)
-              }
-              onChange={(selectedOption: SelectedOption) =>
-                Array.isArray(selectedOption)
-                  ? onChange(selectedOption?.map((option) => option.value))
-                  : onChange((selectedOption as SelectOption | null)?.value)
-              }
-              {...field}
-              {...props}
-              id={id ?? `select-${name}`}
-              isMulti={isMulti}
-              components={{ Option: IconOption }}
+                    options={options}
+                    value={
+                        isMulti
+                            ? flattenOptions?.filter((option) => value?.includes(option?.value))
+                            : flattenOptions?.find((option) => value === option.value)
+                    }
+                    onChange={(selectedOption: SelectedOption) =>
+                        Array.isArray(selectedOption)
+                            ? onChange(selectedOption?.map((option) => option.value))
+                            : onChange((selectedOption as SelectOption | null)?.value)
+                    }
+                    {...field}
+                    {...props}
+                    id={id ?? `select-${name}`}
+                    isMulti={isMulti}
+                    components={{ Option: IconOption }}
+           
             />
             <Fade in={invalid}>
               <FormHelperText error>{error?.message || ' '}</FormHelperText>

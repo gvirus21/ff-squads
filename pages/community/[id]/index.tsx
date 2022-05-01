@@ -14,7 +14,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 
-import Link from 'next/link'
+
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -96,7 +96,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   position: 'static',
   flexShrink: 0,
   whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
+    boxSizing: 'border-box',
+    background: '#FCFDF0',
+    boxShadow: '0px 10px 45px #E5ECE3',
+
   ...(open && {
     ...openedMixin(theme),
     '& .MuiDrawer-paper': openedMixin(theme),
@@ -223,11 +226,7 @@ export default function CommunityPage() {
       <AuthGuard>
           <>
           <CommunityInfoWithBanner community={community} />
-          <Box display="flex" flexDirection="row" justifyContent="flex-end" px={8} >
-              <Link href={`/community/${id}/edit`}>
-                  <span style={{background:"#c1c1c1", padding : "2px 8px", borderRadius : "5px", color: "#676", cursor: "pointer"}}>Edit</span>
-              </Link>
-          </Box>
+        
           <Box mb={12} sx={{ position: 'relative' }}>
            
 
@@ -238,9 +237,8 @@ export default function CommunityPage() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <Box display="flex" justifyContent="center"> 
-                      <Drawer open={filterOpen} onClose={toggleFilter}   variant="permanent"
-                        >
+            <Box display="flex" justifyContent="center" > 
+            <Drawer open={filterOpen} onClose={toggleFilter} variant="permanent"  >
              
               <List>
                 <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
@@ -336,7 +334,7 @@ export default function CommunityPage() {
                 </Collapse>
               </List>
             </Drawer>
-                      <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }} >
+                          <Box flexGrow={1} py={4} px={7} sx={{  background: '#FCFDF0', boxShadow: '0px 10px 45px #E5ECE3' }} >
                           <Box sx={{ display: "flex"}} >
                           <IconButton onClick={toggleFilter}>
                                   {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}

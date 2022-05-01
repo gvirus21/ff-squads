@@ -2,6 +2,8 @@ import { Box, Chip, Typography } from '@mui/material';
 import Image from 'next/image';
 import { Community } from '../types';
 import SocialLinks from './SocialLinks';
+import Link from 'next/link'
+
 
 export default function CommunityInfo({ community }: { community: Community }) {
 
@@ -10,13 +12,22 @@ export default function CommunityInfo({ community }: { community: Community }) {
     }
   
   return (
-      <Box display="flex" flexDirection="column"   alignItems="center" sx={{ background: '#fff',  }}>
+      <Box display="flex" flexDirection="column"   alignItems="center" position="relative" >
           <Box mt={-4}>
               <Image src={community?.coverUrl ?? '/images/forefront_cover.png'} width={maxWidth()} height={80} />
           </Box>
-          <Box mt={-6} sx={{ border: 2, borderRadius: '50%', borderColor: "#fff"}} >
-             <Image src={community.logoUrl ?? '/images/forefront.png'} width={80} height={80} />
+          
+          <Box mt={-6} >
+              <Box  >
+                <Image src={community.logoUrl ?? '/images/forefront.png'} width={80} height={80} />
+              </Box>
+              <Box sx={{mt:-5,position:'absolute', right:20, cursor : 'pointer' }}>
+                  <Link href={`/community/${community.shortId}/edit`}>
+                      <Image src={'/images/CommunityEditIcon.svg'} width={20} height={20} />
+                  </Link>
+              </Box>
           </Box>
+          
       <Box mb={1.5} display="flex" justifyContent="center" alignItems="center">
               <Typography   sx={{ fontWeight: 600, fontSize : "18px" }}>
             {community.name}
