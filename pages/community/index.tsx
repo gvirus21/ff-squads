@@ -1,11 +1,11 @@
-import { Card, CardActionArea, CardContent, Container, Grid } from '@mui/material';
-import CommunityInfo from '../../components/CommunityInfo';
+import { Card, CardActionArea, CardContent, Container, Grid } from '@mui/material'
+import CommunityInfo from '../../components/CommunityInfo'
 
-import { useCommunities } from '../../hooks/useCommunities';
-import { Community } from '../../types';
+import { useCommunities } from '../../hooks/useCommunities'
+import { Community } from '../../types'
 
 export default function CommunitiesPage() {
-  const { data: communities } = useCommunities();
+  const { data: communities } = useCommunities()
   return (
     <Container>
       <Grid container spacing={4}>
@@ -23,5 +23,5 @@ export default function CommunitiesPage() {
           ))}
       </Grid>
     </Container>
-  );
+  )
 }

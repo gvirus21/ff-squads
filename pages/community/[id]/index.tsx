@@ -1,39 +1,39 @@
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Chip, Collapse, Grid, Tab, Tabs, TextField } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import Divider from '@mui/material/Divider';
-import MuiDrawer from '@mui/material/Drawer';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import { styled, Theme, CSSObject } from '@mui/material/styles';
-import { useRouter } from 'next/router';
-import React from 'react';
-import Select from 'react-select';
-import TimezoneSelect, { ITimezone, ITimezoneOption } from 'react-timezone-select';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Box, Chip, Collapse, Grid, Tab, Tabs, TextField } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
+import Divider from '@mui/material/Divider'
+import MuiDrawer from '@mui/material/Drawer'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormGroup from '@mui/material/FormGroup'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import { styled, Theme, CSSObject } from '@mui/material/styles'
+import { useRouter } from 'next/router'
+import React from 'react'
+import Select from 'react-select'
+import TimezoneSelect, { ITimezone, ITimezoneOption } from 'react-timezone-select'
 
-import AuthGuard from '../../../components/AuthGuard';
-import CommunityInfo from '../../../components/CommunityInfo';
-import MemberCard from '../../../components/MemberCard';
-import { expertiseOptions } from '../../../components/MemberProfileForm';
-import { useCommunity } from '../../../hooks/useCommunities';
-import { AVAILABILITY_LIST, STATUS_LIST } from '../../../config/constants';
-import { Member } from '../../../types';
+import AuthGuard from '../../../components/AuthGuard'
+import CommunityInfo from '../../../components/CommunityInfo'
+import MemberCard from '../../../components/MemberCard'
+import { expertiseOptions } from '../../../components/MemberProfileForm'
+import { useCommunity } from '../../../hooks/useCommunities'
+import { AVAILABILITY_LIST, STATUS_LIST } from '../../../config/constants'
+import { Member } from '../../../types'
 
 interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+  children?: React.ReactNode
+  index: number
+  value: number
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
   return (
     <div
@@ -45,17 +45,17 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && children}
     </div>
-  );
+  )
 }
 
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
-  };
+  }
 }
 
-const drawerWidth = 300;
+const drawerWidth = 300
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -65,7 +65,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: 'hidden',
-});
+})
 
 const closedMixin = (theme: Theme): CSSObject => ({
   position: 'static',
@@ -78,7 +78,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(7)} + 1px)`,
   },
-});
+})
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -87,7 +87,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-}));
+}))
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
   width: drawerWidth,
@@ -103,40 +103,40 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     ...closedMixin(theme),
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
-}));
+}))
 
 type FilterItem = {
-  filterBy: string;
-  filterValue: string | number;
-  displayValue: string;
-};
+  filterBy: string
+  filterValue: string | number
+  displayValue: string
+}
 
 export default function CommunityPage() {
-  const [value, setValue] = React.useState(0);
-  const [filterOpen, setFilterOpen] = React.useState(true);
-  const [expertiseOpen, setExpertiseOpen] = React.useState(true);
-  const [statusOpen, setStatusOpen] = React.useState(true);
-  const [availabilityOpen, setAvailabiltyOpen] = React.useState(true);
-  const [timezoneOpen, setTimezoneOpen] = React.useState(true);
-  const router = useRouter();
-  const { id } = router.query;
+  const [value, setValue] = React.useState(0)
+  const [filterOpen, setFilterOpen] = React.useState(true)
+  const [expertiseOpen, setExpertiseOpen] = React.useState(true)
+  const [statusOpen, setStatusOpen] = React.useState(true)
+  const [availabilityOpen, setAvailabiltyOpen] = React.useState(true)
+  const [timezoneOpen, setTimezoneOpen] = React.useState(true)
+  const router = useRouter()
+  const { id } = router.query
 
-  const [selectedTimezone, setSelectedTimezone] = React.useState<string | ITimezone>('');
-  const [timezoneFilterItem, setTimezoneFilterItem] = React.useState<FilterItem | null>(null);
-  const [keyword, setKeyword] = React.useState('');
-  const [filterItems, setFilterItems] = React.useState<FilterItem[]>([]);
-  const [members, setMembers] = React.useState<Member[] | undefined>([]);
+  const [selectedTimezone, setSelectedTimezone] = React.useState<string | ITimezone>('')
+  const [timezoneFilterItem, setTimezoneFilterItem] = React.useState<FilterItem | null>(null)
+  const [keyword, setKeyword] = React.useState('')
+  const [filterItems, setFilterItems] = React.useState<FilterItem[]>([])
+  const [members, setMembers] = React.useState<Member[] | undefined>([])
 
-  const toggleFilter = () => setFilterOpen(!filterOpen);
+  const toggleFilter = () => setFilterOpen(!filterOpen)
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
-  const addFilterItem = (item: FilterItem) => setFilterItems([...filterItems, item]);
+  const addFilterItem = (item: FilterItem) => setFilterItems([...filterItems, item])
 
   const removeFilterItem = (item: FilterItem) =>
-    setFilterItems(filterItems.filter((x) => !(x.filterBy === item.filterBy && x.filterValue === item.filterValue)));
+    setFilterItems(filterItems.filter((x) => !(x.filterBy === item.filterBy && x.filterValue === item.filterValue)))
 
   const handleCheckBoxFilter = (
     filterBy: string,
@@ -145,77 +145,77 @@ export default function CommunityPage() {
     isAdd: boolean
   ) => {
     if (isAdd) {
-      addFilterItem({ filterBy, filterValue, displayValue });
+      addFilterItem({ filterBy, filterValue, displayValue })
     } else {
-      removeFilterItem({ filterBy, filterValue, displayValue });
+      removeFilterItem({ filterBy, filterValue, displayValue })
     }
-  };
+  }
 
   const handleExpertiseFilter = (exps: any) => {
-    const previousItems = filterItems.filter((x) => x.filterBy == 'expertise');
-    const addedItems: FilterItem[] = [];
-    const removedItems: any[] = [];
+    const previousItems = filterItems.filter((x) => x.filterBy == 'expertise')
+    const addedItems: FilterItem[] = []
+    const removedItems: any[] = []
     for (const exp of exps) {
       if (!previousItems.find((x) => x.filterValue === exp.value)) {
-        addedItems.push({ filterBy: 'expertise', filterValue: exp.value, displayValue: exp.value });
+        addedItems.push({ filterBy: 'expertise', filterValue: exp.value, displayValue: exp.value })
       }
     }
     for (const exp of previousItems) {
       if (!exps.find((x: any) => x.value === exp.filterValue)) {
-        removedItems.push(exp.filterValue);
+        removedItems.push(exp.filterValue)
       }
     }
     setFilterItems([
       ...filterItems.filter((x) => !(x.filterBy === 'expertise' && removedItems.includes(x.filterValue))),
       ...addedItems,
-    ]);
-  };
+    ])
+  }
 
   const handleTimezoneFilter = (timezone: ITimezoneOption) => {
-    setSelectedTimezone(timezone);
+    setSelectedTimezone(timezone)
     setTimezoneFilterItem({
       filterBy: 'timezone',
       filterValue: timezone.value,
       displayValue: timezone.value,
-    });
-  };
+    })
+  }
 
-  const { data: community } = useCommunity(id);
+  const { data: community } = useCommunity(id)
 
   React.useEffect(() => {
-    if (!community) return;
+    if (!community) return
 
-    let result: Member[] = community.members;
+    let result: Member[] = community.members
 
     if (keyword) {
-      result = result.filter((x) => x.username.toLowerCase().includes(keyword.toLowerCase()));
+      result = result.filter((x) => x.username.toLowerCase().includes(keyword.toLowerCase()))
     }
 
     if (filterItems.length !== 0 || !!timezoneFilterItem) {
-      let finalResult: Member[] = [];
+      let finalResult: Member[] = []
       if (filterItems.length > 0) {
         filterItems.map(({ filterBy, filterValue }) => {
           if (filterBy === 'expertise') {
-            finalResult = [...finalResult, ...result.filter((x) => x.expertise.includes(filterValue as string))];
+            finalResult = [...finalResult, ...result.filter((x) => x.expertise.includes(filterValue as string))]
           } else if (filterBy === 'status') {
-            finalResult = [...finalResult, ...result.filter((x) => x.status === (filterValue as number))];
+            finalResult = [...finalResult, ...result.filter((x) => x.status === (filterValue as number))]
           } else if (filterBy === 'availability') {
-            finalResult = [...finalResult, ...result.filter((x) => x.availability === (filterValue as number))];
+            finalResult = [...finalResult, ...result.filter((x) => x.availability === (filterValue as number))]
           }
-        });
+        })
       }
       if (timezoneFilterItem) {
-        finalResult = [...finalResult, ...result.filter((x) => x.timezone === timezoneFilterItem.filterValue)];
+        finalResult = [...finalResult, ...result.filter((x) => x.timezone === timezoneFilterItem.filterValue)]
       }
-      setMembers(finalResult);
-      return;
+      setMembers(finalResult)
+      return
     }
-    setMembers(result);
-  }, [filterItems, timezoneFilterItem, keyword]);
+    setMembers(result)
+  }, [filterItems, timezoneFilterItem, keyword])
 
   React.useEffect(() => {
-    setMembers(community?.members);
-  }, [community]);
+    setMembers(community?.members)
+  }, [community])
 
   return community ? (
     <AuthGuard>
@@ -351,8 +351,8 @@ export default function CommunityPage() {
                   <Chip
                     label={timezoneFilterItem.displayValue}
                     onDelete={() => {
-                      setTimezoneFilterItem(null);
-                      setSelectedTimezone('');
+                      setTimezoneFilterItem(null)
+                      setSelectedTimezone('')
                     }}
                   />
                 )}
@@ -375,5 +375,5 @@ export default function CommunityPage() {
     </AuthGuard>
   ) : (
     <></>
-  );
+  )
 }

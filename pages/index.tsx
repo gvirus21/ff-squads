@@ -1,7 +1,7 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import type { NextPage } from 'next';
-import * as React from 'react';
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import type { NextPage } from 'next'
+import * as React from 'react'
 
 const Home: NextPage = () => {
   return (
@@ -17,7 +17,7 @@ const Home: NextPage = () => {
         ForeFront Member Directory
       </Typography>
     </Box>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

@@ -1,32 +1,32 @@
-import { CacheProvider, EmotionCache } from '@emotion/react';
-import { Web3Provider } from '@ethersproject/providers';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material/styles';
-import { Web3ReactProvider } from '@web3-react/core';
-import { SessionProvider } from 'next-auth/react';
-import { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
-import Head from 'next/head';
-import * as React from 'react';
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { CacheProvider, EmotionCache } from '@emotion/react'
+import { Web3Provider } from '@ethersproject/providers'
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider } from '@mui/material/styles'
+import { Web3ReactProvider } from '@web3-react/core'
+import { SessionProvider } from 'next-auth/react'
+import { AppProps } from 'next/app'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import * as React from 'react'
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
-import Web3ReactManager from '../components/Web3ReactManager';
-import Layout from '../components/Layout';
-import createEmotionCache from '../config/createEmotionCache';
-import theme from '../config/theme';
+import Web3ReactManager from '../components/Web3ReactManager'
+import Layout from '../components/Layout'
+import createEmotionCache from '../config/createEmotionCache'
+import theme from '../config/theme'
 
-const Web3ProviderNetwork = dynamic(() => import('../components/Web3ProviderNetwork'), { ssr: false });
+const Web3ProviderNetwork = dynamic(() => import('../components/Web3ProviderNetwork'), { ssr: false })
 
 // Client-side cache, shared for the whole session of the user in the browser.
-const clientSideEmotionCache = createEmotionCache();
+const clientSideEmotionCache = createEmotionCache()
 
 interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache;
+  emotionCache?: EmotionCache
 }
 
 function getLibrary(provider: any) {
-  return new Web3Provider(provider);
+  return new Web3Provider(provider)
 }
 
 const queryClient = new QueryClient({
@@ -35,10 +35,10 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
     },
   },
-});
+})
 
 export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
   return (
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
@@ -65,5 +65,5 @@ export default function MyApp(props: MyAppProps) {
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </SessionProvider>
-  );
+  )
 }

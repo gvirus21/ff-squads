@@ -1,7 +1,7 @@
-import { Box, Container } from '@mui/material';
-import { GetServerSidePropsContext } from 'next';
-import { getSession } from 'next-auth/react';
-import AuthGuard from '../../../components/AuthGuard';
+import { Box, Container } from '@mui/material'
+import { GetServerSidePropsContext } from 'next'
+import { getSession } from 'next-auth/react'
+import AuthGuard from '../../../components/AuthGuard'
 
 export default function DaoMemberPage() {
   return (
@@ -10,5 +10,5 @@ export default function DaoMemberPage() {
         <Box py={12}>DAO Member Page</Box>
       </Container>
     </AuthGuard>
-  );
+  )
 }
