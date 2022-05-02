@@ -1,15 +1,15 @@
-import { AppBar, Box, Toolbar } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useWeb3React } from '@web3-react/core';
-import Image from 'next/image';
-import UserProfile from './UserProfile';
+import { AppBar, Box, Toolbar } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import { useWeb3React } from '@web3-react/core'
+import Image from 'next/image'
+import UserProfile from './UserProfile'
 
 const AppBarWrapper = styled(AppBar)(({ theme }) => ({
   background: '#fff',
-}));
+}))
 
 export default function Header() {
-  const { active } = useWeb3React();
+  const { active } = useWeb3React()
 
   return (
     <AppBarWrapper position="fixed">
@@ -18,5 +18,5 @@ export default function Header() {
         <Box sx={{ marginLeft: 'auto' }}>{active && <UserProfile />}</Box>
       </Toolbar>
     </AppBarWrapper>
-  );
+  )
 }

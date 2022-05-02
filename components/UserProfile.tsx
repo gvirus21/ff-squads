@@ -1,46 +1,46 @@
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import LaunchIcon from '@mui/icons-material/Launch';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
-import { signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useMemberInCommunity } from '../hooks/useMember';
-import { shortenAddress } from '../utils';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import LaunchIcon from '@mui/icons-material/Launch'
+import LogoutIcon from '@mui/icons-material/Logout'
+import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/material'
+import { useWeb3React } from '@web3-react/core'
+import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { useMemberInCommunity } from '../hooks/useMember'
+import { shortenAddress } from '../utils'
 
 export default function UserProfile() {
-  const router = useRouter();
-  const { id } = router.query;
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { deactivate, account } = useWeb3React();
-  const { data: session } = useSession();
+  const router = useRouter()
+  const { id } = router.query
+  const [anchorEl, setAnchorEl] = useState(null)
+  const { deactivate, account } = useWeb3React()
+  const { data: session } = useSession()
   const { data: member } = useMemberInCommunity(
     id,
     `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
-  );
+  )
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const handleLogout = () => {
-    deactivate();
-    signOut();
-    setAnchorEl(null);
-  };
+    deactivate()
+    signOut()
+    setAnchorEl(null)
+  }
 
   const handleEditProfile = () => {
-    router.push(`/community/${id}/member/edit`);
-    setAnchorEl(null);
-  };
+    router.push(`/community/${id}/member/edit`)
+    setAnchorEl(null)
+  }
 
   return (
     <>
@@ -84,5 +84,5 @@ export default function UserProfile() {
         </MenuItem>
       </Menu>
     </>
-  );
+  )
 }

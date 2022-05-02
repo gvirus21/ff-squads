@@ -1,11 +1,11 @@
-import { Box, Fade, FormHelperText, TextField, TextFieldProps, InputLabel } from '@mui/material';
-import { Control, Controller } from 'react-hook-form';
+import { Box, Fade, FormHelperText, TextField, TextFieldProps, InputLabel } from '@mui/material'
+import { Control, Controller } from 'react-hook-form'
 
 export type FormTextInputProps = {
-  control?: Control<any, object>;
-  name: string;
-  required?: boolean;
-} & TextFieldProps;
+  control?: Control<any, object>
+  name: string
+  required?: boolean
+} & TextFieldProps
 
 /**
  * FormTextInput
@@ -33,4 +33,4 @@ export const FormTextInput = ({ id, label, name, control, required, ...props }: 
       )}
     />
   </>
-);
+)

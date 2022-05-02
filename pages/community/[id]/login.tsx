@@ -1,62 +1,62 @@
-import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet';
-import { Button, Card, CardContent, CardHeader, Container, Grid, Menu, MenuItem, Typography } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
-import type { NextPage } from 'next';
-import { useSession, signIn } from 'next-auth/react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import CommunityInfo from '../../../components/CommunityInfo';
-import PageLoading from '../../../components/PageLoading';
+import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet'
+import { Button, Card, CardContent, CardHeader, Container, Grid, Menu, MenuItem, Typography } from '@mui/material'
+import { useWeb3React } from '@web3-react/core'
+import type { NextPage } from 'next'
+import { useSession, signIn } from 'next-auth/react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import CommunityInfo from '../../../components/CommunityInfo'
+import PageLoading from '../../../components/PageLoading'
 
-import connectors, { ConnectorKey } from '../../../connectors';
-import { useCommunity } from '../../../hooks/useCommunities';
-import { useMemberInCommunity } from '../../../hooks/useMember';
+import connectors, { ConnectorKey } from '../../../connectors'
+import { useCommunity } from '../../../hooks/useCommunities'
+import { useMemberInCommunity } from '../../../hooks/useMember'
 
 const LoginPage: NextPage = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { activate, account } = useWeb3React();
-  const [walletLoading, setWalletLoading] = useState(false);
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const { id } = router.query;
-  const { data: community, isError: isCommunityError } = useCommunity(id);
+  const [anchorEl, setAnchorEl] = useState(null)
+  const { activate, account } = useWeb3React()
+  const [walletLoading, setWalletLoading] = useState(false)
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  const { id } = router.query
+  const { data: community, isError: isCommunityError } = useCommunity(id)
   const { data: member } = useMemberInCommunity(
     id,
     `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
-  );
+  )
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const handleWeb3Login = async (key: ConnectorKey) => {
-    await activate(connectors[key]);
-    setAnchorEl(null);
-  };
+    await activate(connectors[key])
+    setAnchorEl(null)
+  }
 
   useEffect(() => {
     if (id && status === 'authenticated' && account) {
       if (member) {
-        router.push(`/community/${id}`);
+        router.push(`/community/${id}`)
       } else {
-        router.push(`/community/${id}/member/create`);
+        router.push(`/community/${id}/member/create`)
       }
     }
-  }, [member, session, account, id]);
+  }, [member, session, account, id])
 
   useEffect(() => {
     if (isCommunityError) {
-      router.push(`/community`);
+      router.push(`/community`)
     }
-  }, [isCommunityError]);
+  }, [isCommunityError])
 
   if (status === 'loading' || (status === 'authenticated' && account) || !community || walletLoading) {
-    return <PageLoading />;
+    return <PageLoading />
   }
 
   return (
@@ -76,7 +76,7 @@ const LoginPage: NextPage = () => {
               />
               <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 10, pt: 0 }}>
                 <Typography variant="body1" textAlign="center" sx={{ width: '80%', py: 10 }}>
-                  Connect your wallet to get access to the community's directory
+                  Connect your wallet to get access to the community&apos;s directory
                 </Typography>
                 <Button variant="contained" color="primary" onClick={handleClick} sx={{ mb: 8 }}>
                   Connect Wallet
@@ -111,7 +111,7 @@ const LoginPage: NextPage = () => {
               />
               <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 4, pt: 0 }}>
                 <Typography variant="body1" textAlign="center" sx={{ width: '80%', py: 20 }}>
-                  Login with your Discord account to help us verify that you're a member of the community.
+                  Login with your Discord account to help us verify that you&apos;re a member of the community.
                   <br />
                   We will bring you right back after logging in!
                 </Typography>
@@ -124,7 +124,7 @@ const LoginPage: NextPage = () => {
         </Grid>
       )}
     </Container>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

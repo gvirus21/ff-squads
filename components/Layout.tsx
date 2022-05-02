@@ -1,8 +1,8 @@
-import { Box } from '@mui/material';
-import Header from './Header';
+import { Box } from '@mui/material'
+import Header from './Header'
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function Layout({ children }: LayoutProps) {
@@ -11,5 +11,5 @@ export default function Layout({ children }: LayoutProps) {
       <Header />
       <Box sx={{ pt: 12 }}>{children}</Box>
     </>
-  );
+  )
 }

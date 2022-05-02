@@ -1,5 +1,5 @@
-import { Card, CardContent, Grid } from '@mui/material';
-import CommunityProfileForm from '../../components/CommunityProfileForm';
+import { Card, CardContent, Grid } from '@mui/material'
+import CommunityProfileForm from '../../components/CommunityProfileForm'
 
 export default function CommunityCreatePage() {
   return (
@@ -12,5 +12,5 @@ export default function CommunityCreatePage() {
         </Card>
       </Grid>
     </Grid>
-  );
+  )
 }

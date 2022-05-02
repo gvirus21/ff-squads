@@ -7,21 +7,21 @@ import {
   Radio,
   RadioGroup,
   RadioGroupProps,
-} from '@mui/material';
-import { Control, Controller } from 'react-hook-form';
+} from '@mui/material'
+import { Control, Controller } from 'react-hook-form'
 
 export type RadioOption = {
-  label: string;
-  value: string | number;
-};
+  label: string
+  value: string | number
+}
 
 export type FormRadioGroupProps = {
-  control?: Control<any, object>;
-  label?: string;
-  name: string;
-  required?: boolean;
-  options: RadioOption[];
-} & RadioGroupProps;
+  control?: Control<any, object>
+  label?: string
+  name: string
+  required?: boolean
+  options: RadioOption[]
+} & RadioGroupProps
 
 /**
  * FormRadioGroup
@@ -51,4 +51,4 @@ export const FormRadioGroup = ({ id, label, name, control, options, required, ..
       </>
     )}
   />
-);
+)
