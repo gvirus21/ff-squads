@@ -128,6 +128,11 @@ export default function CommunityPage() {
   const router = useRouter();
   const { id } = router.query;
 
+    const [selectedTimezone, setSelectedTimezone] = React.useState<string | ITimezone>('')
+    const [timezoneFilterItem, setTimezoneFilterItem] = React.useState<FilterItem | null>(null)
+    const [keyword, setKeyword] = React.useState('')
+    const [filterItems, setFilterItems] = React.useState<FilterItem[]>([])
+    const [members, setMembers] = React.useState<Member[] | undefined>([])
 
     const [anchorValue, setanchorValue] = React.useState("left");
     const [openDrawerMobile, setopenDrawerMobile] = React.useState(false);
