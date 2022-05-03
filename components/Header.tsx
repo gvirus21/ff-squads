@@ -34,14 +34,15 @@ export default function Header() {
               <Link href="/">
                   <Image src="/images/logo.svg" width={170} height={17} alt="logo" style={{cursor:"pointer"}} />
               </Link>
+              {active && 
               < Box sx={{ marginLeft: 'auto' }}>
               {isMobile ? (
                    <MobileHeader/>
               )
                   :
-                  active && <UserProfile /> 
+                   <UserProfile /> 
               }
-              </Box>
+              </Box>}
       </Toolbar>
     </AppBarWrapper>
   )
