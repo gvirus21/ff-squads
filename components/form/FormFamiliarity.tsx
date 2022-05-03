@@ -1,12 +1,12 @@
-import { Box, FormControl, FormLabel, Rating, RatingProps } from '@mui/material';
-import Image from 'next/image';
-import { Control, Controller } from 'react-hook-form';
+import { Box, FormControl, FormLabel, Rating, RatingProps } from '@mui/material'
+import Image from 'next/image'
+import { Control, Controller } from 'react-hook-form'
 
 export type FormFamiliarityProps = {
-  control?: Control<any, object>;
-  label?: string;
-  name: string;
-} & RatingProps;
+  control?: Control<any, object>
+  label?: string
+  name: string
+} & RatingProps
 
 const labels = {
   1: 'Useless',
@@ -14,7 +14,7 @@ const labels = {
   3: 'Fairly well',
   4: 'Good',
   5: 'Excellent',
-};
+}
 
 /**
  * FormFamiliarity
@@ -46,4 +46,4 @@ export const FormFamiliarity = ({ label, name, control, ...props }: FormFamiliar
       </>
     )}
   />
-);
+)

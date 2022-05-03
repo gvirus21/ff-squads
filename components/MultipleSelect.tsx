@@ -1,6 +1,6 @@
-import { Box, Chip, MenuItem, OutlinedInput } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import React from 'react';
+import { Box, Chip, MenuItem, OutlinedInput } from '@mui/material'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import React from 'react'
 
 interface MultipleSelectProps {
     data: string[],
@@ -10,12 +10,13 @@ interface MultipleSelectProps {
 export default function MultipleSelect({ data, background_color}: MultipleSelectProps) {
   const [values, setValues] = React.useState<string[]>([]);
 
+
   const handleChange = (event: SelectChangeEvent<typeof values>) => {
     const {
       target: { value },
-    } = event;
-    setValues(typeof value === 'string' ? value.split(',') : value);
-  };
+    } = event
+    setValues(typeof value === 'string' ? value.split(',') : value)
+  }
 
   return (
     <Select
@@ -37,5 +38,5 @@ export default function MultipleSelect({ data, background_color}: MultipleSelect
         </MenuItem>
       ))}
     </Select>
-  );
+  )
 }

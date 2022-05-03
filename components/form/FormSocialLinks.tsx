@@ -1,15 +1,15 @@
-import { Box, Fade, FormHelperText, InputAdornment, InputLabel, TextField } from '@mui/material';
-import Image from 'next/image';
-import { Control, Controller } from 'react-hook-form';
-import { SOCIAL_NAME_MAP } from '../../config/constants';
+import { Box, Fade, FormHelperText, InputAdornment, InputLabel, TextField } from '@mui/material'
+import Image from 'next/image'
+import { Control, Controller } from 'react-hook-form'
+import { SOCIAL_NAME_MAP } from '../../config/constants'
 
 export type FormSocialLinksProps = {
-  control?: Control<any, object>;
-  parentName: string;
-  socialIds: string[];
-  required?: boolean;
-  label?: string;
-};
+  control?: Control<any, object>
+  parentName: string
+  socialIds: string[]
+  required?: boolean
+  label?: string
+}
 
 /**
  * FormSocialLinks
@@ -78,5 +78,5 @@ export const FormSocialLinks = ({ label, parentName, control, required, socialId
         </Box>
       ))}
     </>
-  );
-};
+  )
+}

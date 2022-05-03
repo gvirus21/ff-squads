@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers';
+import { Web3Provider } from '@ethersproject/providers'
 
 export default function getLibrary(provider: any): Web3Provider {
   const library = new Web3Provider(
@@ -8,7 +8,7 @@ export default function getLibrary(provider: any): Web3Provider {
       : typeof provider.chainId === 'string'
       ? parseInt(provider.chainId)
       : 'any'
-  );
-  library.pollingInterval = 15_000;
-  return library;
+  )
+  library.pollingInterval = 15_000
+  return library
 }

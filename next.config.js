@@ -8,9 +8,9 @@ module.exports = {
         destination: '/community',
         permanent: true,
       },
-    ];
+    ]
   },
   images: {
     domains: ['cdn.discordapp.com'],
   },
-};
+}
