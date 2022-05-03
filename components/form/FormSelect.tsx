@@ -115,7 +115,7 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
                     id={id ?? `select-${name}`}
                     isMulti={isMulti}
                     components={{ Option: IconOption }}
-                    styles={colourStyles}
+                  //  styles={colourStyles}
            
             />
             <Fade in={invalid}>

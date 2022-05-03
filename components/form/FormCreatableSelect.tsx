@@ -6,7 +6,20 @@ import CreatableSelect from 'react-select/creatable';
 
  
 
-const colourStyles: StylesConfig = {
+
+export type Option = {
+  label: string
+  value: string
+}
+
+
+export interface GroupedOption {
+    label: string
+    options: readonly Option[]
+}
+
+
+const colourStyles: StylesConfig<Option, true,GroupedOption > = {
 
     multiValue: (styles, { data }) => {
         const color = 'white';
@@ -24,15 +37,8 @@ const colourStyles: StylesConfig = {
         },
     }),
 }
-export type Option = {
-  label: string
-  value: string
-}
 
-export interface GroupedOption {
-  label: string
-  options: readonly Option[]
-}
+
 
 export type FormCreatableSelectProps = {
   control?: Control<any, object>
@@ -114,7 +120,7 @@ export const FormCreatableSelect = ({
               {...props}
               id={id ?? `select-${name}`}
               isMulti={isMulti}
-              styles={colourStyles}
+             // styles={colourStyles}
             />
             <Fade in={invalid}>
               <FormHelperText error>{error?.message || ' '}</FormHelperText>
