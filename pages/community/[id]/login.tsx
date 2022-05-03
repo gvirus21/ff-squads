@@ -1,5 +1,4 @@
 import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet';
- 
 import { Button, Card, CardContent, CardHeader, Container, Grid, Menu, MenuItem, Typography, Box, Snackbar,    } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import type { NextPage } from 'next';
@@ -10,11 +9,13 @@ import { useEffect, useState } from 'react';
 import CommunityInfoShort from '../../../components/CommunityInfoShort';
 import PageLoading from '../../../components/PageLoading';
 
-import connectors, { ConnectorKey } from '../../../connectors';
-import { useCommunity } from '../../../hooks/useCommunities';
-import { useMemberInCommunity } from '../../../hooks/useMember';
+
+import connectors, { ConnectorKey } from '../../../connectors'
+import { useCommunity } from '../../../hooks/useCommunities'
+import { useMemberInCommunity } from '../../../hooks/useMember'
 
 const LoginPage: NextPage = () => {
+
   const [anchorEl, setAnchorEl] = useState(null);
   const { activate, account } = useWeb3React();
     const [walletLoading, setWalletLoading] = useState(false);
@@ -24,31 +25,32 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data: community, isError: isCommunityError } = useCommunity(id);
+
   const { data: member } = useMemberInCommunity(
     id,
     `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
-  );
+  )
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const handleWeb3Login = async (key: ConnectorKey) => {
-    await activate(connectors[key]);
-    setAnchorEl(null);
-  };
+    await activate(connectors[key])
+    setAnchorEl(null)
+  }
 
   useEffect(() => {
       if (id && status === 'authenticated' && account) {
          
       if (member) {
-        router.push(`/community/${id}`);
+        router.push(`/community/${id}`)
       } else {
-        router.push(`/community/${id}/member/create`);
+        router.push(`/community/${id}/member/create`)
       }
       }
       let isCancelled = false;
@@ -65,19 +67,22 @@ const LoginPage: NextPage = () => {
 
   }, [member, session, account, id]);
 
+
   useEffect(() => {
     if (isCommunityError) {
-      router.push(`/community`);
+      router.push(`/community`)
     }
-  }, [isCommunityError]);
+  }, [isCommunityError])
 
   if (status === 'loading' || (status === 'authenticated' && account) || !community || walletLoading) {
+
     return <PageLoading />;
     }
 
     const handleCloseSnackbar = () => {
         setopenSnackbar(false);
     }
+
 
   return (
       <Container maxWidth="lg" sx={{ position: 'relative' , mb : 12 }}>
@@ -112,9 +117,11 @@ const LoginPage: NextPage = () => {
                 titleTypographyProps={{ variant: 'h6' }}
                 sx={{ px: 4, pt: 1, color: "#4AAA7B"}}
               />
+
               <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 1, pt: 0 }}>
                 <Typography   textAlign="center" sx={{ width: '80%', py: 4 , fontSize : '16px'}}>
                                   To unlock Member Directory (BETA), connect your wallet and create a profile with your Discord account!
+
                 </Typography>
                 <CommunityInfoShort community={community} />
                               <Button variant="contained" onClick={handleClick} sx={{
@@ -155,9 +162,11 @@ const LoginPage: NextPage = () => {
                 sx={{ px: 4, pt: 2, color: '#4AAA7B' }}
               />
               <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 4, pt: 0 }}>
+
                 <Typography variant="body1" textAlign="center" sx={{ width: '80%', py: 5}}>
                   Login with your Discord account to help us verify that you are a member of the community.
                   <br /><br />
+
                   We will bring you right back after logging in!
                 </Typography>
                 <Button variant="contained" color="primary" onClick={() => signIn('discord')} sx={{ mb: 10, fontSize: '16px', fontWeight : 700 }}>
@@ -182,8 +191,9 @@ const LoginPage: NextPage = () => {
               </Box >
           </Snackbar>
     </Container>
-  );
-};
+  )
+}
+
 
 export default LoginPage;
 
@@ -196,3 +206,4 @@ const WalletConnectIcon = () => {
         </Box>
         )
 }
+

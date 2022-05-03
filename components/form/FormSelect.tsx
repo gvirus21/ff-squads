@@ -24,33 +24,33 @@ const colourStyles: StylesConfig = {
 }
 
 export type SelectOption = {
-  label: string;
-  value: string;
-  icon?: string;
-};
+  label: string
+  value: string
+  icon?: string
+}
 
 export interface GroupedOption {
-  label: string;
-  options: readonly SelectOption[];
+  label: string
+  options: readonly SelectOption[]
 }
 
 export type FormSelectProps = {
-  control?: Control<any, object>;
-  label?: string;
-  name: string;
-  required?: boolean;
-  options: GroupedOption[] | SelectOption[];
-} & Omit<SelectProps<SelectOption>, 'options'>;
+  control?: Control<any, object>
+  label?: string
+  name: string
+  required?: boolean
+  options: GroupedOption[] | SelectOption[]
+} & Omit<SelectProps<SelectOption>, 'options'>
 
-type SelectedOption = readonly SelectOption[] | SelectOption | null;
+type SelectedOption = readonly SelectOption[] | SelectOption | null
 
 function isGroupedOption(option: GroupedOption | SelectOption): option is GroupedOption {
-  return (option as GroupedOption).options !== undefined;
+  return (option as GroupedOption).options !== undefined
 }
 
-const isGroupedOptionsArray = (arr: any) => arr.every((item: any) => isGroupedOption(item));
+const isGroupedOptionsArray = (arr: any) => arr.every((item: any) => isGroupedOption(item))
 
-const { Option: OptionComponent } = components;
+const { Option: OptionComponent } = components
 
 const IconOption = (props: OptionProps<SelectOption>) => (
   <OptionComponent {...props}>
@@ -65,7 +65,7 @@ const IconOption = (props: OptionProps<SelectOption>) => (
       {props.data.label}
     </Box>
   </OptionComponent>
-);
+)
 
 /**
  * FormSelect
@@ -80,7 +80,7 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
         ? (options as GroupedOption[]).flatMap((item) => item.options)
         : (options as SelectOption[]),
     [options]
-  );
+  )
 
   return (
     <>
@@ -125,5 +125,5 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
         )}
       />
     </>
-  );
-};
+  )
+}

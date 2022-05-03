@@ -14,8 +14,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
-    "incremental": true,
+    "incremental": true
   },
-    "include": [ "next-env.d.ts", "fonts.d.ts", "**/*.ts", "**/*.tsx", "**/*.woff2" ],
-  "exclude": ["node_modules"],
+
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+
 }

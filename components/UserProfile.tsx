@@ -13,34 +13,34 @@ import { useMemberInCommunity } from '../hooks/useMember';
 import { shortenAddress } from '../utils';
 
 export default function UserProfile() {
-  const router = useRouter();
-  const { id } = router.query;
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { deactivate, account } = useWeb3React();
-  const { data: session } = useSession();
+  const router = useRouter()
+  const { id } = router.query
+  const [anchorEl, setAnchorEl] = useState(null)
+  const { deactivate, account } = useWeb3React()
+  const { data: session } = useSession()
   const { data: member } = useMemberInCommunity(
     id,
     `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
-  );
+  )
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const handleLogout = () => {
-    deactivate();
-    signOut();
-    setAnchorEl(null);
-  };
+    deactivate()
+    signOut()
+    setAnchorEl(null)
+  }
 
   const handleEditProfile = () => {
-    router.push(`/community/${id}/member/edit`);
-    setAnchorEl(null);
-  };
+    router.push(`/community/${id}/member/edit`)
+    setAnchorEl(null)
+  }
 
   return (
       <Box display="flex">
@@ -96,6 +96,8 @@ export default function UserProfile() {
           </Typography>
         </MenuItem>
       </Menu>
+
       </Box>
   );
+
 }

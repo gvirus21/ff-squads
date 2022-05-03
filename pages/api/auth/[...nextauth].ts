@@ -1,19 +1,19 @@
-import NextAuth, { User } from 'next-auth';
-import DiscordProvider from 'next-auth/providers/discord';
+import NextAuth, { User } from 'next-auth'
+import DiscordProvider from 'next-auth/providers/discord'
 
 export default NextAuth({
   callbacks: {
     async session({ session, token, user }) {
-      session.user = token as User;
-      return session;
+      session.user = token as User
+      return session
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (account) {
-        token.id = account.id;
-        token.profile = profile;
+        token.id = account.id
+        token.profile = profile
       }
 
-      return token;
+      return token
     },
   },
   providers: [
@@ -25,4 +25,4 @@ export default NextAuth({
   theme: {
     colorScheme: 'dark',
   },
-});
+})

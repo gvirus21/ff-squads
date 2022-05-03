@@ -1,15 +1,15 @@
-import UploadFile from '@mui/icons-material/UploadFile';
-import { Box, Button, Grid, IconButton, TextField, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import React from 'react';
+import UploadFile from '@mui/icons-material/UploadFile'
+import { Box, Button, Grid, IconButton, TextField, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import React from 'react'
 
-import { SOCIALS } from '../config/constants';
+import { SOCIALS } from '../config/constants'
 
-import MultipleSelect from './MultipleSelect';
+import MultipleSelect from './MultipleSelect'
 
 const Input = styled('input')({
   display: 'none',
-});
+})
 
 const LogoUpload = () => {
   return (
@@ -40,8 +40,8 @@ const LogoUpload = () => {
         </IconButton>
       </label>
     </Box>
-  );
-};
+  )
+}
 
 export default function CommunityProfileForm() {
   return (
@@ -99,5 +99,5 @@ export default function CommunityProfileForm() {
         Save
       </Button>
     </>
-  );
+  )
 }

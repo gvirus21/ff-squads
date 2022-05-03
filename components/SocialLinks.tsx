@@ -1,7 +1,7 @@
-import { IconButton } from '@mui/material';
-import Image from 'next/image';
-import { SOCIAL_NAME_MAP } from '../config/constants';
-import { SocialLink } from '../types';
+import { IconButton } from '@mui/material'
+import Image from 'next/image'
+import { SOCIAL_NAME_MAP } from '../config/constants'
+import { SocialLink } from '../types'
 
 export default function SocialLinks({ socialLinks }: { socialLinks: SocialLink }) {
   return (
@@ -18,5 +18,5 @@ export default function SocialLinks({ socialLinks }: { socialLinks: SocialLink }
           </IconButton>
         ))}
     </>
-  );
+  )
 }

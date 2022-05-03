@@ -44,5 +44,5 @@ export default function Header() {
               </Box>
       </Toolbar>
     </AppBarWrapper>
-  );
+  )
 }

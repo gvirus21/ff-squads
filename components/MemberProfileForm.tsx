@@ -1,26 +1,26 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { LoadingButton } from '@mui/lab';
-import { Box, Grid } from '@mui/material';
-import { User } from 'next-auth';
-import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import countryList from 'react-select-country-list';
-import * as yup from 'yup';
-import { EXPERTISE_CATEGORY, SOCIAL_NAME_MAP } from '../config/constants';
-import { MemberProfileInfo } from '../types';
-import { FormCreatableSelect } from './form/FormCreatableSelect';
-import { FormFamiliarity } from './form/FormFamiliarity';
-import { FormRadioGroup } from './form/FormRadioGroup';
-import { FormSelect, GroupedOption, SelectOption } from './form/FormSelect';
-import { FormSocialLinks } from './form/FormSocialLinks';
-import { FormTextInput } from './form/FormTextInput';
-import { FormTimezone } from './form/FormTimezone';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { LoadingButton } from '@mui/lab'
+import { Box, Grid } from '@mui/material'
+import { User } from 'next-auth'
+import { useMemo } from 'react'
+import { useForm } from 'react-hook-form'
+import countryList from 'react-select-country-list'
+import * as yup from 'yup'
+import { EXPERTISE_CATEGORY, SOCIAL_NAME_MAP } from '../config/constants'
+import { MemberProfileInfo } from '../types'
+import { FormCreatableSelect } from './form/FormCreatableSelect'
+import { FormFamiliarity } from './form/FormFamiliarity'
+import { FormRadioGroup } from './form/FormRadioGroup'
+import { FormSelect, GroupedOption, SelectOption } from './form/FormSelect'
+import { FormSocialLinks } from './form/FormSocialLinks'
+import { FormTextInput } from './form/FormTextInput'
+import { FormTimezone } from './form/FormTimezone'
 
 interface MemberProfileFormProps {
-  member: MemberProfileInfo;
-  onSubmit: (payload: MemberProfileInfo) => void;
-  submitting: boolean;
-  submitText?: string;
+  member: MemberProfileInfo
+  onSubmit: (payload: MemberProfileInfo) => void
+  submitting: boolean
+  submitText?: string
 }
 
 export const memberProfileFormDefault: MemberProfileInfo = {
@@ -40,7 +40,7 @@ export const memberProfileFormDefault: MemberProfileInfo = {
   familiarity: 0,
   discordHandle: '',
   logoUrl: '',
-};
+}
 
 const memberProfileSchema = yup.object().shape({
   email: yup.string().email('Must be a valid email').required('This field is required'),
@@ -52,34 +52,34 @@ const memberProfileSchema = yup.object().shape({
   socialIds: yup.array().of(yup.string()),
   socialLinks: yup.object().shape({
     twitter: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('twitter') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('twitter') || val?.length ? true : false
     }),
     linkedin: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('linkedin') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('linkedin') || val?.length ? true : false
     }),
     instagram: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('instagram') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('instagram') || val?.length ? true : false
     }),
     mirror: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('mirror') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('mirror') || val?.length ? true : false
     }),
     zora: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('zora') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('zora') || val?.length ? true : false
     }),
     opensea: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('opensea') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('opensea') || val?.length ? true : false
     }),
     foundation: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('foundation') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('foundation') || val?.length ? true : false
     }),
     website: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('website') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('website') || val?.length ? true : false
     }),
     github: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('github') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('github') || val?.length ? true : false
     }),
     other: yup.string().test('socialId-check', 'This field is required', function (val) {
-      return !(this.options as any).from[1].value.socialIds?.includes('other') || val?.length ? true : false;
+      return !(this.options as any).from[1].value.socialIds?.includes('other') || val?.length ? true : false
     }),
   }),
   expertise: yup.array().of(yup.string()).min(1, 'Select at least 1 expertise'),
@@ -88,13 +88,13 @@ const memberProfileSchema = yup.object().shape({
   availability: yup.number().required('This field is required'),
   contribution: yup.string().required('This field is required'),
   familiarity: yup.number(),
-});
+})
 
 const socialOptions: SelectOption[] = Object.keys(SOCIAL_NAME_MAP).map((socialKey) => ({
   value: socialKey,
   label: SOCIAL_NAME_MAP[socialKey as keyof typeof SOCIAL_NAME_MAP].label,
   icon: SOCIAL_NAME_MAP[socialKey as keyof typeof SOCIAL_NAME_MAP].image,
-}));
+}))
 
 export const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY).map((category) => ({
   label: category,
@@ -102,7 +102,7 @@ export const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY)
     label: item,
     value: item,
   })),
-}));
+}))
 
 const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }: MemberProfileFormProps) => {
   const { handleSubmit, control, watch } = useForm<MemberProfileInfo>({
@@ -112,9 +112,9 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
       ...member,
     },
     resolver: yupResolver(memberProfileSchema),
-  });
-  const socialIdsValue = watch('socialIds');
-  const countryOptions = useMemo(() => countryList().getData(), []);
+  })
+  const socialIdsValue = watch('socialIds')
+  const countryOptions = useMemo(() => countryList().getData(), [])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -243,7 +243,7 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
         </Grid>
       </Grid>
     </form>
-  );
-};
+  )
+}
 
-export default MemberProfileForm;
+export default MemberProfileForm

@@ -25,30 +25,30 @@ const colourStyles: StylesConfig = {
     }),
 }
 export type Option = {
-  label: string;
-  value: string;
-};
+  label: string
+  value: string
+}
 
 export interface GroupedOption {
-  label: string;
-  options: readonly Option[];
+  label: string
+  options: readonly Option[]
 }
 
 export type FormCreatableSelectProps = {
-  control?: Control<any, object>;
-  label?: string;
-  name: string;
-  required?: boolean;
-  options?: GroupedOption[] | Option[];
-} & Omit<SelectProps<Option>, 'options'>;
+  control?: Control<any, object>
+  label?: string
+  name: string
+  required?: boolean
+  options?: GroupedOption[] | Option[]
+} & Omit<SelectProps<Option>, 'options'>
 
-type SelectedOption = readonly Option[] | Option | null;
+type SelectedOption = readonly Option[] | Option | null
 
 function isGroupedOption(option: GroupedOption | Option): option is GroupedOption {
-  return (option as GroupedOption).options !== undefined;
+  return (option as GroupedOption).options !== undefined
 }
 
-const isGroupedOptionsArray = (arr: any) => arr.every((item: any) => isGroupedOption(item));
+const isGroupedOptionsArray = (arr: any) => arr.every((item: any) => isGroupedOption(item))
 
 /**
  * FormCreatableSelect
@@ -74,7 +74,7 @@ export const FormCreatableSelect = ({
           : (options as Option[])
         : null,
     [options]
-  );
+  )
 
   return (
     <>
@@ -123,5 +123,5 @@ export const FormCreatableSelect = ({
         )}
       />
     </>
-  );
-};
+  )
+}

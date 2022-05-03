@@ -2,10 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\components",
-    "\\pages",
     "\\pages\\community",
     "\\pages\\community\\[id]"
   ],
-  "SelectedNode": "\\pages\\community\\[id]\\index.tsx",
+  "SelectedNode": "\\components\\Header.tsx",
   "PreviewInSolutionExplorer": false
 }
