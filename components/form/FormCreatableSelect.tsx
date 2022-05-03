@@ -1,9 +1,29 @@
 import { Box, Fade, FormHelperText, InputLabel } from '@mui/material';
 import { useMemo } from 'react';
 import { Control, Controller } from 'react-hook-form';
-import { Props as SelectProps } from 'react-select';
+import { Props as SelectProps, StylesConfig } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 
+ 
+
+const colourStyles: StylesConfig = {
+
+    multiValue: (styles, { data }) => {
+        const color = 'white';
+        return {
+            ...styles,
+            backgroundColor: '#A0A4CC'
+        };
+    },
+    multiValueRemove: (styles) => ({
+        ...styles,
+        color: '#fff',
+        ':hover': {
+            backgroundColor: '#A0A4CC',
+            color: 'white',
+        },
+    }),
+}
 export type Option = {
   label: string;
   value: string;
@@ -94,6 +114,7 @@ export const FormCreatableSelect = ({
               {...props}
               id={id ?? `select-${name}`}
               isMulti={isMulti}
+              styles={colourStyles}
             />
             <Fade in={invalid}>
               <FormHelperText error>{error?.message || ' '}</FormHelperText>

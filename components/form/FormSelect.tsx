@@ -2,7 +2,26 @@ import { Box, Fade, FormHelperText, InputLabel } from '@mui/material';
 import Image from 'next/image';
 import { useMemo } from 'react';
 import { Control, Controller } from 'react-hook-form';
-import Select, { Props as SelectProps, components, OptionProps } from 'react-select';
+import Select, { Props as SelectProps, components, OptionProps, StylesConfig } from 'react-select';
+
+const colourStyles: StylesConfig = {
+ 
+    multiValue: (styles) => {
+        return {
+            ...styles,
+            backgroundColor: '#A0A4CC'
+        };
+    },
+    multiValueRemove: (styles) => ({
+        ...styles,
+        color: '#fff',
+        ':hover': {
+            backgroundColor: '#A0A4CC',
+            color: 'white',
+        },
+    }),
+   
+}
 
 export type SelectOption = {
   label: string;
@@ -96,6 +115,7 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
                     id={id ?? `select-${name}`}
                     isMulti={isMulti}
                     components={{ Option: IconOption }}
+                    styles={colourStyles}
            
             />
             <Fade in={invalid}>

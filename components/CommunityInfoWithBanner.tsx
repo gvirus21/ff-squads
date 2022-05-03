@@ -8,13 +8,13 @@ import Link from 'next/link'
 export default function CommunityInfo({ community }: { community: Community }) {
 
     const maxWidth =  () => {
-        return Math.round(window.innerWidth)+'px';
+        return Math.round(window.screen.width)+'px';
     }
   
   return (
       <Box display="flex" flexDirection="column"   alignItems="center" position="relative" >
           <Box mt={-4}>
-              <Image src={community?.coverUrl ?? '/images/forefront_cover.png'} width={maxWidth()} height={80} />
+              <Image src={community?.coverUrl ?? '/images/forefront_cover.png'} width={maxWidth()} height={'80vh'} />
           </Box>
           
           <Box mt={-6} >
@@ -30,7 +30,7 @@ export default function CommunityInfo({ community }: { community: Community }) {
           
       <Box mb={1.5} display="flex" justifyContent="center" alignItems="center">
               <Typography   sx={{ fontWeight: 600, fontSize : "18px" }}>
-            {community.name}
+                {community.name}
               </Typography>
               <Box sx={{ margin : '5px 10px', }}>
                   <Image src="/images/ethereum.svg" width={12} height={20} />
@@ -39,7 +39,7 @@ export default function CommunityInfo({ community }: { community: Community }) {
                   <Chip label={`$${community.tokenInfo.symbol}`} />
               </Box>
       </Box>
-      <Typography variant="body1" textAlign="center" sx={{ maxWidth: '676px' }}>
+      <Typography variant="body1" textAlign="center" sx={{ mx : '20px'  }}>
         {community.description}
       </Typography>
       <Box mt={1} display="flex" justifyContent="center" alignItems="center">

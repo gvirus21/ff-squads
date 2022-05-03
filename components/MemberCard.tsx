@@ -52,22 +52,39 @@ export default function MemberCard({ member }: { member: Member }) {
    
   return (
     <>
-          <Card sx={{ boxShadow: "2px 10px 45px #E5ECE3, inset 2px 8px 8px #E5ECE3;", background: '#FCFDF0', height: "268px", width: "232px", margin : "0px 5px" }}>
-        <CardHeader
+          <Card
+              sx={{ boxShadow: "2px 10px 45px #E5ECE3, inset 2px 8px 8px #E5ECE3;", background: '#FCFDF0', height: "268px", width: "232px", margin: "10px 5px", cursor : 'pointer' }}
+              onClick={toggleDialog}
+          >
+            <CardHeader
                   avatar={
                       <img
                           src={member.logoUrl ?? '/images/Profile.svg'}
                           alt={member.username}
                           width={64}
                           height={64}
-                          style={{ borderRadius: '100%', border: '4.4px solid #E5ECE3' }}
+                          style={{ borderRadius: '100%', border: '4.44px solid #E5ECE3' }}
                       />
                   }
 
                   titleTypographyProps={{ variant: 'h5', gutterBottom: true }}
-                  subheader={<Box mt={4}><SocialLinks socialLinks={member.socialLinks} /></Box>}
-           
-        />
+                  subheader={
+                      <Box display="flex" flexDirection="column">
+                          <Box sx={{ justifyContent: 'end', display: 'flex', flexDirection:'row' }}>
+                              <img
+                                  src={ '/images/MemberCategoryIcon.svg'}
+                                  alt={member.username}
+                                  width={22}
+                                  height={22}
+                        
+                              />  
+                          </Box>
+                          <Box mt={2} sx={{ justifyContent: 'center', display: 'flex', flexDirection: 'row' }}>
+                            <SocialLinks socialLinks={member.socialLinks} />
+                          </Box>
+                      </Box>
+                  }
+              />
               <CardContent>
                   <Box mt={-4}>
                       <Typography   sx={{fontWeight:600, fontSize:"16px"}}>{member.username}</Typography>
@@ -81,7 +98,7 @@ export default function MemberCard({ member }: { member: Member }) {
 
                   </Box>
                   <Box mt={2}>
-                      <Typography sx={{  ontSize: "16px" }}  >{member.timezone}</Typography>
+                      <Typography sx={{ ontSize: "12px", fontWeight: 300, color: '#616D6C' }}  >{member.timezone}</Typography>
                   </Box>
                  
         </CardContent>

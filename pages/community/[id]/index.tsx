@@ -2,7 +2,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Chip, Collapse, Grid, Tab, Tabs, TextField } from '@mui/material';
+import { Box, Chip, Collapse, Grid, Tab, Tabs, TextField, useMediaQuery, useTheme, Button, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
@@ -63,7 +63,10 @@ const drawerWidth = 270;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
-  position: 'static',
+    position: 'static',
+    boxSizing: 'border-box',
+    background: '#FCFDF0',
+    boxShadow: '0px 10px 45px #E5ECE3',   
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -96,10 +99,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   position: 'static',
   flexShrink: 0,
   whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    background: '#FCFDF0',
-    boxShadow: '0px 10px 45px #E5ECE3',
-
+ 
   ...(open && {
     ...openedMixin(theme),
     '& .MuiDrawer-paper': openedMixin(theme),
@@ -132,7 +132,31 @@ export default function CommunityPage() {
   const [filterItems, setFilterItems] = React.useState<FilterItem[]>([]);
   const [members, setMembers] = React.useState<Member[] | undefined>([]);
 
-  const toggleFilter = () => setFilterOpen(!filterOpen);
+    const [anchorValue, setanchorValue] = React.useState("left");
+    const [openDrawerMobile, setopenDrawerMobile] = React.useState(false);
+
+    const toggleFilter = (_anchor: string) => {
+        setanchorValue(_anchor || "left");
+    
+        setFilterOpen(!filterOpen);
+    }
+
+    const toggleDrawerMobile = () => {
+        setopenDrawerMobile((openDrawerMobile) => !openDrawerMobile)
+        setExpertiseOpen(false);
+        setStatusOpen(false);
+        setAvailabiltyOpen(false);
+        setTimezoneOpen(false);
+    }
+
+    const theme = useTheme();
+
+  
+
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+
+
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -222,132 +246,172 @@ export default function CommunityPage() {
     setMembers(community?.members);
   }, [community]);
 
-  return community ? (
-      <AuthGuard>
-          <>
-          <CommunityInfoWithBanner community={community} />
-        
-          <Box mb={12} sx={{ position: 'relative' }}>
-           
 
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
-          <Tabs value={value} onChange={handleTabChange} centered>
-             <Tab icon={<CustomIcon _src="/images/CommunityGroup.svg" />} iconPosition="start" label={`Members (${community.members.length})`} {...a11yProps(0)} />
-             <Tab icon={<CustomIcon _src="/images/ProjectsIcon.svg" />} iconPosition="start" label="Projects (Coming soon)" {...a11yProps(1)} disabled />
-          </Tabs>
-        </Box>
-        <TabPanel value={value} index={0}>
-            <Box display="flex" justifyContent="center" > 
-            <Drawer open={filterOpen} onClose={toggleFilter} variant="permanent"  >
-             
-              <List>
+
+    const list = (anchor: string) => (
+        <Box
+            role="presentation"
+        >
+            <List>
+                <Box sx={{ p: 2 }}>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }} >
+                      Filters
+                    </Typography>
+                </Box>
+            </List>
+            <List>
                 <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
-                  <ListItemText primary="Expertise" />
-                  {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    <ListItemText primary="Expertise" />
+                    {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 </ListItemButton>
                 <Divider />
                 <Collapse in={expertiseOpen} timeout="auto" unmountOnExit>
-                  <Box sx={{ p: 2 }}>
-                    <Select
-                      options={expertiseOptions}
-                      value={filterItems
-                        .filter((item) => item.filterBy === 'expertise')
-                        .map(({ filterValue }) => ({ label: filterValue, value: filterValue }))}
-                      isMulti
-                      onChange={handleExpertiseFilter}
-                    />
-                  </Box>
-                  <Divider />
+                    <Box sx={{ p: 2 }}>
+                        <Select
+                            options={expertiseOptions}
+                            value={filterItems
+                                .filter((item) => item.filterBy === 'expertise')
+                                .map(({ filterValue }) => ({ label: filterValue, value: filterValue }))}
+                            isMulti
+                            onChange={handleExpertiseFilter}
+                        />
+                    </Box>
+                    <Divider />
                 </Collapse>
-              </List>
-              <List>
+            </List>
+            <List>
                 <ListItemButton onClick={() => setStatusOpen(!statusOpen)}>
-                  <ListItemText primary="Status" />
-                  {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    <ListItemText primary="Status" />
+                    {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 </ListItemButton>
                 <Divider />
                 <Collapse in={statusOpen} timeout="auto" unmountOnExit>
-                  <Box sx={{ p: 2 }}>
-                    <FormGroup>
-                      {STATUS_LIST.map((status: any) => (
-                        <FormControlLabel
-                          key={status.value}
-                          control={
-                            <Checkbox
-                              checked={
-                                !!filterItems.find((x) => x.filterBy === 'status' && x.filterValue === status.value)
-                              }
-                              onChange={(e) =>
-                                handleCheckBoxFilter('status', status.value, status.displayValue, e.target.checked)
-                              }
-                            />
-                          }
-                          label={status.displayValue}
-                        />
-                      ))}
-                    </FormGroup>
-                  </Box>
-                  <Divider />
+                    <Box sx={{ p: 2 }}>
+                        <FormGroup>
+                            {STATUS_LIST.map((status: any) => (
+                                <FormControlLabel
+                                    key={status.value}
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                !!filterItems.find((x) => x.filterBy === 'status' && x.filterValue === status.value)
+                                            }
+                                            onChange={(e) =>
+                                                handleCheckBoxFilter('status', status.value, status.displayValue, e.target.checked)
+                                            }
+                                        />
+                                    }
+                                    label={status.displayValue}
+                                />
+                            ))}
+                        </FormGroup>
+                    </Box>
+                    <Divider />
                 </Collapse>
-              </List>
-              <List>
+            </List>
+            <List>
                 <ListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
-                  <ListItemText primary="Availability" />
-                  {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    <ListItemText primary="Availability" />
+                    {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 </ListItemButton>
                 <Divider />
                 <Collapse in={availabilityOpen} timeout="auto" unmountOnExit>
-                  <Box sx={{ p: 2 }}>
-                    <FormGroup>
-                      {AVAILABILITY_LIST.map((item: any) => (
-                        <FormControlLabel
-                          key={item.value}
-                          control={
-                            <Checkbox
-                              checked={
-                                !!filterItems.find((x) => x.filterBy === 'availability' && x.filterValue === item.value)
-                              }
-                              onChange={(e) =>
-                                handleCheckBoxFilter('availability', item.value, item.displayValue, e.target.checked)
-                              }
-                            />
-                          }
-                          label={item.displayValue}
-                        />
-                      ))}
-                    </FormGroup>
-                  </Box>
-                  <Divider />
+                    <Box sx={{ p: 2 }}>
+                        <FormGroup>
+                            {AVAILABILITY_LIST.map((item: any) => (
+                                <FormControlLabel
+                                    key={item.value}
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                !!filterItems.find((x) => x.filterBy === 'availability' && x.filterValue === item.value)
+                                            }
+                                            onChange={(e) =>
+                                                handleCheckBoxFilter('availability', item.value, item.displayValue, e.target.checked)
+                                            }
+                                        />
+                                    }
+                                    label={item.displayValue}
+                                />
+                            ))}
+                        </FormGroup>
+                    </Box>
+                    <Divider />
                 </Collapse>
-              </List>
-              <List>
+            </List>
+            <List>
                 <ListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
-                  <ListItemText primary="Time zone" />
-                  {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    <ListItemText primary="Time zone" />
+                    {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 </ListItemButton>
                 <Divider />
                 <Collapse in={timezoneOpen} timeout="auto" unmountOnExit>
-                  <Box sx={{ p: 2 }}>
-                    <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} />
-                  </Box>
-                  <Divider />
+                    <Box sx={{ p: 2 }}>
+                        <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} />
+                    </Box>
+                    <Divider />
                 </Collapse>
-              </List>
-            </Drawer>
-                          <Box flexGrow={1} py={4} px={7} sx={{  background: '#FCFDF0', boxShadow: '0px 10px 45px #E5ECE3' }} >
+            </List>
+            {isMobile&&<List>
+                <Box display="flex" my={2} >
+                    <Box mx={'auto'}>
+                        <Button variant="contained" onClick={() => toggleDrawerMobile()}  >SEE RESULTS</Button>
+                    </Box>
+                </Box>
+                <Divider />
+            </List>}
+        </Box>
+    );
+
+  return community ? (
+      <AuthGuard>
+          <>
+              <CommunityInfoWithBanner community={community} />
+              <Box mb={12} sx={{ position: 'relative' }}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
+              <Tabs value={value} onChange={handleTabChange} centered>
+                 <Tab icon={<CustomIcon _src="/images/CommunityGroup.svg" />} iconPosition="start" label={`Members (${community.members.length})`} {...a11yProps(0)} />
+                 <Tab icon={<CustomIcon _src="/images/ProjectsIcon.svg" />} iconPosition="start" label="Projects (Coming soon)" {...a11yProps(1)} disabled />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+                <Box display="flex" justifyContent="center" > 
+                          <Drawer open={filterOpen} variant="permanent" onClose={() => { toggleFilter("left") }}  
+                          >
+                              {list('left')}
+                           </Drawer>
+
+                          <MuiDrawer
+                              anchor={'bottom'}
+                              open={openDrawerMobile}
+                              onClose={() =>  toggleDrawerMobile() }
+                          >
+                              {list('bottom')}
+                          </MuiDrawer>
+
+
+
+                          <Box flexGrow={1} py={4} px={7} sx={{ background: '#FCFDF0', boxShadow: '0px 10px 45px #E5ECE3' }} >
                           <Box sx={{ display: "flex"}} >
-                          <IconButton onClick={toggleFilter}>
-                                  {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                                  <CustomIcon _src="/images/FilterIcon.svg" />
-                        </IconButton>
+
+                                  {isMobile ?
+                                      (<Box sx={{ position: 'fixed', bottom: 90, mx: '20%' }}>
+                                          <Button variant="contained" onClick={() =>  toggleDrawerMobile() }  >FILTERS</Button>
+                                      </Box>)
+                                      :
+                                      (<IconButton onClick={() => { toggleFilter("left") }} >
+                                        {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                                        <CustomIcon _src="/images/FilterIcon.svg" />
+                                        </IconButton>)
+                                 }
                               
-              <TextField
-                sx={{ margin: ".1rem 1rem", width : "100%" } }
-                placeholder="Search by name..."
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                          />
-                              </Box>
+                          <TextField
+                            sx={{ margin: ".1rem 1rem", width : "100%" } }
+                            placeholder="Search by name..."
+                            value={keyword}
+                            onChange={(e) => setKeyword(e.target.value)}
+                                      />
+                          </Box>
               <Box display="flex" alignItems="center" my={2}>
                 {filterItems.map((item, i) => (
                   <Chip
