@@ -1,11 +1,9 @@
-
-import { Person as PersonIcon } from '@mui/icons-material';
-import { Box, Card, CardContent, CardHeader, Grid } from '@mui/material';
-import type { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
-
+import { Person as PersonIcon } from '@mui/icons-material'
+import { Box, Card, CardContent, CardHeader, Grid } from '@mui/material'
+import type { NextPage } from 'next'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import React, { useCallback } from 'react'
 
 import AuthGuard from '../../../components/AuthGuard'
 import MemberProfileForm from '../../../components/MemberProfileForm'
@@ -51,8 +49,8 @@ const MemberEditPage: NextPage = () => {
 
   return (
     <AuthGuard>
-        <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mb={2} >
-              <Grid item xs={12} sm={6}>  
+      <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mb={2}>
+        <Grid item xs={12} sm={6}>
           <Card sx={{ overflow: 'visible' }}>
             <CardHeader
               avatar={<PersonIcon color="success" />}
@@ -60,15 +58,15 @@ const MemberEditPage: NextPage = () => {
               titleTypographyProps={{
                 color: '#CDFCB1',
                 fontWeight: 600,
-                  fontSize: '16px'
+                fontSize: '16px',
               }}
             />
             <CardContent>
               <MemberProfileForm member={member} onSubmit={onSubmit} submitting={isLoading} />
             </CardContent>
-           </Card>
-            </Grid>
-          </Grid>
+          </Card>
+        </Grid>
+      </Grid>
     </AuthGuard>
   )
 }
