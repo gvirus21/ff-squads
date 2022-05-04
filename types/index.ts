@@ -39,15 +39,17 @@ export type Member = {
 }
 
 export type Community = {
-  shortId: string
-  name: string
-  logoUrl: string
-  description: string
-  socialIds: string[]
-  socialLinks: SocialLink
-  tokenInfo: TokenInfo
-  members: Member[]
-}
+  shortId: string;
+  name: string;
+  logoUrl: string;
+  coverUrl: string;
+  description: string;
+  socialIds: string[];
+  socialLinks: SocialLink;
+  tokenInfo: TokenInfo;
+  members: Member[];
+};
+
 
 export interface MemberProfileInfo {
   email: string

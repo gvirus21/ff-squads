@@ -3,11 +3,13 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import React from 'react'
 
 interface MultipleSelectProps {
-  data: string[]
+    data: string[],
+    background_color : string
 }
 
-export default function MultipleSelect({ data }: MultipleSelectProps) {
-  const [values, setValues] = React.useState<string[]>([])
+export default function MultipleSelect({ data, background_color}: MultipleSelectProps) {
+  const [values, setValues] = React.useState<string[]>([]);
+
 
   const handleChange = (event: SelectChangeEvent<typeof values>) => {
     const {
@@ -25,7 +27,7 @@ export default function MultipleSelect({ data }: MultipleSelectProps) {
       renderValue={(selected: string[]) => (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
           {selected.map((value) => (
-            <Chip key={value} label={value} />
+              <Chip key={value} label={value} sx={{background: background_color }} />
           ))}
         </Box>
       )}

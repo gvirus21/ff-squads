@@ -60,7 +60,7 @@ export default function UserProfile() {
   return (
     <>
       <Box display="flex" alignItems="center">
-        <UserAvatarIcon member={member} />
+        {member && <UserAvatarIcon member={member} />}
         <IconButton color="secondary" onClick={handleClick} sx={{ ml: 2 }}>
           <AccountBalanceWalletIcon />
         </IconButton>
@@ -90,6 +90,8 @@ export default function UserProfile() {
           </Typography>
         </MenuItem>
       </Menu>
-    </>
-  )
+
+      </>
+  );
+
 }

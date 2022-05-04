@@ -68,7 +68,7 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
     <>
       {label ? (
         <Box display="block" mb={1}>
-          <InputLabel htmlFor={id ?? `select-${name}`} required={required}>
+          <InputLabel htmlFor={id ?? `select-${name}`} required={required} >
             {label}
           </InputLabel>
         </Box>

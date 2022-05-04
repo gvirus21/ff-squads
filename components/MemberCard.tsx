@@ -59,6 +59,7 @@ export default function MemberCard({ member }: { member: Member }) {
     router.push(`/community/${id}/member-edit`)
   }
 
+   
   return (
     <>
       <Card
@@ -80,7 +81,7 @@ export default function MemberCard({ member }: { member: Member }) {
               height={64}
               style={{ borderRadius: '100%' }}
             />
-            <SocialLinks socialLinks={member.socialLinks} />
+            <SocialLinks socialLinks={member.socialLinks} _size={20}/>
           </Box>
           <Typography fontWeight={600}>{member.username}</Typography>
           <Typography variant="caption">{member.discordHandle}</Typography>
@@ -138,7 +139,7 @@ export default function MemberCard({ member }: { member: Member }) {
             <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="row" />
           </Box>
           <Box my={1} px={2}>
-            <SocialLinks socialLinks={member.socialLinks} />
+            <SocialLinks socialLinks={member.socialLinks} _size={20} />
           </Box>
           <Card sx={{ boxShadow: '0px 0px 25px 0px rgb(245 255 244 / 20%);' }}>
             <CardContent>

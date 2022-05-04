@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\components",
+    "\\components\\form",
+    "\\pages",
+    "\\pages\\community",
+    "\\pages\\community\\member",
+    "\\pages\\community\\[id]",
+    "\\pages\\community\\[id]\\member"
+  ],
+  "SelectedNode": "\\package.json",
+  "PreviewInSolutionExplorer": false
+}
