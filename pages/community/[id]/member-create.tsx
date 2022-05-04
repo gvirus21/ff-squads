@@ -5,12 +5,12 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useCallback } from 'react'
 
-import AuthGuard from '../../../../components/AuthGuard'
-import MemberProfileForm, { memberProfileFormDefault } from '../../../../components/MemberProfileForm'
-import PageLoading from '../../../../components/PageLoading'
-import { useCommunity } from '../../../../hooks/useCommunities'
-import { useCreateMember, useMemberInCommunity } from '../../../../hooks/useMember'
-import { MemberProfileInfo, MemberProfileRequest } from '../../../../types'
+import AuthGuard from '../../../components/AuthGuard'
+import MemberProfileForm, { memberProfileFormDefault } from '../../../components/MemberProfileForm'
+import PageLoading from '../../../components/PageLoading'
+import { useCommunity } from '../../../hooks/useCommunities'
+import { useCreateMember, useMemberInCommunity } from '../../../hooks/useMember'
+import { MemberProfileInfo, MemberProfileRequest } from '../../../types'
 
 const MemberCreatePage: NextPage = () => {
   const router = useRouter()
@@ -58,7 +58,14 @@ const MemberCreatePage: NextPage = () => {
       <Box display="flex" justifyContent="center" alignItems="center">
         <Box sx={{ width: '50vw' }}>
           <Card sx={{ overflow: 'visible' }}>
-            <CardHeader avatar={<PersonIcon />} title="Create Profile" titleTypographyProps={{ variant: 'h6' }} />
+            <CardHeader
+              avatar={<PersonIcon />}
+              title="Create Profile"
+              titleTypographyProps={{
+                color: '#CDFCB1',
+                fontWeight: 600,
+              }}
+            />
             <CardContent sx={{ padding: 4 }}>
               <MemberProfileForm
                 member={{

@@ -2,14 +2,18 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Box, Chip, Collapse, Grid, Tab, Tabs, TextField } from '@mui/material'
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined'
+import { Box, Chip, Collapse, Grid, Tab, Tabs, TextField, Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import Divider from '@mui/material/Divider'
-import MuiDrawer from '@mui/material/Drawer'
+import Drawer from '@mui/material/Drawer'
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import { styled, Theme, CSSObject } from '@mui/material/styles'
@@ -55,54 +59,56 @@ function a11yProps(index: number) {
   }
 }
 
-const drawerWidth = 300
+const drawerWidth = 320
 
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  position: 'static',
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-})
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  position: 'static',
-  transition: theme.transitions.create('width', {
+const Main = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{
+  open?: boolean
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(7)} + 1px)`,
-  },
-})
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+}))
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  background: 'transparent',
+  boxShadow: 'none',
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}))
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-}))
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
-  width: drawerWidth,
-  position: 'static',
-  flexShrink: 0,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  ...(open && {
-    ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme),
-  }),
+  justifyContent: 'flex-end',
 }))
 
 type FilterItem = {
@@ -113,7 +119,7 @@ type FilterItem = {
 
 export default function CommunityPage() {
   const [value, setValue] = React.useState(0)
-  const [filterOpen, setFilterOpen] = React.useState(true)
+  const [filterOpen, setFilterOpen] = React.useState(false)
   const [expertiseOpen, setExpertiseOpen] = React.useState(true)
   const [statusOpen, setStatusOpen] = React.useState(true)
   const [availabilityOpen, setAvailabiltyOpen] = React.useState(true)
@@ -217,7 +223,9 @@ export default function CommunityPage() {
     setMembers(community?.members)
   }, [community])
 
-  return community ? (
+  if (!community) return <></>
+
+  return (
     <AuthGuard>
       <Box>
         <CommunityInfo community={community} />
@@ -228,13 +236,36 @@ export default function CommunityPage() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <Box display="flex" justifyContent="center">
-            <Drawer variant="permanent" open={filterOpen}>
-              <DrawerHeader>
-                <IconButton onClick={toggleFilter}>
+          <Box display="flex" position="relative">
+            <AppBar position="absolute" open={filterOpen}>
+              <Toolbar>
+                <IconButton onClick={toggleFilter} edge="start">
                   {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
-              </DrawerHeader>
+                <FilterAltOutlinedIcon sx={{ mr: 2 }} />
+                <TextField
+                  fullWidth
+                  placeholder="Search by name..."
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                />
+              </Toolbar>
+            </AppBar>
+            <Drawer
+              sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                  width: drawerWidth,
+                  position: 'absolute',
+                  boxSizing: 'border-box',
+                },
+              }}
+              variant="persistent"
+              anchor="left"
+              open={filterOpen}
+            >
+              <Typography>Filter</Typography>
               <Divider />
               <List>
                 <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
@@ -330,42 +361,40 @@ export default function CommunityPage() {
                 </Collapse>
               </List>
             </Drawer>
-            <Box flexGrow={1} py={4} px={7} sx={{ backgroundColor: '#FAFAFA' }}>
-              <TextField
-                fullWidth
-                placeholder="Search by name..."
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-              />
-              <Box display="flex" alignItems="center" my={2}>
-                {filterItems.map((item, i) => (
-                  <Chip
-                    key={i}
-                    label={item.displayValue}
-                    onDelete={() => removeFilterItem(item)}
-                    clickable
-                    sx={{ mr: 2 }}
-                  />
-                ))}
-                {timezoneFilterItem && (
-                  <Chip
-                    label={timezoneFilterItem.displayValue}
-                    onDelete={() => {
-                      setTimezoneFilterItem(null)
-                      setSelectedTimezone('')
-                    }}
-                  />
-                )}
-              </Box>
-              <Grid container spacing={3}>
-                {members &&
-                  members.map((member: any) => (
-                    <Grid item xs={12} sm={6} md={4} key={member._id}>
-                      <MemberCard member={member} />
-                    </Grid>
+            <Main open={filterOpen}>
+              <DrawerHeader />
+              {(filterItems.length > 0 || timezoneFilterItem) && (
+                <Box display="flex" alignItems="center" py={2}>
+                  {filterItems.map((item, i) => (
+                    <Chip
+                      key={i}
+                      label={item.displayValue}
+                      onDelete={() => removeFilterItem(item)}
+                      clickable
+                      sx={{ mr: 2 }}
+                    />
                   ))}
-              </Grid>
-            </Box>
+                  {timezoneFilterItem && (
+                    <Chip
+                      label={timezoneFilterItem.displayValue}
+                      onDelete={() => {
+                        setTimezoneFilterItem(null)
+                        setSelectedTimezone('')
+                      }}
+                    />
+                  )}
+                </Box>
+              )}
+              {members && (
+                <Box display="flex" flexWrap="wrap" justifyContent="flex-start" p={3}>
+                  {members.map((member: Member) => (
+                    <Box key={member._id} pr={6}>
+                      <MemberCard member={member} />
+                    </Box>
+                  ))}
+                </Box>
+              )}
+            </Main>
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
@@ -373,7 +402,5 @@ export default function CommunityPage() {
         </TabPanel>
       </Box>
     </AuthGuard>
-  ) : (
-    <></>
   )
 }

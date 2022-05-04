@@ -41,7 +41,7 @@ export const FormRadioGroup = ({ id, label, name, control, options, required, ..
           </FormLabel>
           <RadioGroup aria-labelledby={`radio-group-${name}`} {...field} {...props}>
             {options.map((item, index) => (
-              <FormControlLabel value={item.value} control={<Radio />} label={item.label} key={index} />
+              <FormControlLabel value={item.value} control={<Radio color="success" />} label={item.label} key={index} />
             ))}
           </RadioGroup>
         </FormControl>

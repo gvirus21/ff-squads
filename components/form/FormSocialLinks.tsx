@@ -1,7 +1,7 @@
 import { Box, Fade, FormHelperText, InputAdornment, InputLabel, TextField } from '@mui/material'
 import Image from 'next/image'
 import { Control, Controller } from 'react-hook-form'
-import { SOCIAL_NAME_MAP } from '../../config/constants'
+import { SOCIAL_ICON_MAP } from '../../config/constants'
 
 export type FormSocialLinksProps = {
   control?: Control<any, object>
@@ -32,48 +32,46 @@ export const FormSocialLinks = ({ label, parentName, control, required, socialId
           <Controller
             name={`${parentName}.${socialId}`}
             control={control}
-            render={({ field, fieldState: { invalid, error } }) => (
-              <>
-                <TextField
-                  {...field}
-                  name={`social-links-${parentName}.${socialId}`}
-                  size="small"
-                  error={invalid}
-                  fullWidth
-                  placeholder="https://domain.com/handle"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment
-                        position="start"
-                        sx={{
-                          height: '40px',
-                          width: '40px',
-                          position: 'absolute',
-                          left: 0,
-                          maxHeight: '40px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          background: '#FAFAFA',
-                          border: '1px solid #E2E8F0',
-                          borderWidth: '0 1px 0 0',
-                        }}
-                      >
-                        <Image
-                          src={SOCIAL_NAME_MAP[socialId as keyof typeof SOCIAL_NAME_MAP].image}
-                          alt={SOCIAL_NAME_MAP[socialId as keyof typeof SOCIAL_NAME_MAP].label}
-                          width={20}
-                          height={20}
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{ '& .MuiInputBase-root': { paddingLeft: '56px' } }}
-                />
-                <Fade in={invalid}>
-                  <FormHelperText error>{error?.message || ' '}</FormHelperText>
-                </Fade>
-              </>
-            )}
+            render={({ field, fieldState: { invalid, error } }) => {
+              const { icon: IconComponent } = SOCIAL_ICON_MAP[socialId as keyof typeof SOCIAL_ICON_MAP]
+              return (
+                <>
+                  <TextField
+                    {...field}
+                    name={`social-links-${parentName}.${socialId}`}
+                    size="small"
+                    error={invalid}
+                    fullWidth
+                    placeholder="https://domain.com/handle"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment
+                          position="start"
+                          sx={{
+                            height: '40px',
+                            width: '40px',
+                            position: 'absolute',
+                            left: 0,
+                            maxHeight: '40px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            background: '#BAC3B9',
+                            border: '1px solid #E2E8F0',
+                            borderWidth: '0 1px 0 0',
+                          }}
+                        >
+                          <IconComponent />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ '& .MuiInputBase-root': { paddingLeft: '56px' } }}
+                  />
+                  <Fade in={invalid}>
+                    <FormHelperText error>{error?.message || ' '}</FormHelperText>
+                  </Fade>
+                </>
+              )
+            }}
           />
         </Box>
       ))}

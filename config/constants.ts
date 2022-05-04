@@ -1,3 +1,14 @@
+import DiscordIcon from '../components/icons/DiscordIcon'
+import FoundationIcon from '../components/icons/FoundationIcon'
+import GithubIcon from '../components/icons/GithubIcon'
+import InstagramIcon from '../components/icons/InstagramIcon'
+import LinkedinIcon from '../components/icons/LinkedinIcon'
+import MirrorIcon from '../components/icons/MirrorIcon'
+import OpenseaIcon from '../components/icons/OpenseaIcon'
+import TwitterIcon from '../components/icons/TwitterIcon'
+import WebsiteIcon from '../components/icons/WebsiteIcon'
+import ZoraIcon from '../components/icons/ZoraIcon'
+
 export const SOCIALS = [
   'Twitter',
   'Linkedin',
@@ -11,18 +22,18 @@ export const SOCIALS = [
   'Other',
 ]
 
-export const SOCIAL_NAME_MAP = {
-  twitter: { label: 'Twitter', image: '/images/Twitter.svg' },
-  linkedin: { label: 'Linkedin', image: '/images/Linkedin.svg' },
-  instagram: { label: 'Instagram', image: '/images/Instagram.svg' },
-  mirror: { label: 'Mirror', image: '/images/Mirror.svg' },
-  zora: { label: 'Zora', image: '/images/Zora.svg' },
-  opensea: { label: 'Opensea', image: '/images/Opensea.svg' },
-  foundation: { label: 'Foundation', image: '/images/Foundation.svg' },
-  website: { label: 'Website/Portfolio', image: '/images/Website.svg' },
-  github: { label: 'Github', image: '/images/Github.svg' },
-  other: { label: 'Other', image: '/images/Website.svg' },
-  discord: { label: 'Discord', image: '/images/Discord.svg' },
+export const SOCIAL_ICON_MAP = {
+  twitter: { label: 'Twitter', icon: TwitterIcon },
+  linkedin: { label: 'Linkedin', icon: LinkedinIcon },
+  instagram: { label: 'Instagram', icon: InstagramIcon },
+  mirror: { label: 'Mirror', icon: MirrorIcon },
+  zora: { label: 'Zora', icon: ZoraIcon },
+  opensea: { label: 'Opensea', icon: OpenseaIcon },
+  foundation: { label: 'Foundation', icon: FoundationIcon },
+  website: { label: 'Website/Portfolio', icon: WebsiteIcon },
+  github: { label: 'Github', icon: GithubIcon },
+  other: { label: 'Other', icon: WebsiteIcon },
+  discord: { label: 'Discord', icon: DiscordIcon },
 }
 
 export const EXPERTISE_CATEGORY = {
