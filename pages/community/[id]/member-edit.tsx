@@ -5,12 +5,12 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useCallback } from 'react'
 
-import AuthGuard from '../../../../components/AuthGuard'
-import MemberProfileForm from '../../../../components/MemberProfileForm'
-import PageLoading from '../../../../components/PageLoading'
-import { useCommunity } from '../../../../hooks/useCommunities'
-import { useMemberInCommunity, useUpdateMember } from '../../../../hooks/useMember'
-import { MemberProfileInfo, MemberProfileRequest } from '../../../../types'
+import AuthGuard from '../../../components/AuthGuard'
+import MemberProfileForm from '../../../components/MemberProfileForm'
+import PageLoading from '../../../components/PageLoading'
+import { useCommunity } from '../../../hooks/useCommunities'
+import { useMemberInCommunity, useUpdateMember } from '../../../hooks/useMember'
+import { MemberProfileInfo, MemberProfileRequest } from '../../../types'
 
 const MemberEditPage: NextPage = () => {
   const router = useRouter()
@@ -52,8 +52,15 @@ const MemberEditPage: NextPage = () => {
       <Box display="flex" justifyContent="center" alignItems="center">
         <Box sx={{ width: '50vw' }}>
           <Card sx={{ overflow: 'visible' }}>
-            <CardHeader avatar={<PersonIcon />} title="Edit Profile" titleTypographyProps={{ variant: 'h6' }} />
-            <CardContent sx={{ padding: 4 }}>
+            <CardHeader
+              avatar={<PersonIcon color="success" />}
+              title="Edit Profile"
+              titleTypographyProps={{
+                color: '#CDFCB1',
+                fontWeight: 600,
+              }}
+            />
+            <CardContent>
               <MemberProfileForm member={member} onSubmit={onSubmit} submitting={isLoading} />
             </CardContent>
           </Card>

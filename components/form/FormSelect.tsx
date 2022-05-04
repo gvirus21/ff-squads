@@ -1,13 +1,13 @@
 import { Box, Fade, FormHelperText, InputLabel } from '@mui/material'
 import Image from 'next/image'
-import { useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { Control, Controller } from 'react-hook-form'
 import Select, { Props as SelectProps, components, OptionProps } from 'react-select'
 
 export type SelectOption = {
   label: string
   value: string
-  icon?: string
+  icon?: any
 }
 
 export interface GroupedOption {
@@ -33,20 +33,21 @@ const isGroupedOptionsArray = (arr: any) => arr.every((item: any) => isGroupedOp
 
 const { Option: OptionComponent } = components
 
-const IconOption = (props: OptionProps<SelectOption>) => (
-  <OptionComponent {...props}>
-    <Box display="flex" alignItems="center">
-      {props.data.icon ? (
+const IconOption = (props: OptionProps<SelectOption>) => {
+  const { data } = props
+  const { icon: IconComponent, label } = data
+
+  return (
+    <OptionComponent {...props}>
+      <Box display="flex" alignItems="center">
         <Box marginRight={1} display="flex" alignItems="center">
-          <Image src={props.data.icon} alt={props.data.label} width={16} height={16} />
+          {IconComponent && <IconComponent />}
         </Box>
-      ) : (
-        <></>
-      )}
-      {props.data.label}
-    </Box>
-  </OptionComponent>
-)
+        {label}
+      </Box>
+    </OptionComponent>
+  )
+}
 
 /**
  * FormSelect
@@ -96,6 +97,40 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
               id={id ?? `select-${name}`}
               isMulti={isMulti}
               components={{ Option: IconOption }}
+              styles={{
+                control: (styles) => ({
+                  ...styles,
+                  backgroundColor: 'transparent',
+                  color: '#fff',
+                }),
+                multiValue: (styles, { data }) => ({
+                  ...styles,
+                  backgroundColor: '#8C79E2',
+                  color: '#11151F',
+                }),
+                multiValueLabel: (styles, { data }) => ({
+                  ...styles,
+                  color: '#11151F',
+                  fontSize: 16,
+                  fontWeight: 600,
+                }),
+                multiValueRemove: (styles, { data }) => ({
+                  ...styles,
+                  color: '#11151F',
+                  ':hover': {
+                    cursor: 'pointer',
+                  },
+                }),
+                menu: (styles) => ({
+                  ...styles,
+                  background: '#616D6C',
+                  border: '1px solid #BAC3B9',
+                }),
+                valueContainer: (styles) => ({
+                  ...styles,
+                  color: '#F5FFF4',
+                }),
+              }}
             />
             <Fade in={invalid}>
               <FormHelperText error>{error?.message || ' '}</FormHelperText>
