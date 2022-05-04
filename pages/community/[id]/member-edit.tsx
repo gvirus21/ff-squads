@@ -7,12 +7,12 @@ import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 
 
-import AuthGuard from '../../../../components/AuthGuard'
-import MemberProfileForm from '../../../../components/MemberProfileForm'
-import PageLoading from '../../../../components/PageLoading'
-import { useCommunity } from '../../../../hooks/useCommunities'
-import { useMemberInCommunity, useUpdateMember } from '../../../../hooks/useMember'
-import { MemberProfileInfo, MemberProfileRequest } from '../../../../types'
+import AuthGuard from '../../../components/AuthGuard'
+import MemberProfileForm from '../../../components/MemberProfileForm'
+import PageLoading from '../../../components/PageLoading'
+import { useCommunity } from '../../../hooks/useCommunities'
+import { useMemberInCommunity, useUpdateMember } from '../../../hooks/useMember'
+import { MemberProfileInfo, MemberProfileRequest } from '../../../types'
 
 const MemberEditPage: NextPage = () => {
   const router = useRouter()
@@ -50,18 +50,24 @@ const MemberEditPage: NextPage = () => {
   }
 
   return (
-      <AuthGuard>
-          <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center"   mb={20} >
+    <AuthGuard>
+        <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mb={2} >
               <Grid item xs={12} sm={6}>  
-                <Box >
-                   <Card sx={{ overflow: 'visible', background: '#FCFDF0', boxShadow: '2px 10px 45px #E5ECE3' , mx:4 }}>
-                    <CardHeader avatar={<PersonIcon sx={{ color: '#4AAA7B' }} />} title="Edit Profile" titleTypographyProps={{ variant: 'h6' , color: '#4AAA7B'}} />
-                    <CardContent sx={{ padding: 4 }}>
-                      <MemberProfileForm member={member} onSubmit={onSubmit} submitting={isLoading} />
-                    </CardContent>
-                  </Card>
-                </Box>
-              </Grid>
+          <Card sx={{ overflow: 'visible' }}>
+            <CardHeader
+              avatar={<PersonIcon color="success" />}
+              title="Edit Profile"
+              titleTypographyProps={{
+                color: '#CDFCB1',
+                fontWeight: 600,
+                  fontSize: '16px'
+              }}
+            />
+            <CardContent>
+              <MemberProfileForm member={member} onSubmit={onSubmit} submitting={isLoading} />
+            </CardContent>
+           </Card>
+            </Grid>
           </Grid>
     </AuthGuard>
   )

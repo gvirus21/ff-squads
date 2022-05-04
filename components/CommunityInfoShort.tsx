@@ -19,7 +19,7 @@ export default function CommunityInfo({ community }: { community: Community }) {
       </Box>
       
       <Box mt={1} display="flex" justifyContent="center" alignItems="center">
-        <SocialLinks socialLinks={community.socialLinks} />
+            <SocialLinks socialLinks={community.socialLinks} _size={30}/>
       </Box>
     </Box>
   );

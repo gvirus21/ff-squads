@@ -24,10 +24,20 @@ import { useMemberInCommunity } from '../hooks/useMember'
 import { Member } from '../types'
 import SocialLinks from './SocialLinks'
 
-const Timezone = ({ country, city, timezone }: { country: string; city?: string; timezone: string }) => {
+const Timezone = ({
+  country,
+  city,
+  timezone,
+  direction,
+}: {
+  country: string
+  city?: string
+  timezone: string
+  direction: any
+}) => {
   return (
-    <Box display="flex" alignItems="center">
-      <Chip label={`${city}, ${country}`} sx={{ mr: 1 }} />
+    <Box display="flex" alignItems={direction === 'row' ? 'center' : 'flex-start'} flexDirection={direction}>
+      <Chip label={`${city}, ${country}`} sx={direction === 'row' ? { mr: 1 } : { mb: 1 }} />
       <span>{timezone}</span>
     </Box>
   )
@@ -46,68 +56,44 @@ export default function MemberCard({ member }: { member: Member }) {
   const toggleDialog = () => setDialogOpen(!dialogOpen)
 
   const handleEditProfile = () => {
-    router.push(`/community/${id}/member/edit`)
+    router.push(`/community/${id}/member-edit`)
   }
 
    
   return (
     <>
-          <Card
-              sx={{ boxShadow: "2px 10px 45px #E5ECE3, inset 2px 8px 8px #E5ECE3;", background: '#FCFDF0', height: "268px", width: "232px", margin: "10px 5px", cursor : 'pointer' }}
-              onClick={toggleDialog}
-          >
-            <CardHeader
-                  avatar={
-                      <img
-                          src={member.logoUrl ?? '/images/Profile.svg'}
-                          alt={member.username}
-                          width={64}
-                          height={64}
-                          style={{ borderRadius: '100%', border: '4.44px solid #E5ECE3' }}
-                      />
-                  }
-
-                  titleTypographyProps={{ variant: 'h5', gutterBottom: true }}
-                  subheader={
-                      <Box display="flex" flexDirection="column">
-                          <Box sx={{ justifyContent: 'end', display: 'flex', flexDirection:'row' }}>
-                              <img
-                                  src={ '/images/MemberCategoryIcon.svg'}
-                                  alt={member.username}
-                                  width={22}
-                                  height={22}
-                        
-                              />  
-                          </Box>
-                          <Box mt={2} sx={{ justifyContent: 'center', display: 'flex', flexDirection: 'row' }}>
-                            <SocialLinks socialLinks={member.socialLinks} />
-                          </Box>
-                      </Box>
-                  }
-              />
-              <CardContent>
-                  <Box mt={-4}>
-                      <Typography   sx={{fontWeight:600, fontSize:"16px"}}>{member.username}</Typography>
-                  </Box>
-                  <Box>
-                      <Typography sx={{ color: "#616D6C", fontSize: "12px" }}>{member.discordHandle}</Typography>
-                  </Box>
-                  <Box mt={2} sx={{ background: '#E5ECE3', opacity: 0.8, boxShadow: '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)', borderRadius: '10.0767px', display: 'inline-block' }}>
-
-                      <Typography sx={{ color: "#616D6C", padding: "3px 6px", borderRadius: "5px", fontSize: "12px", margin: 'auto' }}>{member.country}</Typography>
-
-                  </Box>
-                  <Box mt={2}>
-                      <Typography sx={{ ontSize: "12px", fontWeight: 300, color: '#616D6C' }}  >{member.timezone}</Typography>
-                  </Box>
-                 
+      <Card
+        sx={{
+          width: '232px',
+          boxShadow: '2px 8px 8px 0px rgba(245, 255, 244, 0.15)',
+          '&:hover': {
+            cursor: 'pointer',
+            boxShadow: 'inset 4px 10px 35px 0px rgba(245, 255, 244, 0.2), 2px 8px 8px 0px rgba(245, 255, 244, 0.15)',
+          },
+        }}
+      >
+        <CardContent sx={{ p: 2 }}>
+          <Box display="flex" alignItems="flex-end">
+            <Image
+              src={member.logoUrl ?? '/images/Profile.svg'}
+              alt={member.username}
+              width={64}
+              height={64}
+              style={{ borderRadius: '100%' }}
+            />
+            <SocialLinks socialLinks={member.socialLinks} _size={20}/>
+          </Box>
+          <Typography fontWeight={600}>{member.username}</Typography>
+          <Typography variant="caption">{member.discordHandle}</Typography>
+          <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="column" />
         </CardContent>
         <CardActions disableSpacing>
-           
-       
+          <Button size="small" variant="contained" color="secondary" sx={{ marginLeft: 'auto' }} onClick={toggleDialog}>
+            View
+          </Button>
         </CardActions>
       </Card>
-      <Dialog fullWidth maxWidth="md" open={dialogOpen} onClose={toggleDialog}>
+      <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={toggleDialog}>
         <DialogTitle sx={{ m: 0, p: 2 }}>
           <IconButton
             aria-label="close"
@@ -122,7 +108,7 @@ export default function MemberCard({ member }: { member: Member }) {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ m: 2, p: '20px !important', border: '1px solid #E2E8F0', borderRadius: '6px' }}>
+        <DialogContent sx={{ m: 2, p: '20px !important' }}>
           <Box display="flex" justifyContent="space-between">
             <Box display="flex" alignItems="center" px={2}>
               <Image
@@ -149,67 +135,61 @@ export default function MemberCard({ member }: { member: Member }) {
               <></>
             )}
           </Box>
-
           <Box mt={3} px={2}>
-            <Timezone country={member.country} city={member.city} timezone={member.timezone} />
+            <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="row" />
           </Box>
           <Box my={1} px={2}>
-            <SocialLinks socialLinks={member.socialLinks} />
+            <SocialLinks socialLinks={member.socialLinks} _size={20} />
           </Box>
-          <Divider />
-          <Box mt={2} px={2}>
-            <Typography variant="body2" fontWeight={700} gutterBottom>
-              About Me
-            </Typography>
-            <Typography variant="body2">{member.bio}</Typography>
-          </Box>
-          <Box mt={2} px={2}>
-            <Typography variant="body2" fontWeight={700} gutterBottom>
-
-                          {`I'm a ...`}
-
-            </Typography>
-            <Box display="flex" alignItems="center" flexWrap="wrap">
-              {member.expertise.map((exp, i) => (
-                <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} />
-              ))}
-              {member.extraExpertise.map((exp, i) => (
-                <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} />
-              ))}
-            </Box>
-          </Box>
-          <Box mt={1} px={2}>
-            <Typography variant="body2" fontWeight={700} gutterBottom>
-              Status
-            </Typography>
-            <Typography variant="body2">
-              {member.status === 0 ? 'Open to new projects' : 'Not open to new projects'}
-            </Typography>
-          </Box>
-          <Box mt={2} px={2}>
-            <Typography variant="body2" fontWeight={700} gutterBottom>
-              Availability
-            </Typography>
-            <Typography variant="body2">
-              {member.availability === 0
-                ? 'Full-time (5-8 hrs)'
-                : member.availability === 1
-                ? 'Part-time (1-4 hrs)'
-                : 'Volunteer'}
-            </Typography>
-          </Box>
-          <Box mt={2} px={2}>
-            <Typography variant="body2" fontWeight={700} gutterBottom>
-              How I want to contribute
-            </Typography>
-            <Typography variant="body2">{member.contribution}</Typography>
-          </Box>
-          {/* <Box my={2} px={2}>
-            <Typography variant="body2" fontWeight={700} gutterBottom>
-              Joined
-            </Typography>
-            <Chip label="30, Mar 2022" />
-          </Box> */}
+          <Card sx={{ boxShadow: '0px 0px 25px 0px rgb(245 255 244 / 20%);' }}>
+            <CardContent>
+              <Box mt={2}>
+                <Typography variant="body2" fontWeight={600} gutterBottom color="#CDFCB1">
+                  About Me
+                </Typography>
+                <Typography variant="body2">{member.bio}</Typography>
+              </Box>
+              <Box mt={2}>
+                <Typography variant="body2" fontWeight={600} gutterBottom color="#CDFCB1">
+                  I&apos;m a ...
+                </Typography>
+                <Box display="flex" alignItems="center" flexWrap="wrap">
+                  {member.expertise.map((exp, i) => (
+                    <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} />
+                  ))}
+                  {member.extraExpertise.map((exp, i) => (
+                    <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} />
+                  ))}
+                </Box>
+              </Box>
+              <Box mt={1}>
+                <Typography variant="body2" fontWeight={600} gutterBottom color="#CDFCB1">
+                  Status
+                </Typography>
+                <Typography variant="body2">
+                  {member.status === 0 ? 'Open to new projects' : 'Not open to new projects'}
+                </Typography>
+              </Box>
+              <Box mt={2}>
+                <Typography variant="body2" fontWeight={600} gutterBottom color="#CDFCB1">
+                  Availability
+                </Typography>
+                <Typography variant="body2">
+                  {member.availability === 0
+                    ? 'Full-time (5-8 hrs)'
+                    : member.availability === 1
+                    ? 'Part-time (1-4 hrs)'
+                    : 'Volunteer'}
+                </Typography>
+              </Box>
+              <Box mt={2}>
+                <Typography variant="body2" fontWeight={600} gutterBottom color="#CDFCB1">
+                  How I want to contribute
+                </Typography>
+                <Typography variant="body2">{member.contribution}</Typography>
+              </Box>
+            </CardContent>
+          </Card>
         </DialogContent>
       </Dialog>
     </>

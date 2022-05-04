@@ -18,28 +18,6 @@ export interface GroupedOption {
     options: readonly Option[]
 }
 
-
-const colourStyles: StylesConfig<Option, true,GroupedOption > = {
-
-    multiValue: (styles, { data }) => {
-        const color = 'white';
-        return {
-            ...styles,
-            backgroundColor: '#A0A4CC'
-        };
-    },
-    multiValueRemove: (styles) => ({
-        ...styles,
-        color: '#fff',
-        ':hover': {
-            backgroundColor: '#A0A4CC',
-            color: 'white',
-        },
-    }),
-}
-
-
-
 export type FormCreatableSelectProps = {
   control?: Control<any, object>
   label?: string
@@ -111,16 +89,54 @@ export const FormCreatableSelect = ({
                     )
                   : flattenOptions?.find((option) => value === option.value) ?? { label: value, value }
               }
-              onChange={(selectedOption: SelectedOption) =>
+              onChange={(selectedOption: SelectedOption) => {
+                console.log(
+                  Array.isArray(selectedOption)
+                    ? selectedOption?.map((option) => option.value)
+                    : (selectedOption as Option | null)?.value
+                )
                 Array.isArray(selectedOption)
                   ? onChange(selectedOption?.map((option) => option.value))
                   : onChange((selectedOption as Option | null)?.value)
-              }
+              }}
               {...field}
               {...props}
               id={id ?? `select-${name}`}
               isMulti={isMulti}
-             // styles={colourStyles}
+              styles={{
+                control: (styles) => ({
+                  ...styles,
+                  backgroundColor: 'transparent',
+                  color: '#fff',
+                }),
+                multiValue: (styles, { data }) => ({
+                  ...styles,
+                  backgroundColor: '#8C79E2',
+                  color: '#11151F',
+                }),
+                multiValueLabel: (styles, { data }) => ({
+                  ...styles,
+                  color: '#11151F',
+                  fontSize: 16,
+                  fontWeight: 600,
+                }),
+                multiValueRemove: (styles, { data }) => ({
+                  ...styles,
+                  color: '#11151F',
+                  ':hover': {
+                    cursor: 'pointer',
+                  },
+                }),
+                menu: (styles) => ({
+                  ...styles,
+                  background: '#616D6C',
+                  border: '1px solid #BAC3B9',
+                }),
+                valueContainer: (styles) => ({
+                  ...styles,
+                  color: '#F5FFF4',
+                }),
+              }}
             />
             <Fade in={invalid}>
               <FormHelperText error>{error?.message || ' '}</FormHelperText>

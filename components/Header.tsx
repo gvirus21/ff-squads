@@ -12,15 +12,12 @@ import MobileHeader from './MobileHeader';
 
 
 const AppBarWrapper = styled(AppBar)(({ theme }) => ({
-    background: '#FCFDF0',
-    boxShadow: 'none'
-}));
-
-
-
+  background: '#11151F',
+  boxShadow: '4px 10px 70px 0px rgba(186, 195, 185, 0.15)',
+}))
 
 export default function Header() {
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+ 
 
   const theme = useTheme();
 
@@ -32,7 +29,7 @@ export default function Header() {
     <AppBarWrapper position="fixed">
       <Toolbar>
               <Link href="/">
-                  <Image src="/images/logo.svg" width={170} height={17} alt="logo" style={{cursor:"pointer"}} />
+                  <Image src="/images/logo.png" width={170} height={17} alt="logo" style={{cursor:"pointer"}} />
               </Link>
               {active && 
               < Box sx={{ marginLeft: 'auto' }}>

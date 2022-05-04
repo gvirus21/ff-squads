@@ -1,16 +1,31 @@
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import LaunchIcon from '@mui/icons-material/Launch';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { Button, Chip, Divider, IconButton, Menu, MenuItem, Typography, Box } from '@mui/material';
-import { useWeb3React } from '@web3-react/core';
-import { signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useMemberInCommunity } from '../hooks/useMember';
-import { shortenAddress } from '../utils';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
+import LaunchIcon from '@mui/icons-material/Launch'
+import LogoutIcon from '@mui/icons-material/Logout'
+import { Box, Chip, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/material'
+import { useWeb3React } from '@web3-react/core'
+import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { useMemberInCommunity } from '../hooks/useMember'
+import { shortenAddress } from '../utils'
+import UserIcon from './icons/UserIcon'
+
+const UserAvatarIcon = ({ member }: { member: any }) => {
+  if (member) {
+    return (
+      <Image
+        src={member.logoUrl ?? '/images/Profile.svg'}
+        alt={member.username}
+        width={28}
+        height={28}
+        style={{ borderRadius: '100%' }}
+      />
+    )
+  }
+
+  return <UserIcon htmlColor="#BAC3B9" />
+}
 
 export default function UserProfile() {
   const router = useRouter()
@@ -38,30 +53,18 @@ export default function UserProfile() {
   }
 
   const handleEditProfile = () => {
-    router.push(`/community/${id}/member/edit`)
+    router.push(`/community/${id}/member-edit`)
     setAnchorEl(null)
   }
 
   return (
-      <Box display="flex">
-          {member ? (
-              <Box display="flex" sx={{ height: '24px', width: '24px', margin: '5px 10px'   }}>       
-                      <Image
-                          src={member.logoUrl ?? '/images/Profile.svg'}
-                          alt={member.username}
-                          width={24}
-                          height={24}
-                          style={{ borderRadius: '100%' , objectFit : 'fill' }}
-                      />
-              </Box>
-          ) : (
-                  <></>
-              )}
- 
-      <Button variant="contained" color="primary" onClick={handleClick} endIcon={<KeyboardArrowDownIcon />}>
-        <AccountBalanceWalletIcon />
-        <Divider orientation="vertical" flexItem sx={{ borderColor: '#fff', ml: 1.5 }} />
-      </Button>
+    <>
+      <Box display="flex" alignItems="center">
+        {member && <UserAvatarIcon member={member} />}
+        <IconButton color="secondary" onClick={handleClick} sx={{ ml: 2 }}>
+          <AccountBalanceWalletIcon />
+        </IconButton>
+      </Box>
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
         <MenuItem>
           <Typography sx={{ marginRight: 2 }}>Metamask</Typography>
@@ -71,24 +74,15 @@ export default function UserProfile() {
           </IconButton>
         </MenuItem>
         <Divider />
-        {member ? (
+        {member && (
           <>
             <MenuItem onClick={handleEditProfile}>
-              <Image
-                src={member.logoUrl ?? '/images/Profile.svg'}
-                alt={member.username}
-                width={28}
-                height={28}
-                style={{ borderRadius: '100%' }}
-              />
+              <UserAvatarIcon member={member} />
               <Typography sx={{ marginLeft: 2 }}>{member.username}</Typography>
             </MenuItem>
             <Divider />
           </>
-        ) : (
-          <></>
         )}
-
         <MenuItem onClick={handleLogout}>
           <LogoutIcon color="error" />
           <Typography variant="body1" sx={{ ml: 1.5 }} color="error">
@@ -97,7 +91,7 @@ export default function UserProfile() {
         </MenuItem>
       </Menu>
 
-      </Box>
+      </>
   );
 
 }

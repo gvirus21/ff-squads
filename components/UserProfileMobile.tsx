@@ -69,9 +69,10 @@ export default function UserProfileMobile() {
                       </IconButton>
                   </ListItem>
                   <Divider />
+                  {member&&
                   <ListItem>
                       <ListItemIcon>
-                          {member ? (
+                           
                               <Box display="flex" sx={{ height: '24px', width: '24px', margin: '5px 0px' }}>
                                   <Image
                                       src={member.logoUrl ?? '/images/Profile.svg'}
@@ -80,16 +81,15 @@ export default function UserProfileMobile() {
                                       height={24}
                                       style={{ borderRadius: '100%', objectFit: 'fill' }}
                                   />
-                              </Box>
-                          ) : (
-                                  <></>
-                              )}
+                             </Box>
+                             <Divider />
+                         
                       </ListItemIcon>
                       <ListItemText primary={member?.username} sx={{ fontSize: '16px', fontWeight: 300 }}/>
                        
                   </ListItem>
-                  <Divider />
-                 <ListItemButton onClick={() => { handleLogout() }}>
+                    }
+                  <ListItemButton onClick={() => { handleLogout() }} sx={{ mb : 2}}>
                       <ListItemIcon>
                         <LogoutIcon color="error" />
                       </ListItemIcon>

@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import countryList from 'react-select-country-list'
 import * as yup from 'yup'
-import { EXPERTISE_CATEGORY, SOCIAL_NAME_MAP } from '../config/constants'
+import { EXPERTISE_CATEGORY, SOCIAL_ICON_MAP } from '../config/constants'
 import { MemberProfileInfo } from '../types'
 import { FormCreatableSelect } from './form/FormCreatableSelect'
 import { FormFamiliarity } from './form/FormFamiliarity'
@@ -90,10 +90,10 @@ const memberProfileSchema = yup.object().shape({
   familiarity: yup.number(),
 })
 
-const socialOptions: SelectOption[] = Object.keys(SOCIAL_NAME_MAP).map((socialKey) => ({
+const socialOptions: SelectOption[] = Object.keys(SOCIAL_ICON_MAP).map((socialKey) => ({
   value: socialKey,
-  label: SOCIAL_NAME_MAP[socialKey as keyof typeof SOCIAL_NAME_MAP].label,
-  icon: SOCIAL_NAME_MAP[socialKey as keyof typeof SOCIAL_NAME_MAP].image,
+  label: SOCIAL_ICON_MAP[socialKey as keyof typeof SOCIAL_ICON_MAP].label,
+  icon: SOCIAL_ICON_MAP[socialKey as keyof typeof SOCIAL_ICON_MAP].icon,
 }))
 
 export const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY).map((category) => ({
