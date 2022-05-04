@@ -90,8 +90,6 @@ export default function UserProfile() {
           </Typography>
         </MenuItem>
       </Menu>
-
-      </>
-  );
-
+    </>
+  )
 }

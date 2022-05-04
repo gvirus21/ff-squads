@@ -59,7 +59,6 @@ export default function MemberCard({ member }: { member: Member }) {
     router.push(`/community/${id}/member-edit`)
   }
 
-   
   return (
     <>
       <Card
@@ -81,7 +80,7 @@ export default function MemberCard({ member }: { member: Member }) {
               height={64}
               style={{ borderRadius: '100%' }}
             />
-            <SocialLinks socialLinks={member.socialLinks} _size={20}/>
+            <SocialLinks socialLinks={member.socialLinks} _size={20} />
           </Box>
           <Typography fontWeight={600}>{member.username}</Typography>
           <Typography variant="caption">{member.discordHandle}</Typography>

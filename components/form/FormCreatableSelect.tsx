@@ -1,21 +1,17 @@
-import { Box, Fade, FormHelperText, InputLabel } from '@mui/material';
-import { useMemo } from 'react';
-import { Control, Controller } from 'react-hook-form';
-import { Props as SelectProps, StylesConfig } from 'react-select';
-import CreatableSelect from 'react-select/creatable';
-
- 
-
+import { Box, Fade, FormHelperText, InputLabel } from '@mui/material'
+import { useMemo } from 'react'
+import { Control, Controller } from 'react-hook-form'
+import { Props as SelectProps, StylesConfig } from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 
 export type Option = {
   label: string
   value: string
 }
 
-
 export interface GroupedOption {
-    label: string
-    options: readonly Option[]
+  label: string
+  options: readonly Option[]
 }
 
 export type FormCreatableSelectProps = {
