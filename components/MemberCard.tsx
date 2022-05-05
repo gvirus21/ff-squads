@@ -1,17 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close'
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  CardActions,
-  Chip,
-  IconButton,
-  Button,
-  Avatar,
-  Typography,
-  Divider,
-} from '@mui/material'
+import { Box, Card, CardContent, Chip, IconButton, Button, Avatar, Typography } from '@mui/material'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -37,8 +25,18 @@ const Timezone = ({
 }) => {
   return (
     <Box display="flex" alignItems={direction === 'row' ? 'center' : 'flex-start'} flexDirection={direction}>
-      <Chip label={`${city}, ${country}`} sx={direction === 'row' ? { mr: 1 } : { mb: 1 }} />
-      <span>{timezone}</span>
+      <Chip
+        label={`${city}, ${country}`}
+        sx={{
+          backgroundColor: '#616D6C',
+          color: '#E5ECE3',
+          mr: direction === 'row' ? 1 : 0,
+          mb: direction === 'row' ? 0 : 1,
+        }}
+      />
+      <Typography variant="caption" color="#E5ECE3" sx={{}}>
+        {timezone}
+      </Typography>
     </Box>
   )
 }
@@ -70,9 +68,10 @@ export default function MemberCard({ member }: { member: Member }) {
             boxShadow: 'inset 4px 10px 35px 0px rgba(245, 255, 244, 0.2), 2px 8px 8px 0px rgba(245, 255, 244, 0.15)',
           },
         }}
+        onClick={toggleDialog}
       >
         <CardContent sx={{ p: 2 }}>
-          <Box display="flex" alignItems="flex-end">
+          <Box display="flex" alignItems="baseline">
             <Image
               src={member.logoUrl ?? '/images/Profile.svg'}
               alt={member.username}
@@ -80,17 +79,18 @@ export default function MemberCard({ member }: { member: Member }) {
               height={64}
               style={{ borderRadius: '100%' }}
             />
-            <SocialLinks socialLinks={member.socialLinks} _size={20} />
+            <Box ml={3}>
+              <SocialLinks socialLinks={member.socialLinks} _size={20} />
+            </Box>
           </Box>
-          <Typography fontWeight={600}>{member.username}</Typography>
-          <Typography variant="caption">{member.discordHandle}</Typography>
+          <Typography fontWeight={600} sx={{ mt: 2 }}>
+            {member.username}
+          </Typography>
+          <Typography component="p" variant="caption" color="#E5ECE3" sx={{ mb: 3.5 }}>
+            {member.discordHandle}
+          </Typography>
           <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="column" />
         </CardContent>
-        <CardActions disableSpacing>
-          <Button size="small" variant="contained" color="secondary" sx={{ marginLeft: 'auto' }} onClick={toggleDialog}>
-            View
-          </Button>
-        </CardActions>
       </Card>
       <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={toggleDialog}>
         <DialogTitle sx={{ m: 0, p: 2 }}>
@@ -108,39 +108,33 @@ export default function MemberCard({ member }: { member: Member }) {
           </IconButton>
         </DialogTitle>
         <DialogContent sx={{ m: 2, p: '20px !important' }}>
-          <Box display="flex" justifyContent="space-between">
-            <Box display="flex" alignItems="center" px={2}>
-              <Image
-                src={member.logoUrl ?? '/images/Profile.svg'}
-                alt={member.username}
-                width={64}
-                height={64}
-                style={{ borderRadius: '100%' }}
-              />
-              <Box ml={2}>
-                <Typography variant="h5" gutterBottom>
-                  {member.username}
-                </Typography>
-                <Typography variant="body1">{member.discordHandle}</Typography>
-              </Box>
+          <Box display="flex" alignItems="baseline" justifyContent="space-between" position="relative">
+            <Image
+              src={member.logoUrl ?? '/images/Profile.svg'}
+              alt={member.username}
+              width={80}
+              height={80}
+              style={{ borderRadius: '100%' }}
+            />
+            <Box ml={3}>
+              <SocialLinks socialLinks={member.socialLinks} _size={24} />
             </Box>
-            {me?._id === member._id ? (
-              <Box>
-                <Button color="secondary" variant="contained" onClick={handleEditProfile}>
-                  EDIT
-                </Button>
+            {me?._id === member._id && (
+              <Box position="absolute" sx={{ top: 0, right: 0 }}>
+                <IconButton onClick={handleEditProfile}>
+                  <Image src={'/images/CommunityEditIcon.svg'} width={20} height={20} alt="edit" />
+                </IconButton>
               </Box>
-            ) : (
-              <></>
             )}
           </Box>
-          <Box mt={3} px={2}>
-            <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="row" />
-          </Box>
-          <Box my={1} px={2}>
-            <SocialLinks socialLinks={member.socialLinks} _size={20} />
-          </Box>
-          <Card sx={{ boxShadow: '0px 0px 25px 0px rgb(245 255 244 / 20%);' }}>
+          <Typography fontWeight={600} sx={{ mt: 2 }}>
+            {member.username}
+          </Typography>
+          <Typography component="p" variant="caption" color="#E5ECE3" sx={{ mb: 3.5 }}>
+            {member.discordHandle}
+          </Typography>
+          <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="row" />
+          <Card sx={{ mt: 3, boxShadow: '0px 0px 25px 0px rgb(245 255 244 / 20%);' }}>
             <CardContent>
               <Box mt={2}>
                 <Typography variant="body2" fontWeight={600} gutterBottom color="#CDFCB1">
@@ -154,10 +148,10 @@ export default function MemberCard({ member }: { member: Member }) {
                 </Typography>
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                   {member.expertise.map((exp, i) => (
-                    <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} />
+                    <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} color="primary" />
                   ))}
                   {member.extraExpertise.map((exp, i) => (
-                    <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} />
+                    <Chip key={i} label={exp} sx={{ mr: 1, mb: 1 }} color="primary" />
                   ))}
                 </Box>
               </Box>

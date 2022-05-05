@@ -12,7 +12,7 @@ export default function CommunityInfo({ community }: { community: Community }) {
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" position="relative">
-      <Box mt={-4} sx={{ filter: 'drop-shadow(4px 10px 35px rgba(245, 255, 244, 0.2))' }}>
+      <Box sx={{ filter: 'drop-shadow(4px 10px 35px rgba(245, 255, 244, 0.2))' }}>
         <Image src={community?.coverUrl ?? '/images/forefront_cover.png'} width={maxWidth()} height={'80vh'} />
       </Box>
 

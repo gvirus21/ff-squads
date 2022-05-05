@@ -2,21 +2,21 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import SearchIcon from '@mui/icons-material/Search'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined'
-import { Box, Chip, Collapse, Grid, Tab, Tabs, TextField, Typography } from '@mui/material'
+import { Box, Card, Chip, Collapse, Tab, Tabs, TextField, Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
-import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
-import { styled, Theme, CSSObject } from '@mui/material/styles'
+import ListItemButton from '@mui/material/ListItemButton'
+import { styled } from '@mui/material/styles'
 import { useRouter } from 'next/router'
 import React from 'react'
 import Select from 'react-select'
@@ -26,6 +26,7 @@ import AuthGuard from '../../../components/AuthGuard'
 import CommunityInfoWithBanner from '../../../components/CommunityInfoWithBanner'
 import MemberCard from '../../../components/MemberCard'
 import { expertiseOptions } from '../../../components/MemberProfileForm'
+import darkSelectStyle from '../../../config/darkSelectStyle'
 import { useCommunity } from '../../../hooks/useCommunities'
 import { AVAILABILITY_LIST, STATUS_LIST } from '../../../config/constants'
 import { Member } from '../../../types'
@@ -110,6 +111,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }))
+
+const StyledList = styled(List)`
+  background: #11151f;
+  box-shadow: 4px 10px 35px 0px rgba(245, 255, 244, 0.2);
+  border-radius: 6px;
+  margin-bottom: 8px;
+`
+
+const RoundListItemButton = styled(ListItemButton)`
+  border-radius: 6px;
+`
 
 type FilterItem = {
   filterBy: string
@@ -236,18 +248,33 @@ export default function CommunityPage() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <Box display="flex" position="relative">
+          <Box display="flex" position="relative" sx={{ zIndex: 0 }}>
             <AppBar position="absolute" open={filterOpen}>
-              <Toolbar>
+              <Toolbar sx={{ py: 3 }}>
                 <IconButton onClick={toggleFilter} edge="start">
                   {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
                 <FilterAltOutlinedIcon sx={{ mr: 2 }} />
                 <TextField
-                  fullWidth
                   placeholder="Search by name..."
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    width: '60%',
+                    '.MuiOutlinedInput-root': {
+                      borderRadius: '6px',
+                    },
+                    '.MuiOutlinedInput-input': {
+                      padding: '8px',
+                    },
+                  }}
                 />
               </Toolbar>
             </AppBar>
@@ -257,22 +284,25 @@ export default function CommunityPage() {
                 flexShrink: 0,
                 '& .MuiDrawer-paper': {
                   width: drawerWidth,
-                  position: 'absolute',
+                  background: '#11151f',
+                  boxShadow: '0px 8px 30px 0px rgba(0,0,0,0.12)',
+                  position: 'relative',
                   boxSizing: 'border-box',
+                  padding: '16px',
                 },
               }}
               variant="persistent"
               anchor="left"
               open={filterOpen}
             >
-              <Typography>Filter</Typography>
-              <Divider />
-              <List>
-                <ListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
+              <Typography fontWeight={600} sx={{ p: 2 }}>
+                Filters
+              </Typography>
+              <StyledList>
+                <RoundListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
                   <ListItemText primary="Expertise" />
                   {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </ListItemButton>
-                <Divider />
+                </RoundListItemButton>
                 <Collapse in={expertiseOpen} timeout="auto" unmountOnExit>
                   <Box sx={{ p: 2 }}>
                     <Select
@@ -282,17 +312,16 @@ export default function CommunityPage() {
                         .map(({ filterValue }) => ({ label: filterValue, value: filterValue }))}
                       isMulti
                       onChange={handleExpertiseFilter}
+                      styles={darkSelectStyle}
                     />
                   </Box>
-                  <Divider />
                 </Collapse>
-              </List>
-              <List>
-                <ListItemButton onClick={() => setStatusOpen(!statusOpen)}>
+              </StyledList>
+              <StyledList>
+                <RoundListItemButton onClick={() => setStatusOpen(!statusOpen)}>
                   <ListItemText primary="Status" />
                   {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </ListItemButton>
-                <Divider />
+                </RoundListItemButton>
                 <Collapse in={statusOpen} timeout="auto" unmountOnExit>
                   <Box sx={{ p: 2 }}>
                     <FormGroup>
@@ -314,15 +343,13 @@ export default function CommunityPage() {
                       ))}
                     </FormGroup>
                   </Box>
-                  <Divider />
                 </Collapse>
-              </List>
-              <List>
-                <ListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
+              </StyledList>
+              <StyledList>
+                <RoundListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
                   <ListItemText primary="Availability" />
                   {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </ListItemButton>
-                <Divider />
+                </RoundListItemButton>
                 <Collapse in={availabilityOpen} timeout="auto" unmountOnExit>
                   <Box sx={{ p: 2 }}>
                     <FormGroup>
@@ -344,27 +371,24 @@ export default function CommunityPage() {
                       ))}
                     </FormGroup>
                   </Box>
-                  <Divider />
                 </Collapse>
-              </List>
-              <List>
-                <ListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
+              </StyledList>
+              <StyledList>
+                <RoundListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
                   <ListItemText primary="Time zone" />
                   {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </ListItemButton>
-                <Divider />
+                </RoundListItemButton>
                 <Collapse in={timezoneOpen} timeout="auto" unmountOnExit>
                   <Box sx={{ p: 2 }}>
-                    <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} />
+                    <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} styles={darkSelectStyle} />
                   </Box>
-                  <Divider />
                 </Collapse>
-              </List>
+              </StyledList>
             </Drawer>
             <Main open={filterOpen}>
               <DrawerHeader />
               {(filterItems.length > 0 || timezoneFilterItem) && (
-                <Box display="flex" alignItems="center" py={2}>
+                <Box display="flex" alignItems="center" py={2} px={3}>
                   {filterItems.map((item, i) => (
                     <Chip
                       key={i}
@@ -386,9 +410,9 @@ export default function CommunityPage() {
                 </Box>
               )}
               {members && (
-                <Box display="flex" flexWrap="wrap" justifyContent="flex-start" p={3}>
+                <Box display="flex" flexWrap="wrap" justifyContent="center" p={3}>
                   {members.map((member: Member) => (
-                    <Box key={member._id} pr={6}>
+                    <Box key={member._id} pr={6} pb={6}>
                       <MemberCard member={member} />
                     </Box>
                   ))}

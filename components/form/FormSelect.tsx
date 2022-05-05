@@ -1,8 +1,9 @@
 import { Box, Fade, FormHelperText, InputLabel } from '@mui/material'
-import Image from 'next/image'
-import { ReactNode, useMemo } from 'react'
+import { useMemo } from 'react'
 import { Control, Controller } from 'react-hook-form'
-import Select, { Props as SelectProps, components, OptionProps } from 'react-select'
+import Select, { Props as SelectProps, components, OptionProps, StylesConfig, GroupBase } from 'react-select'
+
+import darkSelectStyle from '../../config/darkSelectStyle'
 
 export type SelectOption = {
   label: string
@@ -97,40 +98,7 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
               id={id ?? `select-${name}`}
               isMulti={isMulti}
               components={{ Option: IconOption }}
-              styles={{
-                control: (styles) => ({
-                  ...styles,
-                  backgroundColor: 'transparent',
-                  color: '#fff',
-                }),
-                multiValue: (styles, { data }) => ({
-                  ...styles,
-                  backgroundColor: '#8C79E2',
-                  color: '#11151F',
-                }),
-                multiValueLabel: (styles, { data }) => ({
-                  ...styles,
-                  color: '#11151F',
-                  fontSize: 16,
-                  fontWeight: 600,
-                }),
-                multiValueRemove: (styles, { data }) => ({
-                  ...styles,
-                  color: '#11151F',
-                  ':hover': {
-                    cursor: 'pointer',
-                  },
-                }),
-                menu: (styles) => ({
-                  ...styles,
-                  background: '#616D6C',
-                  border: '1px solid #BAC3B9',
-                }),
-                valueContainer: (styles) => ({
-                  ...styles,
-                  color: '#F5FFF4',
-                }),
-              }}
+              styles={darkSelectStyle as StylesConfig<SelectOption, boolean, GroupBase<SelectOption>>}
             />
             <Fade in={invalid}>
               <FormHelperText error>{error?.message || ' '}</FormHelperText>
