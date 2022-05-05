@@ -470,7 +470,7 @@ export default function CommunityPage() {
               {members && (
                 <Box display="flex" flexWrap="wrap" justifyContent="center" py={3}>
                   {members.map((member: Member) => (
-                    <Box key={member._id} sx={{ pr:{md:6,xs:0,sm:0} , pb:{md:6,xs:2,sm:3} }}>
+                    <Box key={member._id} sx={{ pr:{md:6,xs:0,sm:0} , pb:{md:6,xs:4,sm:3} }}>
                       <MemberCard member={member} />
                     </Box>
                   ))}
