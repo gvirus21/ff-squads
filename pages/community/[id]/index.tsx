@@ -4,7 +4,20 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined'
-import { Box, Card, Chip, Collapse, Tab, Tabs, TextField,useMediaQuery, useTheme, Button, Typography , Divider} from '@mui/material'
+import {
+  Box,
+  Card,
+  Chip,
+  Collapse,
+  Tab,
+  Tabs,
+  TextField,
+  useMediaQuery,
+  useTheme,
+  Button,
+  Typography,
+  Divider,
+} from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import Drawer from '@mui/material/Drawer'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -148,11 +161,11 @@ export default function CommunityPage() {
   const [filterItems, setFilterItems] = React.useState<FilterItem[]>([])
   const [members, setMembers] = React.useState<Member[] | undefined>([])
 
-  const [filterOpenMobile,setfilterOpenMobile] = React.useState(false)
+  const [filterOpenMobile, setfilterOpenMobile] = React.useState(false)
 
-  const theme = useTheme();
+  const theme = useTheme()
 
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const toggleFilter = () => setFilterOpen(!filterOpen)
 
@@ -245,122 +258,124 @@ export default function CommunityPage() {
   }, [community])
 
   const toggleDrawerMobile = () => {
-    setExpertiseOpen(false);
-        setStatusOpen(false);
-        setAvailabiltyOpen(false);
-        setTimezoneOpen(false);
-    setfilterOpenMobile(!filterOpenMobile);
+    setExpertiseOpen(false)
+    setStatusOpen(false)
+    setAvailabiltyOpen(false)
+    setTimezoneOpen(false)
+    setfilterOpenMobile(!filterOpenMobile)
   }
 
-
   const drawerComponent = () => (
-    <Box
-      role="presentation"
-    >
+    <Box role="presentation">
       <Typography fontWeight={600} sx={{ p: 2 }}>
-                Filters
-              </Typography>
-              <StyledList>
-                <RoundListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
-                  <ListItemText primary="Expertise" />
-                  {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </RoundListItemButton>
-                <Collapse in={expertiseOpen} timeout="auto" unmountOnExit>
-                  <Box sx={{ p: 2 }}>
-                    <Select
-                      options={expertiseOptions}
-                      value={filterItems
-                        .filter((item) => item.filterBy === 'expertise')
-                        .map(({ filterValue }) => ({ label: filterValue, value: filterValue }))}
-                      isMulti
-                      onChange={handleExpertiseFilter}
-                      styles={darkSelectStyle}
+        Filters
+      </Typography>
+      <StyledList>
+        <RoundListItemButton onClick={() => setExpertiseOpen(!expertiseOpen)}>
+          <ListItemText primary="Expertise" />
+          {expertiseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </RoundListItemButton>
+        <Collapse in={expertiseOpen} timeout="auto" unmountOnExit>
+          <Box sx={{ p: 2 }}>
+            <Select
+              options={expertiseOptions}
+              value={filterItems
+                .filter((item) => item.filterBy === 'expertise')
+                .map(({ filterValue }) => ({ label: filterValue, value: filterValue }))}
+              isMulti
+              onChange={handleExpertiseFilter}
+              styles={darkSelectStyle}
+            />
+          </Box>
+        </Collapse>
+      </StyledList>
+      <StyledList>
+        <RoundListItemButton onClick={() => setStatusOpen(!statusOpen)}>
+          <ListItemText primary="Status" />
+          {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </RoundListItemButton>
+        <Collapse in={statusOpen} timeout="auto" unmountOnExit>
+          <Box sx={{ p: 2 }}>
+            <FormGroup>
+              {STATUS_LIST.map((status: any) => (
+                <FormControlLabel
+                  key={status.value}
+                  control={
+                    <Checkbox
+                      checked={!!filterItems.find((x) => x.filterBy === 'status' && x.filterValue === status.value)}
+                      onChange={(e) =>
+                        handleCheckBoxFilter('status', status.value, status.displayValue, e.target.checked)
+                      }
                     />
-                  </Box>
-                </Collapse>
-              </StyledList>
-              <StyledList>
-                <RoundListItemButton onClick={() => setStatusOpen(!statusOpen)}>
-                  <ListItemText primary="Status" />
-                  {statusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </RoundListItemButton>
-                <Collapse in={statusOpen} timeout="auto" unmountOnExit>
-                  <Box sx={{ p: 2 }}>
-                    <FormGroup>
-                      {STATUS_LIST.map((status: any) => (
-                        <FormControlLabel
-                          key={status.value}
-                          control={
-                            <Checkbox
-                              checked={
-                                !!filterItems.find((x) => x.filterBy === 'status' && x.filterValue === status.value)
-                              }
-                              onChange={(e) =>
-                                handleCheckBoxFilter('status', status.value, status.displayValue, e.target.checked)
-                              }
-                            />
-                          }
-                          label={status.displayValue}
-                        />
-                      ))}
-                    </FormGroup>
-                  </Box>
-                </Collapse>
-              </StyledList>
-              <StyledList>
-                <RoundListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
-                  <ListItemText primary="Availability" />
-                  {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </RoundListItemButton>
-                <Collapse in={availabilityOpen} timeout="auto" unmountOnExit>
-                  <Box sx={{ p: 2 }}>
-                    <FormGroup>
-                      {AVAILABILITY_LIST.map((item: any) => (
-                        <FormControlLabel
-                          key={item.value}
-                          control={
-                            <Checkbox
-                              checked={
-                                !!filterItems.find((x) => x.filterBy === 'availability' && x.filterValue === item.value)
-                              }
-                              onChange={(e) =>
-                                handleCheckBoxFilter('availability', item.value, item.displayValue, e.target.checked)
-                              }
-                            />
-                          }
-                          label={item.displayValue}
-                        />
-                      ))}
-                    </FormGroup>
-                  </Box>
-                </Collapse>
-              </StyledList>
-              <StyledList>
-                <RoundListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
-                  <ListItemText primary="Time zone" />
-                  {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </RoundListItemButton>
-                <Collapse in={timezoneOpen} timeout="auto" unmountOnExit>
-                  <Box sx={{ p: 2 }}>
-                    <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} styles={darkSelectStyle} />
-                  </Box>
-              </Collapse>
-            </StyledList>
-            {isMobile&&<List>
-                      <Box display="flex" my={2} >
-                          <Box mx={'auto'}>
-                              <Button variant="contained" sx={{background: '#3E41BB',
-                          ':hover': {
-                            opacity: 0.7,
-                            background: '#3E41BB',
-                          },}} onClick={() => toggleDrawerMobile()}  >SEE RESULTS</Button>
-                          </Box>
-                      </Box>
-              <Divider />
-            </List>}
-      
-     </Box>
-   )
+                  }
+                  label={status.displayValue}
+                />
+              ))}
+            </FormGroup>
+          </Box>
+        </Collapse>
+      </StyledList>
+      <StyledList>
+        <RoundListItemButton onClick={() => setAvailabiltyOpen(!availabilityOpen)}>
+          <ListItemText primary="Availability" />
+          {availabilityOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </RoundListItemButton>
+        <Collapse in={availabilityOpen} timeout="auto" unmountOnExit>
+          <Box sx={{ p: 2 }}>
+            <FormGroup>
+              {AVAILABILITY_LIST.map((item: any) => (
+                <FormControlLabel
+                  key={item.value}
+                  control={
+                    <Checkbox
+                      checked={!!filterItems.find((x) => x.filterBy === 'availability' && x.filterValue === item.value)}
+                      onChange={(e) =>
+                        handleCheckBoxFilter('availability', item.value, item.displayValue, e.target.checked)
+                      }
+                    />
+                  }
+                  label={item.displayValue}
+                />
+              ))}
+            </FormGroup>
+          </Box>
+        </Collapse>
+      </StyledList>
+      <StyledList>
+        <RoundListItemButton onClick={() => setTimezoneOpen(!timezoneOpen)}>
+          <ListItemText primary="Time zone" />
+          {timezoneOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </RoundListItemButton>
+        <Collapse in={timezoneOpen} timeout="auto" unmountOnExit>
+          <Box sx={{ p: 2 }}>
+            <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} styles={darkSelectStyle} />
+          </Box>
+        </Collapse>
+      </StyledList>
+      {isMobile && (
+        <List>
+          <Box display="flex" my={2}>
+            <Box mx={'auto'}>
+              <Button
+                variant="contained"
+                sx={{
+                  background: '#3E41BB',
+                  ':hover': {
+                    opacity: 0.7,
+                    background: '#3E41BB',
+                  },
+                }}
+                onClick={() => toggleDrawerMobile()}
+              >
+                SEE RESULTS
+              </Button>
+            </Box>
+          </Box>
+          <Divider />
+        </List>
+      )}
+    </Box>
+  )
 
   if (!community) return <></>
 
@@ -370,30 +385,49 @@ export default function CommunityPage() {
         <CommunityInfoWithBanner community={community} />
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
           <Tabs value={value} onChange={handleTabChange} centered>
-              <Tab icon={<MembersGroupIcon/>} iconPosition="start" label={`Members (${community.members.length})`} {...a11yProps(0)} />
-              <Tab icon={<ProjectsIcon />} iconPosition="start" label="Projects (Coming soon)" {...a11yProps(1)} disabled />
+            <Tab
+              icon={<MembersGroupIcon />}
+              iconPosition="start"
+              label={`Members (${community.members.length})`}
+              {...a11yProps(0)}
+            />
+            <Tab
+              icon={<ProjectsIcon />}
+              iconPosition="start"
+              label="Projects (Coming soon)"
+              {...a11yProps(1)}
+              disabled
+            />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
           <Box display="flex" position="relative" sx={{ zIndex: 0 }}>
             <AppBar position="absolute" open={filterOpen}>
               <Toolbar sx={{ py: 3 }}>
-                {isMobile ?
-                    (<Box sx={{ position: 'fixed', bottom: 120, mx: '30%' }}>
-                        <Button variant="contained" onClick={() =>  toggleDrawerMobile() } sx={{background: '#3E41BB',
-                    ':hover': {
-                      opacity: 0.7,
-                      background: '#3E41BB',
-                    },}}  >FILTERS</Button>
-                  </Box>)
-                  :
+                {isMobile ? (
+                  <Box sx={{ position: 'fixed', bottom: 120, mx: '30%' }}>
+                    <Button
+                      variant="contained"
+                      onClick={() => toggleDrawerMobile()}
+                      sx={{
+                        background: '#3E41BB',
+                        ':hover': {
+                          opacity: 0.7,
+                          background: '#3E41BB',
+                        },
+                      }}
+                    >
+                      FILTERS
+                    </Button>
+                  </Box>
+                ) : (
                   <>
-                  <IconButton onClick={toggleFilter} edge="start">
-                  {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                  </IconButton>
-                  <FilterAltOutlinedIcon sx={{ mr: 2 }} />
+                    <IconButton onClick={toggleFilter} edge="start">
+                      {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                    <FilterAltOutlinedIcon sx={{ mr: 2 }} />
                   </>
-                }
+                )}
                 <TextField
                   placeholder="Search by name..."
                   value={keyword}
@@ -406,7 +440,7 @@ export default function CommunityPage() {
                     ),
                   }}
                   sx={{
-                    width: {md:'60%',xs:'100%',sm:'100%'},
+                    width: { md: '60%', xs: '100%', sm: '100%' },
                     '.MuiOutlinedInput-root': {
                       borderRadius: '6px',
                     },
@@ -436,13 +470,9 @@ export default function CommunityPage() {
             >
               {drawerComponent()}
             </Drawer>
-              <Drawer
-              anchor={'bottom'}
-              open={filterOpenMobile}
-              onClose={() => toggleDrawerMobile()}
-              > 
+            <Drawer anchor={'bottom'} open={filterOpenMobile} onClose={() => toggleDrawerMobile()}>
               {drawerComponent()}
-          </Drawer>
+            </Drawer>
             <Main open={filterOpen}>
               <DrawerHeader />
               {(filterItems.length > 0 || timezoneFilterItem) && (
@@ -470,7 +500,7 @@ export default function CommunityPage() {
               {members && (
                 <Box display="flex" flexWrap="wrap" justifyContent="center" py={3}>
                   {members.map((member: Member) => (
-                    <Box key={member._id} sx={{ pr:{md:6,xs:0,sm:0} , pb:{md:6,xs:4,sm:3} }}>
+                    <Box key={member._id} sx={{ px: { md: 3, xs: 0, sm: 0 }, py: { md: 3, xs: 2, sm: 1.5 } }}>
                       <MemberCard member={member} />
                     </Box>
                   ))}

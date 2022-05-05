@@ -11,7 +11,7 @@ const config: StylesConfig<unknown, boolean, GroupBase<unknown>> = {
     backgroundColor: '#8C79E2',
     color: '#11151F',
     borderRadius: '8px',
-    boxShadow : '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)'
+    boxShadow: '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)',
   }),
   multiValueLabel: (styles, { data }) => ({
     ...styles,
@@ -45,9 +45,9 @@ const config: StylesConfig<unknown, boolean, GroupBase<unknown>> = {
     background: '#11151F',
     ':hover': {
       background: '#8C79E2',
-      color:'#11151F',
-      cursor:'pointer'
-    }
+      color: '#11151F',
+      cursor: 'pointer',
+    },
   }),
 }
 

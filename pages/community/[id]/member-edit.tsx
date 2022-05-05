@@ -1,9 +1,9 @@
 import { Person as PersonIcon } from '@mui/icons-material'
-import { Box, Card, CardContent, CardHeader, Grid ,  Snackbar, useMediaQuery, useTheme, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardHeader, Grid, Snackbar, useMediaQuery, useTheme, Typography } from '@mui/material'
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useCallback , useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import AuthGuard from '../../../components/AuthGuard'
 import MemberProfileForm from '../../../components/MemberProfileForm'
@@ -33,7 +33,7 @@ const MemberEditPage: NextPage = () => {
       communityId: community?.shortId,
     }
     editMember(payload as MemberProfileRequest)
-    handleToggleSnackbar();
+    handleToggleSnackbar()
   }, [])
 
   React.useEffect(() => {
@@ -62,7 +62,7 @@ const MemberEditPage: NextPage = () => {
         <Grid item xs={12} sm={6}>
           <Card sx={{ overflow: 'visible' }}>
             <CardHeader
-              avatar={<PersonIcon color="success" sx={{fontSize:'22px'}} />}
+              avatar={<PersonIcon color="success" sx={{ fontSize: '22px' }} />}
               title="Edit Profile"
               titleTypographyProps={{
                 color: '#CDFCB1',
@@ -76,24 +76,24 @@ const MemberEditPage: NextPage = () => {
           </Card>
         </Grid>
         <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={handleToggleSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: isMobile ? 'center' : 'right' }}
-      >
-        <Box
-          sx={{
-            background: '#A3ECAA',
-            px: 3,
-            py: 2,
-            borderRadius: '5px',
-            boxShadow: ' 0px 5px 10px rgba(0, 0, 0, 0.12)',
-            mb:{xs:14,sm:14,md:0}
-          }}
+          open={openSnackbar}
+          autoHideDuration={3000}
+          onClose={handleToggleSnackbar}
+          anchorOrigin={{ vertical: 'bottom', horizontal: isMobile ? 'center' : 'right' }}
         >
-          <Typography sx={{ color: '#11151F', fontWeight: 300 }}>Profile changes saved!</Typography>
-        </Box>
-      </Snackbar>
+          <Box
+            sx={{
+              background: '#A3ECAA',
+              px: 3,
+              py: 2,
+              borderRadius: '5px',
+              boxShadow: ' 0px 5px 10px rgba(0, 0, 0, 0.12)',
+              mb: { xs: 14, sm: 14, md: 0 },
+            }}
+          >
+            <Typography sx={{ color: '#11151F', fontWeight: 300 }}>Profile changes saved!</Typography>
+          </Box>
+        </Snackbar>
       </Grid>
     </AuthGuard>
   )

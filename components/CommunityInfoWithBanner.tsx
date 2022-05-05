@@ -1,28 +1,32 @@
 import { Box, Chip, Typography } from '@mui/material'
 import Image from 'next/image'
-import { Community } from '../types'
-import SocialLinks from './SocialLinks'
 import Link from 'next/link'
+
 import EthereumIcon from './icons/EthereumIcon'
+import SocialLinks from './SocialLinks'
+import { Community } from '../types'
 
 export default function CommunityInfo({ community }: { community: Community }) {
-  const maxWidth = () => {
-    return Math.round(window.screen.width) + 'px'
-  }
+  const coverUrl = community.coverUrl ?? '/images/default_cover.jpg'
+  const logoUrl = community.logoUrl ?? '/images/forefront.png'
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" position="relative">
-      <Box sx={{ filter: 'drop-shadow(4px 10px 35px rgba(245, 255, 244, 0.2))' }}>
-        <Image src={community?.coverUrl ?? '/images/forefront_cover.png'} width={maxWidth()} height={'80vh'} />
-      </Box>
-
+      <Box
+        sx={{
+          filter: 'drop-shadow(4px 10px 35px rgba(245, 255, 244, 0.2))',
+          width: '100%',
+          height: '96px',
+          background: `center / cover no-repeat url(${coverUrl})`,
+        }}
+      />
       <Box mt={-6}>
         <Box>
-          <Image src={community.logoUrl ?? '/images/forefront.png'} width={80} height={80} />
+          <Image src={logoUrl} width={80} height={80} alt="logo" />
         </Box>
         <Box sx={{ mt: -5, position: 'absolute', right: 20, cursor: 'pointer' }}>
           <Link href={`/community/${community.shortId}/edit`}>
-            <Image src={'/images/CommunityEditIcon.svg'} width={20} height={20} />
+            <Image src={'/images/CommunityEditIcon.svg'} width={20} height={20} alt="edit" />
           </Link>
         </Box>
       </Box>
