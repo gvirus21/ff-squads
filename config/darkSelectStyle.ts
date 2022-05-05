@@ -13,23 +13,27 @@ const config: StylesConfig<unknown, boolean, GroupBase<unknown>> = {
   }),
   multiValueLabel: (styles, { data }) => ({
     ...styles,
-    color: '#11151F',
+    color: '#F5FFF4',
     fontSize: 16,
     fontWeight: 600,
   }),
   multiValueRemove: (styles, { data }) => ({
     ...styles,
-    color: '#11151F',
+    color: '#F5FFF4',
     ':hover': {
       cursor: 'pointer',
     },
   }),
   menu: (styles) => ({
     ...styles,
-    background: '#616D6C',
+    background: '#11151F',
     border: '1px solid #BAC3B9',
   }),
   valueContainer: (styles) => ({
+    ...styles,
+    color: '#F5FFF4',
+  }),
+  input: (styles) => ({
     ...styles,
     color: '#F5FFF4',
   }),
