@@ -1,6 +1,9 @@
 import { Box, Fade, FormHelperText, InputLabel } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
+import { StylesConfig, GroupBase } from 'react-select'
 import TimezoneSelect, { Props as TimezoneSelectProps } from 'react-timezone-select'
+
+import darkSelectStyle from '../../config/darkSelectStyle'
 
 export type FormTimezoneProps = {
   control?: Control<any, object>
@@ -37,6 +40,7 @@ export const FormTimezone = ({ label, name, control, required, ...props }: FormT
             {...field}
             {...props}
             id={`timezone-${name}`}
+            styles={darkSelectStyle}
           />
           <Fade in={invalid}>
             <FormHelperText error>{error?.message || ' '}</FormHelperText>

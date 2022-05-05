@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoadingButton } from '@mui/lab'
-import { Box, Grid } from '@mui/material'
-import { User } from 'next-auth'
+import { Box, Button, Grid } from '@mui/material'
+import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import countryList from 'react-select-country-list'
@@ -115,6 +115,7 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
   })
   const socialIdsValue = watch('socialIds')
   const countryOptions = useMemo(() => countryList().getData(), [])
+  const router = useRouter()
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -240,6 +241,9 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
           <LoadingButton type="submit" variant="contained" loading={submitting}>
             {submitText}
           </LoadingButton>
+          <Button variant="contained" onClick={() => router.back()}>
+            Cancel
+          </Button>
         </Grid>
       </Grid>
     </form>
