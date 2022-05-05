@@ -12,9 +12,10 @@ const Home: NextPage = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        textAlign:'center'
       }}
     >
-      <Typography variant="h3" component="h1" mb={5} gutterBottom>
+      <Typography variant="h3" component="h1" my={5}  gutterBottom>
         Forefront Member Directory
       </Typography>
 

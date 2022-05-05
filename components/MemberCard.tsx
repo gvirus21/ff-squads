@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMemberInCommunity } from '../hooks/useMember'
-
+import ExpertiseIcon from './icons/ExpertiseIcon'
 import { Member } from '../types'
 import SocialLinks from './SocialLinks'
 
@@ -30,11 +30,16 @@ const Timezone = ({
         sx={{
           backgroundColor: '#616D6C',
           color: '#E5ECE3',
+          opacity: '.8',
+          boxShadow: '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)',
+          fontSize: '12px',
+          fontWeight: 300,
+          backdropFilter: 'blur(3.17565px)',
           mr: direction === 'row' ? 1 : 0,
           mb: direction === 'row' ? 0 : 1,
         }}
       />
-      <Typography variant="caption" color="#E5ECE3" sx={{}}>
+      <Typography  sx={{color:"#E5ECE3", fontSize:'12px',fontWeight:300}}>
         {timezone}
       </Typography>
     </Box>
@@ -66,27 +71,39 @@ export default function MemberCard({ member }: { member: Member }) {
           '&:hover': {
             cursor: 'pointer',
             boxShadow: 'inset 4px 10px 35px 0px rgba(245, 255, 244, 0.2), 2px 8px 8px 0px rgba(245, 255, 244, 0.15)',
+            border : '2px solid #8C79E2'
           },
         }}
         onClick={toggleDialog}
       >
-        <CardContent sx={{ p: 2 }}>
-          <Box display="flex" alignItems="baseline">
-            <Image
+        <CardContent sx={{ p: 2}}>
+          <Box display="flex" >
+            <Box>
+              <Image
               src={member.logoUrl ?? '/images/Profile.svg'}
               alt={member.username}
               width={64}
               height={64}
-              style={{ borderRadius: '100%' }}
-            />
-            <Box ml={3}>
-              <SocialLinks socialLinks={member.socialLinks} _size={20} />
+              style={{ borderRadius: '100%' , border : '4.44444px solid #11151F' }}
+              />
             </Box>
+            <Box display="flex" flexDirection="column" justifyContent="space-between" sx={{width:'100%'}} >
+              <Box display="flex" justifyContent="right">
+                <ExpertiseIcon sx={{color:'#BAC3B9'}}  />
+              </Box>
+              <Box ml={3} pb={-4} mb={-1}>
+                <SocialLinks socialLinks={member.socialLinks} _size={20} />
+              </Box>
+              
+              
+            </Box>
+            
+             
           </Box>
           <Typography fontWeight={600} sx={{ mt: 2 }}>
             {member.username}
           </Typography>
-          <Typography component="p" variant="caption" color="#E5ECE3" sx={{ mb: 3.5 }}>
+          <Typography component="p" variant="caption" color="#E5ECE3" sx={{ mb: 3.5 , fontWeight: 300 }}>
             {member.discordHandle}
           </Typography>
           <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="column" />

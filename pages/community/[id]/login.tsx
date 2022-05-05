@@ -96,7 +96,7 @@ const LoginPage: NextPage = () => {
   return (
     <Container maxWidth="lg">
       {!account ? (
-        <Grid container spacing={4} justifyContent="space-between">
+        <Grid container spacing={4} justifyContent="space-between" my={'auto'}>
           <Grid item xs={12} sm={6}>
             <Typography variant="body1" sx={{ mt: 4, fontWeight: 300 }}>
               Forefront Studio
@@ -113,7 +113,7 @@ const LoginPage: NextPage = () => {
               Find, connect, and plan projects with community members
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} sx={{mb: { sm: 10, xs:10, md: 0 }}}>
             <Card>
               <CardHeader
                 avatar={<AccountBalanceWallet color="success" />}
@@ -125,7 +125,7 @@ const LoginPage: NextPage = () => {
                 }}
               />
               <CardContent
-                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: { sm: 0, md: 12 } }}
+                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: { sm: 0, md: 12 }  }}
               >
                 <Typography variant="body1" textAlign="center" fontWeight={300} sx={{ width: '80%', mt: 8 }}>
                   To unlock Member Directory (BETA), connect your wallet and create a profile with your Discord account!
@@ -133,7 +133,7 @@ const LoginPage: NextPage = () => {
                 <CommunityInfo community={community} />
                 <Button variant="contained" color="secondary" onClick={handleClick} sx={{ mt: 2, mb: 2 }}>
                   Connect Wallet
-                  <Divider orientation="vertical" flexItem sx={{ borderColor: '#11151f', ml: 1, mr: 0.5, border: 1 }} />
+                  <Divider orientation="vertical" flexItem sx={{ borderColor: '#11151f', background : '#11151f', width : '2px' , margin : '5px 2px 5px 10px' }} />
                   <KeyboardArrowDown />
                 </Button>
                 <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
@@ -155,7 +155,7 @@ const LoginPage: NextPage = () => {
           </Grid>
         </Grid>
       ) : (
-        <Grid container spacing={4} justifyContent="center">
+        <Grid container spacing={4} justifyContent="center" sx={{mt: { sm: 'auto', xs:0, md: 'auto' },mb: { sm:20, xs:20, md: 5 }}}>
           <Grid item xs={12} sm={6}>
             <Card>
               <CardHeader
@@ -172,7 +172,7 @@ const LoginPage: NextPage = () => {
                   variant="body1"
                   color="#F5FFF4"
                   textAlign="center"
-                  sx={{ width: '80%', py: 8, fontWeight: 300 }}
+                  sx={{ width: '80%', my: 5, fontWeight: 300 }}
                 >
                   Login with your Discord account to help us verify that you&apos;re a member of the community.
                   <br />
@@ -182,7 +182,7 @@ const LoginPage: NextPage = () => {
                   variant="contained"
                   onClick={() => signIn('discord')}
                   sx={{
-                    mb: { xs: 5, sm: 5, md: 24 },
+                    mb: { xs: 5, sm: 5, md: 10 },
                     background: '#3E41BB',
                     ':hover': {
                       opacity: 0.7,
@@ -211,6 +211,7 @@ const LoginPage: NextPage = () => {
             py: 2,
             borderRadius: '5px',
             boxShadow: ' 0px 5px 10px rgba(0, 0, 0, 0.12)',
+            mb:{xs:14,sm:14,md:0}
           }}
         >
           <Typography sx={{ color: '#11151F', fontWeight: 300 }}>Nice! Your wallet is now connected.</Typography>

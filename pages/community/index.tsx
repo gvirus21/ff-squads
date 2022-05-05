@@ -9,7 +9,7 @@ export default function CommunitiesPage() {
 
   return (
     <Container>
-      <Grid container spacing={4}>
+      <Grid container spacing={4} my={1}>
         {communities &&
           communities.map((community: Community) => (
             <Grid item xs={12} sm={4} key={community.shortId}>

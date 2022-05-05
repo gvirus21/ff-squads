@@ -10,16 +10,18 @@ const config: StylesConfig<unknown, boolean, GroupBase<unknown>> = {
     ...styles,
     backgroundColor: '#8C79E2',
     color: '#11151F',
+    borderRadius: '8px',
+    boxShadow : '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)'
   }),
   multiValueLabel: (styles, { data }) => ({
     ...styles,
-    color: '#F5FFF4',
-    fontSize: 16,
+    color: '#11151F',
+    fontSize: '16px',
     fontWeight: 600,
   }),
   multiValueRemove: (styles, { data }) => ({
     ...styles,
-    color: '#F5FFF4',
+    color: '#11151F',
     ':hover': {
       cursor: 'pointer',
     },
@@ -36,6 +38,16 @@ const config: StylesConfig<unknown, boolean, GroupBase<unknown>> = {
   input: (styles) => ({
     ...styles,
     color: '#F5FFF4',
+  }),
+  option: (styles) => ({
+    ...styles,
+    color: '#F5FFF4',
+    background: '#11151F',
+    ':hover': {
+      background: '#8C79E2',
+      color:'#11151F',
+      cursor:'pointer'
+    }
   }),
 }
 
