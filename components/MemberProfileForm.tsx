@@ -123,7 +123,7 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
           <FormTextInput control={control} name="username" label="Username" placeholder="Username" required />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FormTextInput control={control} name="email" label="Email" placeholder="Email address" required />
+          <FormTextInput control={control} name="email" label="Email" placeholder="Email address" required disabled/>
         </Grid>
         <Grid item xs={12} sm={12}>
           <FormTextInput

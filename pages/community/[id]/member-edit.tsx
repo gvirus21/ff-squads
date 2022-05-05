@@ -53,7 +53,7 @@ const MemberEditPage: NextPage = () => {
         <Grid item xs={12} sm={6}>
           <Card sx={{ overflow: 'visible' }}>
             <CardHeader
-              avatar={<PersonIcon color="success" />}
+              avatar={<PersonIcon color="success" sx={{fontSize:'22px'}} />}
               title="Edit Profile"
               titleTypographyProps={{
                 color: '#CDFCB1',

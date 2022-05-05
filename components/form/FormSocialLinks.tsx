@@ -55,9 +55,7 @@ export const FormSocialLinks = ({ label, parentName, control, required, socialId
                             maxHeight: '40px',
                             display: 'flex',
                             justifyContent: 'center',
-                            background: '#BAC3B9',
-                            border: '1px solid #E2E8F0',
-                            borderWidth: '0 1px 0 0',
+                            background: '#616D6C',
                           }}
                         >
                           <IconComponent />

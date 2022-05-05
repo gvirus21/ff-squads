@@ -109,16 +109,19 @@ export const FormCreatableSelect = ({
                   ...styles,
                   backgroundColor: '#8C79E2',
                   color: '#11151F',
+                  borderRadius: '8px',
+                  boxShadow : '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)'
+
                 }),
                 multiValueLabel: (styles, { data }) => ({
                   ...styles,
-                  color: '#11151F',
+                  color: '#F5FFF4',
                   fontSize: 16,
                   fontWeight: 600,
                 }),
                 multiValueRemove: (styles, { data }) => ({
                   ...styles,
-                  color: '#11151F',
+                  color: '#F5FFF4',
                   ':hover': {
                     cursor: 'pointer',
                   },
