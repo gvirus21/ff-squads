@@ -41,8 +41,8 @@ export default function UserProfileMobile() {
   }
 
   return (
-    <Box display="flex" sx={{background:'#11151F',boxShadow: '0px 8px 30px rgba(0, 0, 0, 0.12)'}}>
-      <List sx={{width:'100%'}} >
+    <Box display="flex" sx={{ background: '#11151F', boxShadow: '0px 8px 30px rgba(0, 0, 0, 0.12)' }}>
+      <List sx={{ width: '100%' }}>
         <ListItem>
           <ListItemIcon>
             <AccountBalanceWalletIcon />
@@ -54,7 +54,7 @@ export default function UserProfileMobile() {
           <ListItemIcon></ListItemIcon>
           <ListItemText primary={'Metamask'} sx={{ fontSize: '16px', fontWeight: 300 }} />
           <Chip
-            label={shortenAddress(account,2)}
+            label={shortenAddress(account, 2)}
             sx={{
               background: '#616D6C',
               opacity: 0.8,
@@ -65,7 +65,7 @@ export default function UserProfileMobile() {
               color: '#F5FFF4',
               margin: 'auto 10px',
               padding: '0 4px',
-              backdropFilter: 'blur(3.17565px)'
+              backdropFilter: 'blur(3.17565px)',
             }}
           />
           <IconButton sx={{ ml: 5 }}>
@@ -75,22 +75,24 @@ export default function UserProfileMobile() {
         <Divider />
         {member && (
           <>
-          <ListItem>
-            <ListItemIcon>
-              <Box display="flex" sx={{ height: '24px', width: '24px', margin: '5px 0px' }}>
-                <Image
-                  src={member.logoUrl ?? '/images/Profile.svg'}
-                  alt={member.username}
-                  width={24}
-                  height={24}
-                  style={{ borderRadius: '100%', objectFit: 'fill' }}
-                />
-              </Box>
-             
-            </ListItemIcon>
-            <ListItemText primary={member?.username} sx={{ fontSize: '16px', fontWeight: 300 , color:'rgba(229, 236, 227, 0.5)' }} />
-          </ListItem>
-           <Divider />
+            <ListItem>
+              <ListItemIcon>
+                <Box display="flex" sx={{ height: '24px', width: '24px', margin: '5px 0px' }}>
+                  <Image
+                    src={member.logoUrl ?? '/images/Profile.svg'}
+                    alt={member.username}
+                    width={24}
+                    height={24}
+                    style={{ borderRadius: '100%', objectFit: 'fill' }}
+                  />
+                </Box>
+              </ListItemIcon>
+              <ListItemText
+                primary={member?.username}
+                sx={{ fontSize: '16px', fontWeight: 300, color: 'rgba(229, 236, 227, 0.5)' }}
+              />
+            </ListItem>
+            <Divider />
           </>
         )}
         <ListItemButton
