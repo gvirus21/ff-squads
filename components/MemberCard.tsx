@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMemberInCommunity } from '../hooks/useMember'
-
+import ExpertiseIcon from './icons/ExpertiseIcon'
 import { Member } from '../types'
 import SocialLinks from './SocialLinks'
 
@@ -30,11 +30,17 @@ const Timezone = ({
         sx={{
           backgroundColor: '#616D6C',
           color: '#E5ECE3',
+          opacity: '.8',
+          boxShadow: '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)',
+          fontSize: '12px',
+          fontWeight: 300,
+          backdropFilter: 'blur(3.17565px)',
           mr: direction === 'row' ? 1 : 0,
           mb: direction === 'row' ? 0 : 1,
+          padding : '0px 4px'
         }}
       />
-      <Typography variant="caption" color="#E5ECE3" sx={{}}>
+      <Typography  sx={{color:"#E5ECE3", fontSize:'12px',fontWeight:300}}>
         {timezone}
       </Typography>
     </Box>
@@ -66,66 +72,76 @@ export default function MemberCard({ member }: { member: Member }) {
           '&:hover': {
             cursor: 'pointer',
             boxShadow: 'inset 4px 10px 35px 0px rgba(245, 255, 244, 0.2), 2px 8px 8px 0px rgba(245, 255, 244, 0.15)',
+            border : '2px solid #8C79E2'
           },
         }}
         onClick={toggleDialog}
       >
-        <CardContent sx={{ p: 2 }}>
-          <Box display="flex" alignItems="baseline">
-            <Image
+        <CardContent sx={{ p: 2}}>
+          <Box display="flex" >
+            <Box>
+              <Image
               src={member.logoUrl ?? '/images/Profile.svg'}
               alt={member.username}
               width={64}
               height={64}
-              style={{ borderRadius: '100%' }}
-            />
-            <Box ml={3}>
-              <SocialLinks socialLinks={member.socialLinks} _size={20} />
+              style={{ borderRadius: '100%' , border : '4.44444px solid #11151F' }}
+              />
+            </Box>
+            <Box display="flex" flexDirection="column" justifyContent="space-between" sx={{width:'100%'}}  >
+              <Box display="flex" justifyContent="right"  >
+                <ExpertiseIcon sx={{ color: '#BAC3B9' }} />
+              </Box>
+              <Box ml={3} pb={-4} mb={-1}>
+                <SocialLinks socialLinks={member.socialLinks} _size={20} />
+              </Box>
             </Box>
           </Box>
           <Typography fontWeight={600} sx={{ mt: 2 }}>
             {member.username}
           </Typography>
-          <Typography component="p" variant="caption" color="#E5ECE3" sx={{ mb: 3.5 }}>
+          <Typography component="p" variant="caption" color="#E5ECE3" sx={{ mb: 3.5 , fontWeight: 300 }}>
             {member.discordHandle}
           </Typography>
           <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="column" />
         </CardContent>
       </Card>
-      <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={toggleDialog}>
-        <DialogTitle sx={{ m: 0, p: 2 }}>
+      <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={toggleDialog} >
+        <DialogTitle sx={{ m: 0 , pt:2}}>
           <IconButton
             aria-label="close"
             onClick={toggleDialog}
             sx={{
               position: 'absolute',
-              right: 8,
-              top: 8,
+              right: 0,
+              top: 0,
               color: (theme) => theme.palette.grey[500],
             }}
           >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ m: 2, p: '20px !important' }}>
-          <Box display="flex" alignItems="baseline" justifyContent="space-between" position="relative">
-            <Image
+        <DialogContent sx={{ p: 2 }} >
+          <Box display="flex" >
+            <Box>
+              <Image
               src={member.logoUrl ?? '/images/Profile.svg'}
               alt={member.username}
               width={80}
               height={80}
-              style={{ borderRadius: '100%' }}
-            />
-            <Box ml={3}>
-              <SocialLinks socialLinks={member.socialLinks} _size={24} />
+              style={{ borderRadius: '100%' , border : '4.44444px solid #11151F' }}
+              />
             </Box>
-            {me?._id === member._id && (
-              <Box position="absolute" sx={{ top: 0, right: 0 }}>
-                <IconButton onClick={handleEditProfile}>
-                  <Image src={'/images/CommunityEditIcon.svg'} width={20} height={20} alt="edit" />
-                </IconButton>
+            <Box display="flex" flexDirection="column" justifyContent="space-between" sx={{width:'100%'}} >
+              <Box display="flex" justifyContent="right" >
+                <ExpertiseIcon sx={{ color: '#BAC3B9' }} />
               </Box>
-            )}
+              <Box ml={3} pb={-4} mb={-1}>
+                <SocialLinks socialLinks={member.socialLinks} _size={30} />
+              </Box>
+            </Box>
+            
+             
           </Box>
           <Typography fontWeight={600} sx={{ mt: 2 }}>
             {member.username}
@@ -133,7 +149,17 @@ export default function MemberCard({ member }: { member: Member }) {
           <Typography component="p" variant="caption" color="#E5ECE3" sx={{ mb: 3.5 }}>
             {member.discordHandle}
           </Typography>
-          <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="row" />
+          <Box position="relative">
+            <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="row" />
+             {me?._id === member._id && (
+                  <Box position="absolute" sx={{ top: 0, right: 0 }}>
+                    <IconButton onClick={handleEditProfile}>
+                      <Image src={'/images/CommunityEditIcon.svg'} width={20} height={20} alt="edit" />
+                    </IconButton>
+                  </Box>
+                )}
+          </Box>
+          
           <Card sx={{ mt: 3, boxShadow: '0px 0px 25px 0px rgb(245 255 244 / 20%);' }}>
             <CardContent>
               <Box mt={2}>

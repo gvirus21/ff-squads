@@ -59,7 +59,7 @@ const MemberCreatePage: NextPage = () => {
         <Grid item xs={12} sm={6}>
           <Card sx={{ overflow: 'visible' }}>
             <CardHeader
-              avatar={<PersonIcon />}
+              avatar={<PersonIcon sx={{fontSize:'22px'}}/>}
               title="Create Profile"
               titleTypographyProps={{
                 color: '#CDFCB1',

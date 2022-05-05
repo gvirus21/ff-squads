@@ -4,7 +4,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined'
-import { Box, Card, Chip, Collapse, Tab, Tabs, TextField, Typography } from '@mui/material'
+import { Box, Card, Chip, Collapse, Tab, Tabs, TextField,useMediaQuery, useTheme, Button, Typography , Divider} from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import Drawer from '@mui/material/Drawer'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -30,6 +30,9 @@ import darkSelectStyle from '../../../config/darkSelectStyle'
 import { useCommunity } from '../../../hooks/useCommunities'
 import { AVAILABILITY_LIST, STATUS_LIST } from '../../../config/constants'
 import { Member } from '../../../types'
+
+import MembersGroupIcon from '../../../components/icons/MembersGroupIcon'
+import ProjectsIcon from '../../../components/icons/ProjectsIcon'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -145,6 +148,12 @@ export default function CommunityPage() {
   const [filterItems, setFilterItems] = React.useState<FilterItem[]>([])
   const [members, setMembers] = React.useState<Member[] | undefined>([])
 
+  const [filterOpenMobile,setfilterOpenMobile] = React.useState(false)
+
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const toggleFilter = () => setFilterOpen(!filterOpen)
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -235,67 +244,20 @@ export default function CommunityPage() {
     setMembers(community?.members)
   }, [community])
 
-  if (!community) return <></>
+  const toggleDrawerMobile = () => {
+    setExpertiseOpen(false);
+        setStatusOpen(false);
+        setAvailabiltyOpen(false);
+        setTimezoneOpen(false);
+    setfilterOpenMobile(!filterOpenMobile);
+  }
 
-  return (
-    <AuthGuard>
-      <Box>
-        <CommunityInfoWithBanner community={community} />
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
-          <Tabs value={value} onChange={handleTabChange} centered>
-            <Tab label={`Members (${community.members.length})`} {...a11yProps(0)} />
-            <Tab label="Projects (Coming soon)" {...a11yProps(1)} disabled />
-          </Tabs>
-        </Box>
-        <TabPanel value={value} index={0}>
-          <Box display="flex" position="relative" sx={{ zIndex: 0 }}>
-            <AppBar position="absolute" open={filterOpen}>
-              <Toolbar sx={{ py: 3 }}>
-                <IconButton onClick={toggleFilter} edge="start">
-                  {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </IconButton>
-                <FilterAltOutlinedIcon sx={{ mr: 2 }} />
-                <TextField
-                  placeholder="Search by name..."
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    width: '60%',
-                    '.MuiOutlinedInput-root': {
-                      borderRadius: '6px',
-                    },
-                    '.MuiOutlinedInput-input': {
-                      padding: '8px',
-                    },
-                  }}
-                />
-              </Toolbar>
-            </AppBar>
-            <Drawer
-              sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                  width: drawerWidth,
-                  background: '#11151f',
-                  boxShadow: '0px 8px 30px 0px rgba(0,0,0,0.12)',
-                  position: 'relative',
-                  boxSizing: 'border-box',
-                  padding: '16px',
-                },
-              }}
-              variant="persistent"
-              anchor="left"
-              open={filterOpen}
-            >
-              <Typography fontWeight={600} sx={{ p: 2 }}>
+
+  const drawerComponent = () => (
+    <Box
+      role="presentation"
+    >
+      <Typography fontWeight={600} sx={{ p: 2 }}>
                 Filters
               </Typography>
               <StyledList>
@@ -382,9 +344,105 @@ export default function CommunityPage() {
                   <Box sx={{ p: 2 }}>
                     <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} styles={darkSelectStyle} />
                   </Box>
-                </Collapse>
-              </StyledList>
+              </Collapse>
+            </StyledList>
+            {isMobile&&<List>
+                      <Box display="flex" my={2} >
+                          <Box mx={'auto'}>
+                              <Button variant="contained" sx={{background: '#3E41BB',
+                          ':hover': {
+                            opacity: 0.7,
+                            background: '#3E41BB',
+                          },}} onClick={() => toggleDrawerMobile()}  >SEE RESULTS</Button>
+                          </Box>
+                      </Box>
+              <Divider />
+            </List>}
+      
+     </Box>
+   )
+
+  if (!community) return <></>
+
+  return (
+    <AuthGuard>
+      <Box>
+        <CommunityInfoWithBanner community={community} />
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
+          <Tabs value={value} onChange={handleTabChange} centered>
+              <Tab icon={<MembersGroupIcon/>} iconPosition="start" label={`Members (${community.members.length})`} {...a11yProps(0)} />
+              <Tab icon={<ProjectsIcon />} iconPosition="start" label="Projects (Coming soon)" {...a11yProps(1)} disabled />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <Box display="flex" position="relative" sx={{ zIndex: 0 }}>
+            <AppBar position="absolute" open={filterOpen}>
+              <Toolbar sx={{ py: 3 }}>
+                {isMobile ?
+                    (<Box sx={{ position: 'fixed', bottom: 120, mx: '30%' }}>
+                        <Button variant="contained" onClick={() =>  toggleDrawerMobile() } sx={{background: '#3E41BB',
+                    ':hover': {
+                      opacity: 0.7,
+                      background: '#3E41BB',
+                    },}}  >FILTERS</Button>
+                  </Box>)
+                  :
+                  <>
+                  <IconButton onClick={toggleFilter} edge="start">
+                  {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                  </IconButton>
+                  <FilterAltOutlinedIcon sx={{ mr: 2 }} />
+                  </>
+                }
+                <TextField
+                  placeholder="Search by name..."
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    width: {md:'60%',xs:'100%',sm:'100%'},
+                    '.MuiOutlinedInput-root': {
+                      borderRadius: '6px',
+                    },
+                    '.MuiOutlinedInput-input': {
+                      padding: '8px',
+                    },
+                  }}
+                />
+              </Toolbar>
+            </AppBar>
+            <Drawer
+              sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                  width: drawerWidth,
+                  background: '#11151f',
+                  boxShadow: '0px 8px 30px 0px rgba(0,0,0,0.12)',
+                  position: 'relative',
+                  boxSizing: 'border-box',
+                  padding: '16px',
+                },
+              }}
+              variant="persistent"
+              anchor="left"
+              open={filterOpen}
+            >
+              {drawerComponent()}
             </Drawer>
+              <Drawer
+              anchor={'bottom'}
+              open={filterOpenMobile}
+              onClose={() => toggleDrawerMobile()}
+              > 
+              {drawerComponent()}
+          </Drawer>
             <Main open={filterOpen}>
               <DrawerHeader />
               {(filterItems.length > 0 || timezoneFilterItem) && (
@@ -410,9 +468,9 @@ export default function CommunityPage() {
                 </Box>
               )}
               {members && (
-                <Box display="flex" flexWrap="wrap" justifyContent="center" p={3}>
+                <Box display="flex" flexWrap="wrap" justifyContent="center" py={3}>
                   {members.map((member: Member) => (
-                    <Box key={member._id} pr={6} pb={6}>
+                    <Box key={member._id} sx={{ pr:{md:6,xs:0,sm:0} , pb:{md:6,xs:4,sm:3} }}>
                       <MemberCard member={member} />
                     </Box>
                   ))}

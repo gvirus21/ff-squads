@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoadingButton } from '@mui/lab'
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Grid} from '@mui/material'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
@@ -105,6 +105,8 @@ export const expertiseOptions: GroupedOption[] = Object.keys(EXPERTISE_CATEGORY)
 }))
 
 const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }: MemberProfileFormProps) => {
+ 
+  
   const { handleSubmit, control, watch } = useForm<MemberProfileInfo>({
     mode: 'all',
     defaultValues: {
@@ -113,9 +115,13 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
     },
     resolver: yupResolver(memberProfileSchema),
   })
+
+   
   const socialIdsValue = watch('socialIds')
   const countryOptions = useMemo(() => countryList().getData(), [])
   const router = useRouter()
+
+  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -124,7 +130,7 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
           <FormTextInput control={control} name="username" label="Username" placeholder="Username" required />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FormTextInput control={control} name="email" label="Email" placeholder="Email address" required />
+          <FormTextInput control={control} name="email" label="Email" placeholder="Email address" required disabled/>
         </Grid>
         <Grid item xs={12} sm={12}>
           <FormTextInput
@@ -238,15 +244,29 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
         </Grid>
 
         <Grid item xs={12} sm={12}>
-          <LoadingButton type="submit" variant="contained" loading={submitting}>
+          <LoadingButton type="submit" variant="contained" loading={submitting} sx={{
+                    mb: { xs: 5, sm: 5, md: 10 },
+                    background: '#3E41BB',
+                    ':hover': {
+                      opacity: 0.7,
+                      background: '#3E41BB',
+                    },
+          }}
+          >
             {submitText}
           </LoadingButton>
-          <Button variant="contained" onClick={() => router.back()}>
+          <Button variant="contained" onClick={() => router.back()} sx={{
+                    mb: { xs: 5, sm: 5, md: 10 },
+                    ml : 2
+          }}
+            color="secondary"
+          >
             Cancel
           </Button>
         </Grid>
       </Grid>
     </form>
+    
   )
 }
 

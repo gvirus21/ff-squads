@@ -41,8 +41,8 @@ export default function UserProfileMobile() {
   }
 
   return (
-    <Box display="flex">
-      <List>
+    <Box display="flex" sx={{background:'#11151F',boxShadow: '0px 8px 30px rgba(0, 0, 0, 0.12)'}}>
+      <List sx={{width:'100%'}} >
         <ListItem>
           <ListItemIcon>
             <AccountBalanceWalletIcon />
@@ -54,17 +54,18 @@ export default function UserProfileMobile() {
           <ListItemIcon></ListItemIcon>
           <ListItemText primary={'Metamask'} sx={{ fontSize: '16px', fontWeight: 300 }} />
           <Chip
-            label={shortenAddress(account)}
+            label={shortenAddress(account,2)}
             sx={{
-              background: '#E5ECE3',
+              background: '#616D6C',
               opacity: 0.8,
               boxShadow: '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)',
               borderRadius: '10.0767px',
               fontSize: '12px',
               fontWeight: 300,
-              color: '#616D6C',
+              color: '#F5FFF4',
               margin: 'auto 10px',
-              padding: 0,
+              padding: '0 4px',
+              backdropFilter: 'blur(3.17565px)'
             }}
           />
           <IconButton sx={{ ml: 5 }}>
@@ -73,6 +74,7 @@ export default function UserProfileMobile() {
         </ListItem>
         <Divider />
         {member && (
+          <>
           <ListItem>
             <ListItemIcon>
               <Box display="flex" sx={{ height: '24px', width: '24px', margin: '5px 0px' }}>
@@ -84,10 +86,12 @@ export default function UserProfileMobile() {
                   style={{ borderRadius: '100%', objectFit: 'fill' }}
                 />
               </Box>
-              <Divider />
+             
             </ListItemIcon>
-            <ListItemText primary={member?.username} sx={{ fontSize: '16px', fontWeight: 300 }} />
+            <ListItemText primary={member?.username} sx={{ fontSize: '16px', fontWeight: 300 , color:'rgba(229, 236, 227, 0.5)' }} />
           </ListItem>
+           <Divider />
+          </>
         )}
         <ListItemButton
           onClick={() => {
