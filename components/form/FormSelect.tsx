@@ -1,8 +1,9 @@
 import { Box, Fade, FormHelperText, InputLabel } from '@mui/material'
-import Image from 'next/image'
-import { ReactNode, useMemo } from 'react'
+import { useMemo } from 'react'
 import { Control, Controller } from 'react-hook-form'
-import Select, { Props as SelectProps, components, OptionProps } from 'react-select'
+import Select, { Props as SelectProps, components, OptionProps, StylesConfig, GroupBase } from 'react-select'
+
+import darkSelectStyle from '../../config/darkSelectStyle'
 
 export type SelectOption = {
   label: string
@@ -97,45 +98,7 @@ export const FormSelect = ({ id, label, name, control, options, required, isMult
               id={id ?? `select-${name}`}
               isMulti={isMulti}
               components={{ Option: IconOption }}
-              styles={{
-                control: (styles) => ({
-                  ...styles,
-                  backgroundColor: 'transparent',
-                  color: '#F5FFF4',
-                }),
-                
-                multiValue: (styles, { data }) => ({
-                  ...styles,
-                  backgroundColor: '#8C79E2',
-                  color: '#11151F',
-                  borderRadius: '8px',
-                  boxShadow : '0px 3.17565px 3.17565px rgba(0, 0, 0, 0.25)'
-                }),
-                multiValueLabel: (styles, { data }) => ({
-                  ...styles,
-                  color: '#F5FFF4',
-                  fontSize: 16,
-                  fontWeight: 600,
-                }),
-                multiValueRemove: (styles, { data }) => ({
-                  ...styles,
-                  color: '#F5FFF4',
-                  ':hover': {
-                    cursor: 'pointer',
-                  },
-                }),
-                menu: (styles) => ({
-                  ...styles,
-                  backgroundColor: '#11151F',
-                  border: '1px solid #F5FFF4',
-                  
-                }),
-                input: (styles) => ({
-                  ...styles,   
-                       color: '#F5FFF4',
-                }),
-                
-              }}
+              styles={darkSelectStyle as StylesConfig<SelectOption, boolean, GroupBase<SelectOption>>}
             />
             <Fade in={invalid}>
               <FormHelperText error>{error?.message || ' '}</FormHelperText>

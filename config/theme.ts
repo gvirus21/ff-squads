@@ -137,6 +137,18 @@ const theme = createTheme({
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          padding: '4px',
+          height: 'auto',
+        },
+        label: {
+          padding: 0,
+        },
+      },
+    },
   },
 })
 

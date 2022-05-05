@@ -10,7 +10,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <>
       <Header />
-      <Box sx={{ pt: 12, pb: 20 }}>{children}</Box>
+      <Box sx={{ pt: 8, pb: 13 }}>{children}</Box>
       <Footer />
     </>
   )
