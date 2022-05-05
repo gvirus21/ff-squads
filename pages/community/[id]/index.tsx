@@ -344,20 +344,20 @@ export default function CommunityPage() {
                   <Box sx={{ p: 2 }}>
                     <TimezoneSelect value={selectedTimezone} onChange={handleTimezoneFilter} styles={darkSelectStyle} />
                   </Box>
-        </Collapse>
-      </StyledList>
-      {isMobile&&<List>
-                <Box display="flex" my={2} >
-                    <Box mx={'auto'}>
-                        <Button variant="contained" sx={{background: '#3E41BB',
-                    ':hover': {
-                      opacity: 0.7,
-                      background: '#3E41BB',
-                    },}} onClick={() => toggleDrawerMobile()}  >SEE RESULTS</Button>
-                    </Box>
-                </Box>
-        <Divider />
-      </List>}
+              </Collapse>
+            </StyledList>
+            {isMobile&&<List>
+                      <Box display="flex" my={2} >
+                          <Box mx={'auto'}>
+                              <Button variant="contained" sx={{background: '#3E41BB',
+                          ':hover': {
+                            opacity: 0.7,
+                            background: '#3E41BB',
+                          },}} onClick={() => toggleDrawerMobile()}  >SEE RESULTS</Button>
+                          </Box>
+                      </Box>
+              <Divider />
+            </List>}
       
      </Box>
    )
@@ -437,12 +437,12 @@ export default function CommunityPage() {
               {drawerComponent()}
             </Drawer>
               <Drawer
-                              anchor={'bottom'}
-                              open={filterOpenMobile}
-                              onClose={() =>  toggleDrawerMobile() }
-                          >
-                              {drawerComponent()}
-                          </Drawer>
+              anchor={'bottom'}
+              open={filterOpenMobile}
+              onClose={() => toggleDrawerMobile()}
+              > 
+              {drawerComponent()}
+          </Drawer>
             <Main open={filterOpen}>
               <DrawerHeader />
               {(filterItems.length > 0 || timezoneFilterItem) && (

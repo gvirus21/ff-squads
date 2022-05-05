@@ -94,8 +94,6 @@ export default function MemberCard({ member }: { member: Member }) {
               <Box ml={3} pb={-4} mb={-1}>
                 <SocialLinks socialLinks={member.socialLinks} _size={20} />
               </Box>
-              
-              
             </Box>
             
              
@@ -109,40 +107,42 @@ export default function MemberCard({ member }: { member: Member }) {
           <Timezone country={member.country} city={member.city} timezone={member.timezone} direction="column" />
         </CardContent>
       </Card>
-      <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={toggleDialog}>
-        <DialogTitle sx={{ m: 0, p: 2 }}>
+      <Dialog fullWidth maxWidth="xs" open={dialogOpen} onClose={toggleDialog}    >
+        <DialogTitle sx={{ m: 0 , pt:2}}>
           <IconButton
             aria-label="close"
             onClick={toggleDialog}
             sx={{
               position: 'absolute',
-              right: 8,
-              top: 8,
+              right: 0,
+              top: 0,
               color: (theme) => theme.palette.grey[500],
             }}
           >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ m: 2, p: '20px !important' }}>
-          <Box display="flex" alignItems="baseline" justifyContent="space-between" position="relative">
-            <Image
+        <DialogContent sx={{ p: 2 }}>
+          <Box display="flex" >
+            <Box>
+              <Image
               src={member.logoUrl ?? '/images/Profile.svg'}
               alt={member.username}
               width={80}
               height={80}
-              style={{ borderRadius: '100%' }}
-            />
-            <Box ml={3}>
-              <SocialLinks socialLinks={member.socialLinks} _size={24} />
+              style={{ borderRadius: '100%' , border : '4.44444px solid #11151F' }}
+              />
             </Box>
-            {me?._id === member._id && (
-              <Box position="absolute" sx={{ top: 0, right: 0 }}>
-                <IconButton onClick={handleEditProfile}>
-                  <Image src={'/images/CommunityEditIcon.svg'} width={20} height={20} alt="edit" />
-                </IconButton>
+            <Box display="flex" flexDirection="column" justifyContent="space-between" sx={{width:'100%'}} >
+              <Box display="flex" justifyContent="right">
+                <ExpertiseIcon sx={{color:'#BAC3B9'}}  />
               </Box>
-            )}
+              <Box ml={3} pb={-4} mb={-1}>
+                <SocialLinks socialLinks={member.socialLinks} _size={20} />
+              </Box>
+            </Box>
+            
+             
           </Box>
           <Typography fontWeight={600} sx={{ mt: 2 }}>
             {member.username}
