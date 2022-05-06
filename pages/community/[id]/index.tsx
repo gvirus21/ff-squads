@@ -46,6 +46,7 @@ import { Member } from '../../../types'
 
 import MembersGroupIcon from '../../../components/icons/MembersGroupIcon'
 import ProjectsIcon from '../../../components/icons/ProjectsIcon'
+import Page from '../../../components/page'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -380,7 +381,8 @@ export default function CommunityPage() {
   if (!community) return <></>
 
   return (
-    <AuthGuard>
+    <Page title={`${community.name||'Community'} | Member Directory | Forefront`}>
+      <AuthGuard>
       <Box>
         <CommunityInfoWithBanner community={community} />
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
@@ -514,5 +516,7 @@ export default function CommunityPage() {
         </TabPanel>
       </Box>
     </AuthGuard>
+    </Page>
+   
   )
 }

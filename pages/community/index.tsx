@@ -1,14 +1,15 @@
 import { Card, CardActionArea, CardContent, Container, Grid } from '@mui/material'
 import CommunityInfo from '../../components/CommunityInfo'
-
 import { useCommunities } from '../../hooks/useCommunity'
 import { Community } from '../../types'
+import Page from '../../components/page'
 
 export default function CommunitiesPage() {
   const { data: communities } = useCommunities()
 
   return (
-    <Container>
+    <Page title="Communities | Member Directory | Forefront">
+      <Container>
       <Grid container spacing={4} my={1}>
         {communities &&
           communities.map((community: Community) => (
@@ -24,5 +25,7 @@ export default function CommunitiesPage() {
           ))}
       </Grid>
     </Container>
+    </Page>
+    
   )
 }

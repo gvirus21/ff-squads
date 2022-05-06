@@ -29,6 +29,8 @@ import connectors, { ConnectorKey } from '../../../connectors'
 import { useCommunity } from '../../../hooks/useCommunity'
 import { useMemberInCommunity } from '../../../hooks/useMember'
 
+import Page from '../../../components/page'
+
 const LoginPage: NextPage = () => {
   const [openSnackbar, setopenSnackbar] = useState(false)
   const theme = useTheme()
@@ -94,7 +96,8 @@ const LoginPage: NextPage = () => {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Page title="Login | Member Directory | Forefront">
+      <Container maxWidth="lg">
       {!account ? (
         <Grid container spacing={4} justifyContent="space-between" my={'auto'}>
           <Grid item xs={12} sm={6}>
@@ -227,6 +230,8 @@ const LoginPage: NextPage = () => {
         </Box>
       </Snackbar>
     </Container>
+    </Page>
+   
   )
 }
 
