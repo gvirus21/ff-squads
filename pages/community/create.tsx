@@ -8,6 +8,7 @@ import CommunityProfileForm, { communityProfileFormDefault } from '../../compone
 import CommunityFormIcon from '../../components/icons/CommunityFormIcon'
 import { useCreateCommunity } from '../../hooks/useCommunity'
 import { CommunityProfileInfo } from '../../types'
+import Page from '../../components/page'
 
 const CommunityCreatePage: NextPage = () => {
   const router = useRouter()
@@ -35,6 +36,7 @@ const CommunityCreatePage: NextPage = () => {
   }, [])
 
   return (
+    <Page title={`Create Community Profile | Member Directory | Forefront`}>
     <AuthGuard>
       <>
         <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mt={1} mb={4}>
@@ -62,6 +64,8 @@ const CommunityCreatePage: NextPage = () => {
         </Grid>
       </>
     </AuthGuard>
+    </Page>
+
   )
 }
 

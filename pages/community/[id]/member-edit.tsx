@@ -11,6 +11,7 @@ import PageLoading from '../../../components/PageLoading'
 import { useCommunity } from '../../../hooks/useCommunity'
 import { useMemberInCommunity, useUpdateMember } from '../../../hooks/useMember'
 import { MemberProfileInfo, MemberProfileRequest } from '../../../types'
+import Page from '../../../components/page'
 
 const MemberEditPage: NextPage = () => {
   const router = useRouter()
@@ -57,6 +58,7 @@ const MemberEditPage: NextPage = () => {
   }
 
   return (
+    <Page title={"Edit Profile | Member Directory | Forefront"}>
     <AuthGuard>
       <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mb={2}>
         <Grid item xs={12} sm={6}>
@@ -95,7 +97,9 @@ const MemberEditPage: NextPage = () => {
           </Box>
         </Snackbar>
       </Grid>
-    </AuthGuard>
+    </AuthGuard>      
+    </Page>
+
   )
 }
 

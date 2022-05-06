@@ -21,7 +21,7 @@ export default function CommunityInfo({ community }: { community: Community }) {
         }}
       />
       <Box mt={-6}>
-        <Image src={logoUrl} width={80} height={80} alt="logo" />
+        <Image src={logoUrl} width={80} height={80} alt="logo" style={{borderRadius:'100%'}} />
       </Box>
       <Box position="relative" width="100%">
         <Box mb={1.5} display="flex" justifyContent="center" alignItems="center">

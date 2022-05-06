@@ -8,6 +8,7 @@ import { useCommunity, useUpdateCommunity } from '../../../hooks/useCommunity'
 import React, { useCallback } from 'react'
 import { CommunityProfileInfo } from '../../../types'
 import PageLoading from '../../../components/PageLoading'
+import Page from '../../../components/page'
 
 const CommunityEditPage: NextPage = () => {
   const router = useRouter()
@@ -39,6 +40,7 @@ const CommunityEditPage: NextPage = () => {
   if (!community || loadingCommunity) return <PageLoading />
 
   return (
+    <Page title={`Edit ${community.name||''} Community Profile | Member Directory | Forefront`}>
     <AuthGuard>
       <>
         <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mt={1} mb={4}>
@@ -61,6 +63,8 @@ const CommunityEditPage: NextPage = () => {
         </Grid>
       </>
     </AuthGuard>
+    </Page>
+
   )
 }
 
