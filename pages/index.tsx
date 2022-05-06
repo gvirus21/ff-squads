@@ -9,24 +9,23 @@ const Home: NextPage = () => {
   return (
     <Page>
       <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
         }}
       >
-      <Typography variant="h3" component="h1" my={5} gutterBottom>
-        Forefront Member Directory
-      </Typography>
+        <Typography variant="h3" component="h1" my={5} gutterBottom>
+          Forefront Member Directory
+        </Typography>
 
-      <Typography variant="h5" gutterBottom>
-        Visit the Community Page <Link href="/community">here</Link>
-      </Typography>
-    </Box>
+        <Typography variant="h5" gutterBottom>
+          Visit the Community Page <Link href="/community">here</Link>
+        </Typography>
+      </Box>
     </Page>
-    
   )
 }
 

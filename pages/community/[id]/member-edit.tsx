@@ -58,48 +58,47 @@ const MemberEditPage: NextPage = () => {
   }
 
   return (
-    <Page title={"Edit Profile | Member Directory | Forefront"}>
-    <AuthGuard>
-      <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mb={2}>
-        <Grid item xs={12} sm={6}>
-          <Card sx={{ overflow: 'visible' }}>
-            <CardHeader
-              avatar={<PersonIcon color="success" sx={{ fontSize: '22px' }} />}
-              title="Edit Profile"
-              titleTypographyProps={{
-                color: '#CDFCB1',
-                fontWeight: 600,
-                fontSize: '16px',
-              }}
-            />
-            <CardContent>
-              <MemberProfileForm member={member} onSubmit={onSubmit} submitting={isLoading} />
-            </CardContent>
-          </Card>
-        </Grid>
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={3000}
-          onClose={handleToggleSnackbar}
-          anchorOrigin={{ vertical: 'bottom', horizontal: isMobile ? 'center' : 'right' }}
-        >
-          <Box
-            sx={{
-              background: '#A3ECAA',
-              px: 3,
-              py: 2,
-              borderRadius: '5px',
-              boxShadow: ' 0px 5px 10px rgba(0, 0, 0, 0.12)',
-              mb: { xs: 14, sm: 14, md: 0 },
-            }}
+    <Page title={'Edit Profile | Member Directory | Forefront'}>
+      <AuthGuard>
+        <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mb={2}>
+          <Grid item xs={12} sm={6}>
+            <Card sx={{ overflow: 'visible' }}>
+              <CardHeader
+                avatar={<PersonIcon color="success" sx={{ fontSize: '22px' }} />}
+                title="Edit Profile"
+                titleTypographyProps={{
+                  color: '#CDFCB1',
+                  fontWeight: 600,
+                  fontSize: '16px',
+                }}
+              />
+              <CardContent>
+                <MemberProfileForm member={member} onSubmit={onSubmit} submitting={isLoading} />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={3000}
+            onClose={handleToggleSnackbar}
+            anchorOrigin={{ vertical: 'bottom', horizontal: isMobile ? 'center' : 'right' }}
           >
-            <Typography sx={{ color: '#11151F', fontWeight: 300 }}>Profile changes saved!</Typography>
-          </Box>
-        </Snackbar>
-      </Grid>
-    </AuthGuard>      
+            <Box
+              sx={{
+                background: '#A3ECAA',
+                px: 3,
+                py: 2,
+                borderRadius: '5px',
+                boxShadow: ' 0px 5px 10px rgba(0, 0, 0, 0.12)',
+                mb: { xs: 14, sm: 14, md: 0 },
+              }}
+            >
+              <Typography sx={{ color: '#11151F', fontWeight: 300 }}>Profile changes saved!</Typography>
+            </Box>
+          </Snackbar>
+        </Grid>
+      </AuthGuard>
     </Page>
-
   )
 }
 
