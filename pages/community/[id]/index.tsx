@@ -40,7 +40,7 @@ import CommunityInfoWithBanner from '../../../components/CommunityInfoWithBanner
 import MemberCard from '../../../components/MemberCard'
 import { expertiseOptions } from '../../../components/MemberProfileForm'
 import darkSelectStyle from '../../../config/darkSelectStyle'
-import { useCommunity } from '../../../hooks/useCommunities'
+import { useCommunity } from '../../../hooks/useCommunity'
 import { AVAILABILITY_LIST, STATUS_LIST } from '../../../config/constants'
 import { Member } from '../../../types'
 

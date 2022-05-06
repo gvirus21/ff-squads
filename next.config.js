@@ -11,6 +11,6 @@ module.exports = {
     ]
   },
   images: {
-    domains: ['cdn.discordapp.com'],
+    domains: ['cdn.discordapp.com', 'ffdao.s3.us-east-2.amazonaws.com'],
   },
 }

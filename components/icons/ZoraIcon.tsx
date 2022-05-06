@@ -2,7 +2,7 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 
 export default function ZoraIcon(props: SvgIconProps) {
   return (
-    <SvgIcon {...props}>
+    <SvgIcon viewBox="0 0 20 20" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

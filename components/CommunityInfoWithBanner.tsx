@@ -7,8 +7,8 @@ import SocialLinks from './SocialLinks'
 import { Community } from '../types'
 
 export default function CommunityInfo({ community }: { community: Community }) {
-  const coverUrl = community.coverUrl ?? '/images/default_cover.jpg'
-  const logoUrl = community.logoUrl ?? '/images/forefront.png'
+  const coverUrl = community.coverUrl || '/images/default_cover.jpg'
+  const logoUrl = community.logoUrl || '/images/forefront.png'
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" position="relative">
@@ -21,28 +21,27 @@ export default function CommunityInfo({ community }: { community: Community }) {
         }}
       />
       <Box mt={-6}>
-        <Box>
-          <Image src={logoUrl} width={80} height={80} alt="logo" />
+        <Image src={logoUrl} width={80} height={80} alt="logo" />
+      </Box>
+      <Box position="relative" width="100%">
+        <Box mb={1.5} display="flex" justifyContent="center" alignItems="center">
+          <Typography sx={{ fontWeight: 600, fontSize: '18px' }}>{community.name}</Typography>
+          <Box ml={2} display="flex" justifyContent="center" alignItems="center">
+            <EthereumIcon htmlColor="#bac3b9" />
+            <Chip label={`$${community.tokenInfo.symbol}`} sx={{ ml: 1 }} />
+          </Box>
         </Box>
-        <Box sx={{ mt: -5, position: 'absolute', right: 20, cursor: 'pointer' }}>
+        <Typography variant="body1" textAlign="center" sx={{ mx: '20px' }}>
+          {community.description}
+        </Typography>
+        <Box mt={1} display="flex" justifyContent="center" alignItems="center">
+          <SocialLinks socialLinks={community.socialLinks} _size={24} />
+        </Box>
+        <Box sx={{ position: 'absolute', right: 20, top: -20, cursor: 'pointer' }}>
           <Link href={`/community/${community.shortId}/edit`}>
             <Image src={'/images/CommunityEditIcon.svg'} width={20} height={20} alt="edit" />
           </Link>
         </Box>
-      </Box>
-
-      <Box mb={1.5} display="flex" justifyContent="center" alignItems="center">
-        <Typography sx={{ fontWeight: 600, fontSize: '18px' }}>{community.name}</Typography>
-        <Box ml={2} display="flex" justifyContent="center" alignItems="center">
-          <EthereumIcon htmlColor="#bac3b9" />
-          <Chip label={`$${community.tokenInfo.symbol}`} sx={{ ml: 1 }} />
-        </Box>
-      </Box>
-      <Typography variant="body1" textAlign="center" sx={{ mx: '20px' }}>
-        {community.description}
-      </Typography>
-      <Box mt={1} display="flex" justifyContent="center" alignItems="center">
-        <SocialLinks socialLinks={community.socialLinks} _size={24} />
       </Box>
     </Box>
   )

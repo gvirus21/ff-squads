@@ -1,7 +1,7 @@
 import { Card, CardActionArea, CardContent, Container, Grid } from '@mui/material'
 import CommunityInfo from '../../components/CommunityInfo'
 
-import { useCommunities } from '../../hooks/useCommunities'
+import { useCommunities } from '../../hooks/useCommunity'
 import { Community } from '../../types'
 
 export default function CommunitiesPage() {

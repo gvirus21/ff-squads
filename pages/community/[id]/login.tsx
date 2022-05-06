@@ -26,7 +26,7 @@ import CommunityInfo from '../../../components/CommunityInfo'
 import DiscordIcon from '../../../components/icons/DiscordIcon'
 import PageLoading from '../../../components/PageLoading'
 import connectors, { ConnectorKey } from '../../../connectors'
-import { useCommunity } from '../../../hooks/useCommunities'
+import { useCommunity } from '../../../hooks/useCommunity'
 import { useMemberInCommunity } from '../../../hooks/useMember'
 
 const LoginPage: NextPage = () => {
