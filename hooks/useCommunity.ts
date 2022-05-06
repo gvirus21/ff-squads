@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { MutationOptions, useMutation, useQuery, useQueryClient } from 'react-query'
 import { Community } from '../types'
 import api from '../utils/api'
@@ -26,7 +25,11 @@ export const useCommunities = () => useQuery('communities', getCommunities)
 const createCommunity = async (payload: FormData) => {
   const {
     data: { community },
-  } = await axios.post(`/api/community/create`, payload)
+  } = await api.post(`/communities`, payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
   return community
 }
 
