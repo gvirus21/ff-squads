@@ -381,142 +381,141 @@ export default function CommunityPage() {
   if (!community) return <></>
 
   return (
-    <Page title={`${community.name||'Community'} | Member Directory | Forefront`}>
+    <Page title={`${community.name || 'Community'} | Member Directory | Forefront`}>
       <AuthGuard>
-      <Box>
-        <CommunityInfoWithBanner community={community} />
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
-          <Tabs value={value} onChange={handleTabChange} centered>
-            <Tab
-              icon={<MembersGroupIcon />}
-              iconPosition="start"
-              label={`Members (${community.members.length})`}
-              {...a11yProps(0)}
-            />
-            <Tab
-              icon={<ProjectsIcon />}
-              iconPosition="start"
-              label="Projects (Coming soon)"
-              {...a11yProps(1)}
-              disabled
-            />
-          </Tabs>
-        </Box>
-        <TabPanel value={value} index={0}>
-          <Box display="flex" position="relative" sx={{ zIndex: 0 }}>
-            <AppBar position="absolute" open={filterOpen}>
-              <Toolbar sx={{ py: 3 }}>
-                {isMobile ? (
-                  <Box sx={{ position: 'fixed', bottom: 120, mx: '30%' }}>
-                    <Button
-                      variant="contained"
-                      onClick={() => toggleDrawerMobile()}
-                      sx={{
-                        background: '#3E41BB',
-                        ':hover': {
-                          opacity: 0.7,
-                          background: '#3E41BB',
-                        },
-                      }}
-                    >
-                      FILTERS
-                    </Button>
-                  </Box>
-                ) : (
-                  <>
-                    <IconButton onClick={toggleFilter} edge="start">
-                      {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                    <FilterAltOutlinedIcon sx={{ mr: 2 }} />
-                  </>
-                )}
-                <TextField
-                  placeholder="Search by name..."
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    width: { md: '60%', xs: '100%', sm: '100%' },
-                    '.MuiOutlinedInput-root': {
-                      borderRadius: '6px',
-                    },
-                    '.MuiOutlinedInput-input': {
-                      padding: '8px',
-                    },
-                  }}
-                />
-              </Toolbar>
-            </AppBar>
-            <Drawer
-              sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                  width: drawerWidth,
-                  background: '#11151f',
-                  boxShadow: '0px 8px 30px 0px rgba(0,0,0,0.12)',
-                  position: 'relative',
-                  boxSizing: 'border-box',
-                  padding: '16px',
-                },
-              }}
-              variant="persistent"
-              anchor="left"
-              open={filterOpen}
-            >
-              {drawerComponent()}
-            </Drawer>
-            <Drawer anchor={'bottom'} open={filterOpenMobile} onClose={() => toggleDrawerMobile()}>
-              {drawerComponent()}
-            </Drawer>
-            <Main open={filterOpen}>
-              <DrawerHeader />
-              {(filterItems.length > 0 || timezoneFilterItem) && (
-                <Box display="flex" alignItems="center" py={2} px={3}>
-                  {filterItems.map((item, i) => (
-                    <Chip
-                      key={i}
-                      label={item.displayValue}
-                      onDelete={() => removeFilterItem(item)}
-                      clickable
-                      sx={{ mr: 2 }}
-                    />
-                  ))}
-                  {timezoneFilterItem && (
-                    <Chip
-                      label={timezoneFilterItem.displayValue}
-                      onDelete={() => {
-                        setTimezoneFilterItem(null)
-                        setSelectedTimezone('')
-                      }}
-                    />
-                  )}
-                </Box>
-              )}
-              {members && (
-                <Box display="flex" flexWrap="wrap" justifyContent="center" py={3}>
-                  {members.map((member: Member) => (
-                    <Box key={member._id} sx={{ px: { md: 3, xs: 0, sm: 0 }, py: { md: 3, xs: 2, sm: 1.5 } }}>
-                      <MemberCard member={member} />
-                    </Box>
-                  ))}
-                </Box>
-              )}
-            </Main>
+        <Box>
+          <CommunityInfoWithBanner community={community} />
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
+            <Tabs value={value} onChange={handleTabChange} centered>
+              <Tab
+                icon={<MembersGroupIcon />}
+                iconPosition="start"
+                label={`Members (${community.members.length})`}
+                {...a11yProps(0)}
+              />
+              <Tab
+                icon={<ProjectsIcon />}
+                iconPosition="start"
+                label="Projects (Coming soon)"
+                {...a11yProps(1)}
+                disabled
+              />
+            </Tabs>
           </Box>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-      </Box>
-    </AuthGuard>
+          <TabPanel value={value} index={0}>
+            <Box display="flex" position="relative" sx={{ zIndex: 0 }}>
+              <AppBar position="absolute" open={filterOpen}>
+                <Toolbar sx={{ py: 3 }}>
+                  {isMobile ? (
+                    <Box sx={{ position: 'fixed', bottom: 120, mx: '30%' }}>
+                      <Button
+                        variant="contained"
+                        onClick={() => toggleDrawerMobile()}
+                        sx={{
+                          background: '#3E41BB',
+                          ':hover': {
+                            opacity: 0.7,
+                            background: '#3E41BB',
+                          },
+                        }}
+                      >
+                        FILTERS
+                      </Button>
+                    </Box>
+                  ) : (
+                    <>
+                      <IconButton onClick={toggleFilter} edge="start">
+                        {!filterOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                      </IconButton>
+                      <FilterAltOutlinedIcon sx={{ mr: 2 }} />
+                    </>
+                  )}
+                  <TextField
+                    placeholder="Search by name..."
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{
+                      width: { md: '60%', xs: '100%', sm: '100%' },
+                      '.MuiOutlinedInput-root': {
+                        borderRadius: '6px',
+                      },
+                      '.MuiOutlinedInput-input': {
+                        padding: '8px',
+                      },
+                    }}
+                  />
+                </Toolbar>
+              </AppBar>
+              <Drawer
+                sx={{
+                  width: drawerWidth,
+                  flexShrink: 0,
+                  '& .MuiDrawer-paper': {
+                    width: drawerWidth,
+                    background: '#11151f',
+                    boxShadow: '0px 8px 30px 0px rgba(0,0,0,0.12)',
+                    position: 'relative',
+                    boxSizing: 'border-box',
+                    padding: '16px',
+                  },
+                }}
+                variant="persistent"
+                anchor="left"
+                open={filterOpen}
+              >
+                {drawerComponent()}
+              </Drawer>
+              <Drawer anchor={'bottom'} open={filterOpenMobile} onClose={() => toggleDrawerMobile()}>
+                {drawerComponent()}
+              </Drawer>
+              <Main open={filterOpen}>
+                <DrawerHeader />
+                {(filterItems.length > 0 || timezoneFilterItem) && (
+                  <Box display="flex" alignItems="center" py={2} px={3}>
+                    {filterItems.map((item, i) => (
+                      <Chip
+                        key={i}
+                        label={item.displayValue}
+                        onDelete={() => removeFilterItem(item)}
+                        clickable
+                        sx={{ mr: 2 }}
+                      />
+                    ))}
+                    {timezoneFilterItem && (
+                      <Chip
+                        label={timezoneFilterItem.displayValue}
+                        onDelete={() => {
+                          setTimezoneFilterItem(null)
+                          setSelectedTimezone('')
+                        }}
+                      />
+                    )}
+                  </Box>
+                )}
+                {members && (
+                  <Box display="flex" flexWrap="wrap" justifyContent="center" py={3}>
+                    {members.map((member: Member) => (
+                      <Box key={member._id} sx={{ px: { md: 3, xs: 0, sm: 0 }, py: { md: 3, xs: 2, sm: 1.5 } }}>
+                        <MemberCard member={member} />
+                      </Box>
+                    ))}
+                  </Box>
+                )}
+              </Main>
+            </Box>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            Item Two
+          </TabPanel>
+        </Box>
+      </AuthGuard>
     </Page>
-   
   )
 }
