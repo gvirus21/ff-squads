@@ -9,19 +9,6 @@ import TwitterIcon from '../components/icons/TwitterIcon'
 import WebsiteIcon from '../components/icons/WebsiteIcon'
 import ZoraIcon from '../components/icons/ZoraIcon'
 
-export const SOCIALS = [
-  'Twitter',
-  'Linkedin',
-  'Instagram',
-  'Mirror',
-  'Zora',
-  'Opensea',
-  'Foundation',
-  'Website/Portfolio',
-  'Github',
-  'Other',
-]
-
 export const SOCIAL_ICON_MAP = {
   twitter: { label: 'Twitter', icon: TwitterIcon },
   linkedin: { label: 'Linkedin', icon: LinkedinIcon },

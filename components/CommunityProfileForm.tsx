@@ -1,19 +1,19 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import UploadFile from '@mui/icons-material/UploadFile'
-import { Box, Button, Grid, IconButton, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, IconButton, Card, CardActionArea } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { LoadingButton } from '@mui/lab'
-import { Community } from '../types'
-import { SOCIALS } from '../config/constants'
+import { useRouter } from 'next/router'
+import React from 'react'
 import { useForm } from 'react-hook-form'
-import MultipleSelect from './MultipleSelect'
+import * as yup from 'yup'
+
+import { FormSelect, SelectOption } from './form/FormSelect'
 import { FormSocialLinks } from './form/FormSocialLinks'
 import { FormTextInput } from './form/FormTextInput'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import {  SOCIAL_ICON_MAP } from '../config/constants'
-import { FormSelect, GroupedOption, SelectOption } from './form/FormSelect'
-import { useRouter } from 'next/router'
 
+import { SOCIAL_ICON_MAP } from '../config/constants'
+import { CommunityProfileInfo } from '../types'
 
 const socialOptions: SelectOption[] = Object.keys(SOCIAL_ICON_MAP).map((socialKey) => ({
   value: socialKey,
@@ -21,26 +21,26 @@ const socialOptions: SelectOption[] = Object.keys(SOCIAL_ICON_MAP).map((socialKe
   icon: SOCIAL_ICON_MAP[socialKey as keyof typeof SOCIAL_ICON_MAP].icon,
 }))
 
-export const communityProfileFormDefault: Community = {
+export const communityProfileFormDefault: CommunityProfileInfo = {
   name: '',
   logoUrl: '',
   coverUrl: '',
+  logoFile: undefined,
+  coverFile: undefined,
   description: '',
   socialIds: [],
   socialLinks: {},
   tokenInfo: {
-    network: '',
+    network: 'Ethereum',
     symbol: '',
-    contract: ''
+    contract: '',
   },
-  members: [],
-  shortId : ''
 }
 
 const communityProfileSchema = yup.object().shape({
-   
   name: yup.string().required('This field is required'),
   description: yup.string().required('This field is required'),
+  socialIds: yup.array().of(yup.string()).min(1, 'Select at least 1'),
   socialLinks: yup.object().shape({
     twitter: yup.string().test('socialId-check', 'This field is required', function (val) {
       return !(this.options as any).from[1].value.socialIds?.includes('twitter') || val?.length ? true : false
@@ -73,6 +73,10 @@ const communityProfileSchema = yup.object().shape({
       return !(this.options as any).from[1].value.socialIds?.includes('other') || val?.length ? true : false
     }),
   }),
+  tokenInfo: yup.object().shape({
+    symbol: yup.string().required('This field is required'),
+    contract: yup.string().required('This field is required'),
+  }),
 })
 
 const Input = styled('input')({
@@ -80,85 +84,119 @@ const Input = styled('input')({
 })
 
 interface CommunityProfileFormProps {
-  community?: Community
-  onSubmit: (payload: Community) => void
+  community?: CommunityProfileInfo
+  onSubmit: (payload: CommunityProfileInfo) => void
   submitting: boolean
   submitText?: string
 }
 
-interface LogoUploadProps {
-  logo?: string
-  cover?: string
-}
+export default function CommunityProfileForm({
+  community,
+  submitting,
+  onSubmit,
+  submitText = 'Save',
+}: CommunityProfileFormProps) {
+  const [coverImgFile, setCoverImgFile] = React.useState<File>()
+  const [logoImgFile, setLogoImgFile] = React.useState<File>()
 
-const LogoUpload = ({ logo,cover }: LogoUploadProps) => {
-   
-  return (
-    <Box sx={{ position: 'relative' }} mb={7}>
-      <Box sx={{ width: '100%', height: '96px', background: cover?`url('${cover}')`:'#616D6C', borderRadius: '6px' }} />
-      <Box mt={-4} sx={{ position: 'absolute', right: 4 }}>
-        <Input id="banner-upload-button" accept="image/*" type="file" />
-        <UploadFile />
-      </Box>
-      <label
-        htmlFor="logo-upload-button"
-        style={{
-          display: 'flex',
-          position: 'absolute',
-          bottom: '-50%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '80px',
-          height: '80px',
-          background: '#e2e8f0',
-          borderRadius: '100%',
-        }}
-      >
-        <Input id="logo-upload-button" accept="image/*" type="file" />
-        <IconButton
-   
-          aria-label="upload picture"
-          component="span"
-          sx={{ width: '80px', height: '80px', background: logo?`url('${logo}')`:'#616D6C', border: '4px solid #11151F' }}
-        >
-          <UploadFile />
-        </IconButton>
-      </label>
-    </Box>
-  )
-}
-
-export default function CommunityProfileForm({ community , submitting , onSubmit, submitText = 'Save' }: CommunityProfileFormProps) {
-  
-   const { handleSubmit, control, watch } = useForm<Community>({
+  const { handleSubmit, control, register, watch } = useForm<CommunityProfileInfo>({
     mode: 'all',
     defaultValues: {
       ...communityProfileFormDefault,
       ...community,
     },
     resolver: yupResolver(communityProfileSchema),
-   })
-  
-  const socialIdsValue:any[] = []
-  //const socialIdsValue = watch('socialIds')
-  
+  })
+
+  const socialIdsValue = watch('socialIds')
+
   const router = useRouter()
-  
+
   return (
     <>
-       
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container justifyContent="space-between" rowSpacing={1} columnSpacing={4}>
           <Grid item xs={12} sm={12}>
-            <LogoUpload logo={community?.logoUrl} cover={community?.coverUrl}/>
+            <Box sx={{ position: 'relative' }} mb={7}>
+              <Card
+                sx={{
+                  width: '100%',
+                  height: '96px',
+                  background: coverImgFile
+                    ? `center/cover no-repeat url(${URL.createObjectURL(coverImgFile)})`
+                    : community?.coverUrl
+                    ? `center/cover no-repeat url('${community?.coverUrl}')`
+                    : '#616D6C',
+                  borderRadius: '6px',
+                  boxShadow: 'none',
+                }}
+              >
+                <label htmlFor="cover-upload-button">
+                  <Input
+                    id="cover-upload-button"
+                    accept="image/*"
+                    type="file"
+                    {...register('coverFile', {
+                      onChange: (e: any) => setCoverImgFile(e.target.files[0]),
+                    })}
+                  />
+                  <CardActionArea component="span" sx={{ width: '100%', height: '100%' }}>
+                    <UploadFile sx={{ position: 'absolute', bottom: 8, right: 8 }} />
+                  </CardActionArea>
+                </label>
+              </Card>
+              <label
+                htmlFor="logo-upload-button"
+                style={{
+                  display: 'flex',
+                  position: 'absolute',
+                  bottom: '-50%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '80px',
+                  height: '80px',
+                  background: '#616D6C',
+                  borderRadius: '100%',
+                }}
+              >
+                <Input
+                  id="logo-upload-button"
+                  accept="image/*"
+                  type="file"
+                  {...register('logoFile', {
+                    onChange: (e: any) => setLogoImgFile(e.target.files[0]),
+                  })}
+                />
+                <IconButton
+                  aria-label="upload picture"
+                  component="span"
+                  sx={{
+                    width: '80px',
+                    height: '80px',
+                    background: logoImgFile
+                      ? `center/cover no-repeat url(${URL.createObjectURL(logoImgFile)})`
+                      : community?.logoUrl
+                      ? `center/cover no-repeat url('${community?.logoUrl}')`
+                      : '#616D6C',
+                    border: '4px solid #11151F',
+                  }}
+                >
+                  <UploadFile />
+                </IconButton>
+              </label>
+            </Box>
           </Grid>
-          
-       
           <Grid item xs={12} sm={12}>
-            <FormTextInput control={control} name="name" label="Community Name" placeholder="Name Of community" required />
+            <FormTextInput
+              control={control}
+              name="name"
+              label="Community Name"
+              placeholder="Name Of community"
+              required
+            />
           </Grid>
           <Grid item xs={12} sm={12}>
-             <FormTextInput
+            <FormTextInput
               control={control}
               name="description"
               label="Tell us about your community"
@@ -175,9 +213,9 @@ export default function CommunityProfileForm({ community , submitting , onSubmit
               options={socialOptions}
               label="Where can we find your community online?"
               isMulti
+              required
             />
           </Grid>
-
           {socialIdsValue.length ? (
             <Grid item xs={12} sm={12}>
               <FormSocialLinks
@@ -191,17 +229,35 @@ export default function CommunityProfileForm({ community , submitting , onSubmit
           ) : (
             <></>
           )}
-
           <Grid item xs={12} sm={6}>
-            <FormTextInput control={control} name="network" label="Network" placeholder="Ethereum" required />
+            <FormTextInput
+              control={control}
+              name="tokenInfo.network"
+              label="Network"
+              defaultValue={'Ethereum'}
+              placeholder="Ethereum"
+              disabled
+              required
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormTextInput control={control} name="token" label="Token symbol" placeholder="Token symbol" required />
+            <FormTextInput
+              control={control}
+              name="tokenInfo.symbol"
+              label="Token symbol"
+              placeholder="Token symbol"
+              required
+            />
           </Grid>
           <Grid item xs={12} sm={12}>
-            <FormTextInput control={control} name="contract" label="Token contract address" placeholder="Token contract address" required />
+            <FormTextInput
+              control={control}
+              name="tokenInfo.contract"
+              label="Token contract address"
+              placeholder="Token contract address"
+              required
+            />
           </Grid>
-          
           <Grid item xs={12} sm={12}>
             <LoadingButton
               type="submit"
@@ -229,15 +285,9 @@ export default function CommunityProfileForm({ community , submitting , onSubmit
             >
               Cancel
             </Button>
-          </Grid>    
-
+          </Grid>
         </Grid>
       </form>
-     
-      
-       
-      
-      
     </>
   )
 }

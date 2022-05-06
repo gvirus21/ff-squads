@@ -22,22 +22,15 @@ const getMemberInCommunity = async (communityId: string | string[] | undefined, 
   return member
 }
 
+export const useMemberInCommunity = (communityId: string | string[] | undefined, discordHandle: string) =>
+  useQuery(['community/member', communityId, discordHandle], () => getMemberInCommunity(communityId, discordHandle))
+
 const createMember = async (payload: MemberProfileRequest) => {
   const {
     data: { member },
   } = await api.post(`/members`, payload)
   return member
 }
-
-const updateMember = async (id: string, payload: MemberProfileRequest) => {
-  const {
-    data: { status },
-  } = await api.put(`/members/${id}`, payload)
-  return status
-}
-
-export const useMemberInCommunity = (communityId: string | string[] | undefined, discordHandle: string) =>
-  useQuery(['community/member', communityId, discordHandle], () => getMemberInCommunity(communityId, discordHandle))
 
 export const useCreateMember = ({
   onSuccess,
@@ -52,6 +45,13 @@ export const useCreateMember = ({
     },
     ...options,
   })
+}
+
+const updateMember = async (id: string, payload: MemberProfileRequest) => {
+  const {
+    data: { status },
+  } = await api.put(`/members/${id}`, payload)
+  return status
 }
 
 export const useUpdateMember = (

@@ -38,18 +38,6 @@ export type Member = {
   community: Community
 }
 
-export type Community = {
-  shortId: string
-  name: string
-  logoUrl: string
-  coverUrl: string
-  description: string
-  socialIds: string[]
-  socialLinks: SocialLink
-  tokenInfo: TokenInfo
-  members: Member[]
-}
-
 export interface MemberProfileInfo {
   email: string
   username: string
@@ -71,4 +59,28 @@ export interface MemberProfileInfo {
 
 export interface MemberProfileRequest extends MemberProfileInfo {
   communityId: string
+}
+
+export type Community = {
+  shortId: string
+  name: string
+  logoUrl?: string
+  coverUrl?: string
+  description: string
+  socialIds: string[]
+  socialLinks: SocialLink
+  tokenInfo: TokenInfo
+  members: Member[]
+}
+
+export type CommunityProfileInfo = {
+  name: string
+  logoUrl?: string
+  coverUrl?: string
+  logoFile?: FileList
+  coverFile?: FileList
+  description: string
+  socialIds: string[]
+  socialLinks: SocialLink
+  tokenInfo: TokenInfo
 }

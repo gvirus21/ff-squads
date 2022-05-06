@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react'
 import AuthGuard from '../../../components/AuthGuard'
 import MemberProfileForm from '../../../components/MemberProfileForm'
 import PageLoading from '../../../components/PageLoading'
-import { useCommunity } from '../../../hooks/useCommunities'
+import { useCommunity } from '../../../hooks/useCommunity'
 import { useMemberInCommunity, useUpdateMember } from '../../../hooks/useMember'
 import { MemberProfileInfo, MemberProfileRequest } from '../../../types'
 
