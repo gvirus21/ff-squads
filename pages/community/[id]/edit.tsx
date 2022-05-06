@@ -40,30 +40,31 @@ const CommunityEditPage: NextPage = () => {
   if (!community || loadingCommunity) return <PageLoading />
 
   return (
-    <Page title={`Edit ${community.name || ''} Community Profile | Member Directory | Forefront`}>
-      <AuthGuard>
-        <>
-          <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mt={1} mb={4}>
-            <Grid item xs={12} sm={6}>
-              <Card sx={{ overflow: 'visible', boxShadow: '4px 10px 35px rgba(245, 255, 244, 0.2)' }}>
-                <CardHeader
-                  avatar={<CommunityFormIcon color="success" />}
-                  title="Edit Community Profile"
-                  titleTypographyProps={{
-                    color: '#CDFCB1',
-                    fontWeight: 600,
-                    fontSize: '16px',
-                  }}
-                />
-                <CardContent sx={{ padding: 4 }}>
-                  <CommunityProfileForm community={community} onSubmit={onSubmit} submitting={isLoading} />
-                </CardContent>
-              </Card>
-            </Grid>
+    <Page title={`Edit ${community.name||''} Community Profile | Member Directory | Forefront`}>
+    <AuthGuard>
+      <>
+        <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mt={1} mb={4}>
+          <Grid item xs={12} sm={6}>
+            <Card sx={{ overflow: 'visible', boxShadow: '4px 10px 35px rgba(245, 255, 244, 0.2)' }}>
+              <CardHeader
+                avatar={<CommunityFormIcon color="success" />}
+                title="Edit Community Profile"
+                titleTypographyProps={{
+                  color: '#CDFCB1',
+                  fontWeight: 600,
+                  fontSize: '16px',
+                }}
+              />
+              <CardContent sx={{ padding: 4 }}>
+                <CommunityProfileForm community={community} onSubmit={onSubmit} submitting={isLoading} />
+              </CardContent>
+            </Card>
           </Grid>
-        </>
-      </AuthGuard>
+        </Grid>
+      </>
+    </AuthGuard>
     </Page>
+
   )
 }
 
