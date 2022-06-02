@@ -35,7 +35,7 @@ const CommunityCreatePage: NextPage = () => {
     if (info.ensDomain) {
       payload.append('ensDomain', info.ensDomain)
     }
-    payload.append('minimumHoldingForMembership', info.minimumHoldingForMembership)
+    payload.append('minimumHoldingForMembership', info.minimumHoldingForMembership.toString())
     createCommunity(payload)
   }, [])
 

@@ -35,6 +35,8 @@ export const communityProfileFormDefault: CommunityProfileInfo = {
     symbol: '',
     contract: '',
   },
+  ensDomain: '',
+  minimumHoldingForMembership: 0,
 }
 
 const communityProfileSchema = yup.object().shape({
