@@ -259,6 +259,24 @@ export default function CommunityProfileForm({
             />
           </Grid>
           <Grid item xs={12} sm={12}>
+            <FormTextInput
+              control={control}
+              name="ensDomain"
+              label="Community ENS Domain"
+              placeholder="Community ENS Domain"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <FormTextInput
+              control={control}
+              name="minimumHoldingForMembership"
+              label="Minimum Tokens for MemberShip"
+              placeholder="Minimum Tokens for MemberShip"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
             <LoadingButton
               type="submit"
               variant="contained"

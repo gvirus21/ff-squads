@@ -40,6 +40,8 @@ export const memberProfileFormDefault: MemberProfileInfo = {
   familiarity: 0,
   discordHandle: '',
   logoUrl: '',
+  address: '',
+  isContributor: false,
 }
 
 const memberProfileSchema = yup.object().shape({
@@ -174,6 +176,16 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
         )}
 
         <Grid item xs={12} sm={12}>
+          <FormTextInput
+            control={control}
+            name="address"
+            label="Your ETH Address"
+            placeholder="Your ETH Address"
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
           <FormSelect
             control={control}
             name="expertise"
@@ -215,6 +227,19 @@ const MemberProfileForm = ({ member, onSubmit, submitting, submitText = 'Save' }
               { label: 'Full-time (5-8 hrs)', value: 0 },
               { label: 'Part-time (1-4 hrs)', value: 1 },
               { label: 'Volunteer', value: 2 },
+            ]}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12}>
+          <FormRadioGroup
+            control={control}
+            name="isContributor"
+            label="What defines your role in the Community?"
+            options={[
+              { label: 'Contributor', value: 1 },
+              { label: 'Community Member', value: 0 },
             ]}
             required
           />
