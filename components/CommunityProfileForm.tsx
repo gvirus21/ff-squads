@@ -35,6 +35,8 @@ export const communityProfileFormDefault: CommunityProfileInfo = {
     symbol: '',
     contract: '',
   },
+  ensDomain: '',
+  minimumHoldingForMembership: 0,
 }
 
 const communityProfileSchema = yup.object().shape({
@@ -255,6 +257,24 @@ export default function CommunityProfileForm({
               name="tokenInfo.contract"
               label="Token contract address"
               placeholder="Token contract address"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <FormTextInput
+              control={control}
+              name="ensDomain"
+              label="Community ENS Domain"
+              placeholder="Community ENS Domain"
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <FormTextInput
+              control={control}
+              name="minimumHoldingForMembership"
+              label="Minimum Tokens for MemberShip"
+              placeholder="Minimum Tokens for MemberShip"
               required
             />
           </Grid>

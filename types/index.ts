@@ -36,6 +36,8 @@ export type Member = {
   familiarity: number
   discordHandle: string
   community: Community
+  address: string
+  isContributor: boolean
 }
 
 export interface MemberProfileInfo {
@@ -55,6 +57,8 @@ export interface MemberProfileInfo {
   familiarity: number
   discordHandle: string
   logoUrl?: string
+  address: string
+  isContributor: boolean
 }
 
 export interface MemberProfileRequest extends MemberProfileInfo {
@@ -71,6 +75,8 @@ export type Community = {
   socialLinks: SocialLink
   tokenInfo: TokenInfo
   members: Member[]
+  ensDomain?: string
+  minimumHoldingForMembership: number
 }
 
 export type CommunityProfileInfo = {
@@ -83,4 +89,6 @@ export type CommunityProfileInfo = {
   socialIds: string[]
   socialLinks: SocialLink
   tokenInfo: TokenInfo
+  ensDomain?: string
+  minimumHoldingForMembership: number
 }

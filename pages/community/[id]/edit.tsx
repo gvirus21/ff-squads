@@ -34,37 +34,40 @@ const CommunityEditPage: NextPage = () => {
     if (info.logoFile && info.logoFile.length > 0) {
       payload.append('logoFile', info.logoFile[0], info.logoFile[0].name)
     }
+    if (info.ensDomain) {
+      payload.append('ensDomain', info.ensDomain)
+    }
+    payload.append('minimumHoldingForMembership', info.minimumHoldingForMembership.toString())
     updateCommunity(payload)
   }, [])
 
   if (!community || loadingCommunity) return <PageLoading />
 
   return (
-    <Page title={`Edit ${community.name||''} Community Profile | Member Directory | Forefront`}>
-    <AuthGuard>
-      <>
-        <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mt={1} mb={4}>
-          <Grid item xs={12} sm={6}>
-            <Card sx={{ overflow: 'visible', boxShadow: '4px 10px 35px rgba(245, 255, 244, 0.2)' }}>
-              <CardHeader
-                avatar={<CommunityFormIcon color="success" />}
-                title="Edit Community Profile"
-                titleTypographyProps={{
-                  color: '#CDFCB1',
-                  fontWeight: 600,
-                  fontSize: '16px',
-                }}
-              />
-              <CardContent sx={{ padding: 4 }}>
-                <CommunityProfileForm community={community} onSubmit={onSubmit} submitting={isLoading} />
-              </CardContent>
-            </Card>
+    <Page title={`Edit ${community.name || ''} Community Profile | Member Directory | Forefront`}>
+      <AuthGuard>
+        <>
+          <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" mt={1} mb={4}>
+            <Grid item xs={12} sm={6}>
+              <Card sx={{ overflow: 'visible', boxShadow: '4px 10px 35px rgba(245, 255, 244, 0.2)' }}>
+                <CardHeader
+                  avatar={<CommunityFormIcon color="success" />}
+                  title="Edit Community Profile"
+                  titleTypographyProps={{
+                    color: '#CDFCB1',
+                    fontWeight: 600,
+                    fontSize: '16px',
+                  }}
+                />
+                <CardContent sx={{ padding: 4 }}>
+                  <CommunityProfileForm community={community} onSubmit={onSubmit} submitting={isLoading} />
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </>
-    </AuthGuard>
+        </>
+      </AuthGuard>
     </Page>
-
   )
 }
 
