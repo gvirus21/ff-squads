@@ -1,7 +1,7 @@
 import { Box, Fade, FormHelperText, InputAdornment, InputLabel, TextField } from '@mui/material'
 import Image from 'next/image'
 import { Control, Controller } from 'react-hook-form'
-import { SOCIAL_ICON_MAP } from '../../config/constants'
+import { SOCIAL_ICON_MAP } from 'config/constants'
 
 export type FormSocialLinksProps = {
   control?: Control<any, object>

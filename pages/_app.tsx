@@ -1,32 +1,29 @@
 import { CacheProvider, EmotionCache } from '@emotion/react'
-import { Web3Provider } from '@ethersproject/providers'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
-import { Web3ReactProvider } from '@web3-react/core'
 import { SessionProvider } from 'next-auth/react'
 import { AppProps } from 'next/app'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import * as React from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
 
-import Web3ReactManager from '../components/Web3ReactManager'
-import Layout from '../components/Layout'
-import createEmotionCache from '../config/createEmotionCache'
-import theme from '../config/theme'
+import { wallet, connectorsForWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
+import { chain, createClient, configureChains, WagmiConfig } from 'wagmi'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { publicProvider } from 'wagmi/providers/public'
 
-const Web3ProviderNetwork = dynamic(() => import('../components/Web3ProviderNetwork'), { ssr: false })
+import Layout from 'components/layout'
+import createEmotionCache from 'config/createEmotionCache'
+import theme from 'config/theme'
+
+import '@rainbow-me/rainbowkit/styles.css'
+import 'styles/fonts.css'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache
-}
-
-function getLibrary(provider: any) {
-  return new Web3Provider(provider)
 }
 
 const queryClient = new QueryClient({
@@ -37,14 +34,48 @@ const queryClient = new QueryClient({
   },
 })
 
+const { chains } = configureChains(
+  [chain.mainnet],
+  [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
+)
+
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      wallet.metaMask({ chains }),
+      wallet.coinbase({ chains, appName: 'Squads by Forefront' }),
+      wallet.rainbow({ chains }),
+      wallet.walletConnect({ chains }),
+    ],
+  },
+])
+
+const wagmiClient = createClient({
+  connectors,
+  autoConnect: true,
+})
+
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
   return (
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <Web3ProviderNetwork getLibrary={getLibrary}>
+          <WagmiConfig client={wagmiClient}>
+            <RainbowKitProvider
+              chains={chains}
+              theme={darkTheme({
+                accentColor: 'linear-gradient(88.41deg, #444cff 0%, #a93edc 100%)',
+                accentColorForeground: 'white',
+                borderRadius: 'small',
+                fontStack: 'system',
+              })}
+              appInfo={{
+                appName: 'Squads by Forefront',
+                learnMoreUrl: 'https://forefront.market/',
+              }}
+            >
               <CacheProvider value={emotionCache}>
                 <Head>
                   <meta name="viewport" content="initial-scale=1, width=device-width" />
@@ -52,15 +83,13 @@ export default function MyApp(props: MyAppProps) {
                 <ThemeProvider theme={theme}>
                   {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                   <CssBaseline />
-                  <Web3ReactManager>
-                    <Layout>
-                      <Component {...pageProps} />
-                    </Layout>
-                  </Web3ReactManager>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
                 </ThemeProvider>
               </CacheProvider>
-            </Web3ProviderNetwork>
-          </Web3ReactProvider>
+            </RainbowKitProvider>
+          </WagmiConfig>
         </Hydrate>
         {/* <ReactQueryDevtools initialIsOpen={false} />  */}
       </QueryClientProvider>

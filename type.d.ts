@@ -6,5 +6,4 @@ interface Window {
     autoRefreshOnNetworkChange?: boolean
     request: (arg: any) => void
   }
-  web3?: Record<string, unknown>
 }

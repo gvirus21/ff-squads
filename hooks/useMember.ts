@@ -1,6 +1,7 @@
 import { MutationOptions, useMutation, useQuery, useQueryClient } from 'react-query'
-import { Member, MemberProfileRequest } from '../types'
-import api from '../utils/api'
+
+import { Member, MemberProfileRequest } from 'types'
+import api from 'utils/api'
 
 const getMember = async (id: string) => {
   const {

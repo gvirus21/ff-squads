@@ -1,13 +1,13 @@
-import DiscordIcon from '../components/icons/DiscordIcon'
-import FoundationIcon from '../components/icons/FoundationIcon'
-import GithubIcon from '../components/icons/GithubIcon'
-import InstagramIcon from '../components/icons/InstagramIcon'
-import LinkedinIcon from '../components/icons/LinkedinIcon'
-import MirrorIcon from '../components/icons/MirrorIcon'
-import OpenseaIcon from '../components/icons/OpenseaIcon'
-import TwitterIcon from '../components/icons/TwitterIcon'
-import WebsiteIcon from '../components/icons/WebsiteIcon'
-import ZoraIcon from '../components/icons/ZoraIcon'
+import DiscordIcon from 'components/icons/DiscordIcon'
+import FoundationIcon from 'components/icons/FoundationIcon'
+import GithubIcon from 'components/icons/GithubIcon'
+import InstagramIcon from 'components/icons/InstagramIcon'
+import LinkedinIcon from 'components/icons/LinkedinIcon'
+import MirrorIcon from 'components/icons/MirrorIcon'
+import OpenseaIcon from 'components/icons/OpenseaIcon'
+import TwitterIcon from 'components/icons/TwitterIcon'
+import WebsiteIcon from 'components/icons/WebsiteIcon'
+import ZoraIcon from 'components/icons/ZoraIcon'
 
 export const SOCIAL_ICON_MAP = {
   twitter: { label: 'Twitter', icon: TwitterIcon },

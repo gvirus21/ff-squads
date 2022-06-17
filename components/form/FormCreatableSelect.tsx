@@ -4,7 +4,7 @@ import { Control, Controller } from 'react-hook-form'
 import { GroupBase, Props as SelectProps, StylesConfig } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 
-import darkSelectStyle from '../../config/darkSelectStyle'
+import darkSelectStyle from 'config/darkSelectStyle'
 
 export type Option = {
   label: string

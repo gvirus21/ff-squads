@@ -1,14 +1,15 @@
 import { useRouter } from 'next/router'
 import type { NextPage } from 'next'
-import AuthGuard from '../../../components/AuthGuard'
 import { Card, CardContent, CardHeader, Grid } from '@mui/material'
-import CommunityProfileForm from '../../../components/CommunityProfileForm'
-import CommunityFormIcon from '../../../components/icons/CommunityFormIcon'
-import { useCommunity, useUpdateCommunity } from '../../../hooks/useCommunity'
 import React, { useCallback } from 'react'
-import { CommunityProfileInfo } from '../../../types'
-import PageLoading from '../../../components/PageLoading'
-import Page from '../../../components/page'
+
+import AuthGuard from 'components/layout/AuthGuard'
+import CommunityProfileForm from 'components/community/CommunityProfileForm'
+import CommunityFormIcon from 'components/icons/CommunityFormIcon'
+import Page from 'components/common/Page'
+import PageLoading from 'components/common/PageLoading'
+import { useCommunity, useUpdateCommunity } from 'hooks/useCommunity'
+import { CommunityProfileInfo } from 'types'
 
 const CommunityEditPage: NextPage = () => {
   const router = useRouter()

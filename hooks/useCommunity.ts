@@ -1,6 +1,7 @@
 import { MutationOptions, useMutation, useQuery, useQueryClient } from 'react-query'
-import { Community } from '../types'
-import api from '../utils/api'
+
+import { Community } from 'types'
+import api from 'utils/api'
 
 const getCommunity = async (shortId: string | string[] | undefined) => {
   const {

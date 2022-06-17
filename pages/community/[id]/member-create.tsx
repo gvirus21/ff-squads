@@ -5,12 +5,12 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useCallback } from 'react'
 
-import AuthGuard from '../../../components/AuthGuard'
-import MemberProfileForm, { memberProfileFormDefault } from '../../../components/MemberProfileForm'
-import PageLoading from '../../../components/PageLoading'
-import { useCommunity } from '../../../hooks/useCommunity'
-import { useCreateMember, useMemberInCommunity } from '../../../hooks/useMember'
-import { MemberProfileInfo, MemberProfileRequest } from '../../../types'
+import PageLoading from 'components/common/PageLoading'
+import AuthGuard from 'components/layout/AuthGuard'
+import MemberProfileForm, { memberProfileFormDefault } from 'components/member/MemberProfileForm'
+import { useCommunity } from 'hooks/useCommunity'
+import { useCreateMember, useMemberInCommunity } from 'hooks/useMember'
+import { MemberProfileInfo, MemberProfileRequest } from 'types'
 
 const MemberCreatePage: NextPage = () => {
   const router = useRouter()

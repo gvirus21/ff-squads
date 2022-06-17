@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { Control, Controller } from 'react-hook-form'
 import Select, { Props as SelectProps, components, OptionProps, StylesConfig, GroupBase } from 'react-select'
 
-import darkSelectStyle from '../../config/darkSelectStyle'
+import darkSelectStyle from 'config/darkSelectStyle'
 
 export type SelectOption = {
   label: string
