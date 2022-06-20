@@ -12,9 +12,9 @@ import TabPanel from 'components/common/TabPanel'
 import BackIcon from 'components/icons/BackIcon'
 import MemberLocationIcon from 'components/icons/MemberLocationIcon'
 import VerifiedIcon from 'components/icons/VerifiedIcon'
-import { useMemberInCommunity } from 'hooks/useMember'
 import { shortenAddress, shortenExpertise, formattedDate } from 'utils'
 import { Member } from 'types'
+import CopyAddressIcon from 'components/icons/CopyAddressIcon'
 
 const Timezone = ({
   country,
@@ -60,27 +60,27 @@ const MemberCardChip = styled(Chip)`
   font-weight: 400;
 `
 
-const MemberLocation = ({ city, country }: { city: string | undefined; country: string | undefined }) => (
-  <Box sx={{ display: 'flex' }}>
-    <Box>
-      <MemberLocationIcon />
+const MemberLocation = ({ city, country }: { city: string | undefined; country: string | undefined }) =>
+  city && country ? (
+    <Box display="flex" alignItems="center">
+      <MemberLocationIcon sx={{ width: '14px', height: '16px' }} htmlColor="#999999" />
+      <Box>
+        <Typography
+          sx={{
+            fontWeight: 400,
+            fontSize: '14px',
+            color: '#FFFFFF',
+            opacity: 0.6,
+            ml: 1,
+          }}
+        >
+          {`${city} ${city ? ',' : ''}  ${country}`}
+        </Typography>
+      </Box>
     </Box>
-    <Box>
-      <Typography
-        sx={{
-          fontWeight: 400,
-          fontSize: '14px',
-          color: '#FFFFFF',
-          opacity: 0.6,
-          marginTop: '-3px',
-          marginLeft: '-6px',
-        }}
-      >
-        {`${city} ${city ? ',' : ''}  ${country}`}
-      </Typography>
-    </Box>
-  </Box>
-)
+  ) : (
+    <></>
+  )
 
 const ConnectButton = styled(Button)`
   background: linear-gradient(98.65deg, #444cff -61.91%, #a93edc 124.86%), linear-gradient(0deg, #dbadf8, #dbadf8),
@@ -121,10 +121,6 @@ export default function MemberCard({ member }: { member: Member }) {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [tabId, setTabId] = useState(0)
   const { data: session } = useSession()
-  const { data: me } = useMemberInCommunity(
-    id,
-    `${session?.user?.profile.username}#${session?.user?.profile.discriminator}`
-  )
 
   const toggleDialog = () => setDialogOpen(!dialogOpen)
 
@@ -136,74 +132,36 @@ export default function MemberCard({ member }: { member: Member }) {
     <>
       <Box
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
           width: '340px',
           height: '196px',
           background: 'linear-gradient(150.32deg, #18181A 28.19%, #000000 105.48%)',
-          border: me?._id === member._id ? '1.5px solid #A93EDC' : '1px solid #303236',
+          border: 'none',
           borderRadius: '4px',
           p: '22px 20px',
+          position: 'relative',
           '&:hover': {
             cursor: 'pointer',
           },
         }}
         onClick={toggleDialog}
       >
-        <Box display="flex" flexDirection="column">
-          <Box display="flex" justifyContent="space-between">
-            <Box display="flex" justifyContent="flex-start">
-              <Box>
-                <img
-                  src={member.logoUrl ?? '/images/Profile.svg'}
-                  alt={member.username}
-                  width={40}
-                  height={40}
-                  style={{
-                    borderRadius: '100%',
-                  }}
-                />
-              </Box>
-              <Box display="flex" flexDirection="column" alignItems="center" sx={{ height: '100%' }}>
-                <Box display="flex" alignItems="flex-start" sx={{ my: 'auto' }}>
-                  <Box sx={{ mx: '8px' }}>
-                    <Typography>{member.username}</Typography>
-                  </Box>
-                  <Box ml={0.5} my={0.5}>
-                    <VerifiedIcon />
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-            <Box>
-              <Box
-                sx={{
-                  background: '#303236',
-                  border: '1px solid #3D3F44',
-                  borderRadius: '4px',
-                  display: 'flex',
-                  ml: 0.2,
-                  mt: -1,
-                  py: 0.2,
-                  px: 0.2,
-                }}
-                onClick={() => console.log('copy address')}
-              >
-                <Typography color="text.secondary" sx={{ fontSize: '10px' }}>
-                  {shortenAddress(member?.address || DUMMY_ADDRESS)}
-                </Typography>
-                <img
-                  src={'/images/copyicon.svg'}
-                  width={10}
-                  height={10}
-                  alt="Copy Address"
-                  style={{ marginTop: '2px', marginLeft: '2px' }}
-                />
-              </Box>
-            </Box>
-          </Box>
+        <Box display="flex" alignItems="center">
+          <Image
+            src={member.logoUrl ?? '/images/Profile.svg'}
+            alt={member.username}
+            width={40}
+            height={40}
+            style={{ borderRadius: '100%' }}
+          />
+          <Typography fontWeight={500} sx={{ mx: 1 }}>
+            {member.username}
+          </Typography>
+          <VerifiedIcon />
         </Box>
-        <Box sx={{ minHeight: '30px' }}>
+        <Box sx={{ marginTop: '10px' }}>
           <Typography
-            variant="body2"
             sx={{
               fontWeight: 500,
               fontSize: '12px',
@@ -215,75 +173,89 @@ export default function MemberCard({ member }: { member: Member }) {
             {`Expertise: ${shortenExpertise(member.expertise, member.extraExpertise)}`}
           </Typography>
         </Box>
-        <Box mt={2}>
+        <Box sx={{ marginTop: '10px' }}>
           {member.isContributor ? <MemberCardChip label="Web3 Creator Resident" /> : <MemberCardChip label="Member" />}
         </Box>
-        <Box mt={3}>
+        <Box sx={{ mt: 'auto' }}>
           <MemberLocation city={member.city} country={member.country} />
         </Box>
+        <Box
+          sx={{
+            background: '#303236',
+            border: '1px solid #3D3F44',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '4px 8px',
+            position: 'absolute',
+            top: '14px',
+            right: '12px',
+          }}
+          onClick={() => console.log('copy address')}
+        >
+          <Typography color="text.secondary" sx={{ fontSize: '12px', lineHeight: '14px' }}>
+            {shortenAddress(member?.address || DUMMY_ADDRESS)}
+          </Typography>
+          <CopyAddressIcon sx={{ width: '12px', height: '12px', marginLeft: '8px' }} />
+        </Box>
       </Box>
-      <Dialog open={dialogOpen} onClose={toggleDialog}>
-        <DialogTitle>
-          <IconButton
-            aria-label="close"
-            onClick={toggleDialog}
-            sx={{
-              position: 'absolute',
-              right: 0,
-              top: 0,
-            }}
-          >
-            <Box display="flex" mt={-1}>
-              <Box mt="8px">
-                <BackIcon />
-              </Box>
-              <Box>
-                <Typography sx={{ fontSize: '18px', fontWeight: 500 }}>Go Back</Typography>
-              </Box>
-            </Box>
-          </IconButton>
-        </DialogTitle>
-        <Box display="flex" flexDirection="column" sx={{ background: '#1F2023' }}>
+      <Dialog
+        maxWidth="lg"
+        fullWidth
+        open={dialogOpen}
+        onClose={toggleDialog}
+        PaperProps={{ sx: { background: 'none', borderRadius: '10px' } }}
+      >
+        <Box>
+          <Box display="flex" alignItems="center">
+            <BackIcon sx={{ width: '16px', height: '10px' }} />
+            <Typography sx={{ fontSize: '18px', fontWeight: 500, marginLeft: '12px' }}>Go back</Typography>
+          </Box>
+        </Box>
+        <Box display="flex" flexDirection="column">
           <Box
             display="flex"
             sx={{
               width: '100%',
               minHeight: '168px',
               background: `center/cover no-repeat url('/images/MemberBanner.png')`,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              overflow: 'hidden',
             }}
           />
-          <Box display="flex" justifyContent="space-between" sx={{ mx: '10%' }}>
-            <Box display="flex">
-              <Box sx={{ mt: -3.7 }}>
-                <img
-                  src={member.logoUrl ?? '/images/Profile.svg'}
-                  alt={member.username}
-                  width={91.4}
-                  height={91.4}
-                  style={{
+          <Box sx={{ background: '#1F2023' }}>
+            <Box display="flex" justifyContent="space-between" sx={{ mx: '10%' }}>
+              <Box display="flex">
+                <Box
+                  sx={{
+                    mt: -3.7,
+                    width: '92px',
+                    height: '92px',
                     borderRadius: '100%',
-                    border: '2.05373px solid #606ACB',
+                    border: '2px solid #606acb',
+                    overflow: 'hidden',
                   }}
-                />
-              </Box>
-              <Box ml={3}>
-                <Box display="flex">
-                  <Typography sx={{ fontSize: '25.47px', fontWeight: 700, pt: 1 }}>{member.username}</Typography>
-                  <Box
-                    sx={{
-                      background: '#303236',
-                      border: '1.10862px solid rgba(214, 207, 207, 0.6)',
-                      borderRadius: '3.18px',
-                      display: 'flex',
-                      flexDirection: 'row',
-                      ml: 2,
-                      mt: 1,
-                      p: '5px 12.7369px',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => console.log('handle copy')}
-                  >
-                    <Box>
+                >
+                  <Image src={member.logoUrl ?? '/images/Profile.svg'} alt={member.username} width={92} height={92} />
+                </Box>
+                <Box ml={5}>
+                  <Box display="flex" mt={1.5}>
+                    <Typography sx={{ fontSize: '25.47px', fontWeight: 700, lineHeight: '31px' }}>
+                      {member.username}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        border: '1px solid rgba(214, 207, 207, 0.6)',
+                        borderRadius: '3px',
+                        p: '8px 12px',
+                        cursor: 'pointer',
+                        ml: 4,
+                      }}
+                      onClick={() => console.log('handle copy')}
+                    >
                       <Typography
                         sx={{
                           fontSize: '12px',
@@ -294,26 +266,22 @@ export default function MemberCard({ member }: { member: Member }) {
                       >
                         {shortenAddress(member?.address || DUMMY_ADDRESS)}
                       </Typography>
-                    </Box>
-                    <Box sx={{ marginLeft: '6px', marginTop: '-3px' }}>
-                      <img src={'/images/copyicon.svg'} width={12} height={12} alt="Copy" />
+                      <CopyAddressIcon sx={{ width: '12px', height: '12px', marginLeft: '8px' }} />
                     </Box>
                   </Box>
-                </Box>
-                <Box sx={{ display: 'flex', mt: 1 }}>
-                  <MemberLocation city={member.city} country={member.country} />
-                </Box>
-                <Box sx={{ display: 'flex', mt: 1 }}>
-                  {member.isContributor ? (
-                    <MemberCardChip label="Web3 Creator Resident" />
-                  ) : (
-                    <MemberCardChip label="Member" />
-                  )}
+                  <Box sx={{ mt: 1.5 }}>
+                    <MemberLocation city={member.city} country={member.country} />
+                  </Box>
+                  <Box sx={{ mt: 2.5 }}>
+                    {member.isContributor ? (
+                      <MemberCardChip label="Web3 Creator Resident" />
+                    ) : (
+                      <MemberCardChip label="Member" />
+                    )}
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <Box mt={-1.9}>
+              <Box display="flex" flexDirection="column" alignItems="center">
                 <Box>
                   <SocialLinks socialLinks={member.socialLinks} size={20} type="circle" />
                 </Box>
@@ -323,149 +291,144 @@ export default function MemberCard({ member }: { member: Member }) {
                   </Typography>
                 </Box>
                 <Box sx={{ textAlign: 'center', mt: 2 }}>
-                  {me?._id === member._id ? (
-                    <EditButton onClick={() => handleEditProfile()}>Edit Profile</EditButton>
-                  ) : (
-                    <ConnectButton>Interested in collab</ConnectButton>
-                  )}
+                  {/* <EditButton onClick={() => handleEditProfile()}>Edit Profile</EditButton> */}
+                  <ConnectButton>Interested in collab</ConnectButton>
                 </Box>
               </Box>
-            </Box>
-          </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { lg: 'row', md: 'row', sm: 'column', xs: 'column' },
-              flexWrap: 'wrap',
-              justifyContent: 'space-evenly',
-              mx: '10%',
-              mt: 5,
-            }}
-          >
-            <Box sx={{ flex: 1, mb: 4 }}>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mb={2}>
-                <Tabs
-                  value={tabId}
-                  onChange={(e, newId) => setTabId(newId)}
-                  TabIndicatorProps={{ style: { background: '#606ACB' } }}
-                >
-                  <Tab label="About" />
-                  <Tab label="Projects" />
-                  <Tab label="Contribution" />
-                </Tabs>
-              </Box>
-              <TabPanel value={tabId} index={0}>
-                <Box>
-                  <Box mt={2}>
-                    <Typography
-                      sx={{
-                        fontSize: '18px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      About Me
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '14px',
-                        fontWeight: 400,
-                        color: '#8A8F98',
-                      }}
-                    >
-                      {member.bio}
-                    </Typography>
-                  </Box>
-
-                  <Box mt={3}>
-                    <Typography
-                      sx={{
-                        fontSize: '18px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Expertise
-                    </Typography>
-                    <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
-                      {member.expertise.map((exp, i) => (
-                        <Chip
-                          key={i}
-                          label={exp}
-                          sx={{
-                            background: 'linear-gradient(158.2deg, #27282B 30.29%, #686868 124.6%), #D6CFCF;',
-                            border: '1px solid #303236',
-                            borderRadius: '2.87px',
-                            p: '7.18px 11.49px',
-                            m: '8px 8px 8px 0px',
-                            fontSize: '10.0528px',
-                            fontWeight: 400,
-                          }}
-                        />
-                      ))}
-                      {member.extraExpertise.map((exp, i) => (
-                        <Chip
-                          key={i}
-                          label={exp}
-                          sx={{
-                            background: 'linear-gradient(158.2deg, #27282B 30.29%, #686868 124.6%), #D6CFCF;',
-                            border: '1px solid #303236',
-                            borderRadius: '2.87px',
-                            p: '7.18px 11.49px',
-                            m: '8px 8px 8px 0px',
-                            fontSize: '10.0528px',
-                            fontWeight: 400,
-                          }}
-                        />
-                      ))}
-                    </Box>
-                  </Box>
-
-                  <Box mt={2}>
-                    <Typography
-                      sx={{
-                        fontSize: '18px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      How I want to contribute
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '14px',
-                        fontWeight: 400,
-                        color: '#8A8F98',
-                      }}
-                    >
-                      {member.contribution}
-                    </Typography>
-                  </Box>
-                </Box>
-              </TabPanel>
-              <TabPanel value={tabId} index={1}>
-                Projects
-              </TabPanel>
-              <TabPanel value={tabId} index={2}>
-                Contribution
-              </TabPanel>
             </Box>
             <Box
               sx={{
-                flex: 1,
                 display: 'flex',
-                width: '100%',
-                height: '100%',
-                alignItems: 'center',
+                flexDirection: { lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+                flexWrap: 'wrap',
+                justifyContent: 'space-evenly',
+                mx: '10%',
+                mt: 5,
               }}
             >
-              <Box sx={{ display: 'flex', mx: 'auto', my: 'auto' }}>
-                <Box>
-                  <Typography>Member Data</Typography>
+              <Box sx={{ flex: 1, mb: 4 }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mb={2}>
+                  <Tabs
+                    value={tabId}
+                    onChange={(e, newId) => setTabId(newId)}
+                    TabIndicatorProps={{ style: { background: '#606ACB' } }}
+                  >
+                    <Tab label="About" />
+                    <Tab label="Projects" />
+                    <Tab label="Contribution" />
+                  </Tabs>
                 </Box>
-                <Box sx={{ ml: 2 }}>
-                  <MemberCardChip label="Coming Soon" />
-                </Box>
+                <TabPanel value={tabId} index={0}>
+                  <Box>
+                    <Box mt={2}>
+                      <Typography
+                        sx={{
+                          fontSize: '18px',
+                          fontWeight: 500,
+                        }}
+                      >
+                        About Me
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: '14px',
+                          fontWeight: 400,
+                          color: '#8A8F98',
+                        }}
+                      >
+                        {member.bio}
+                      </Typography>
+                    </Box>
+
+                    <Box mt={3}>
+                      <Typography
+                        sx={{
+                          fontSize: '18px',
+                          fontWeight: 500,
+                        }}
+                      >
+                        Expertise
+                      </Typography>
+                      <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
+                        {member.expertise.map((exp, i) => (
+                          <Chip
+                            key={i}
+                            label={exp}
+                            sx={{
+                              background: 'linear-gradient(158.2deg, #27282B 30.29%, #686868 124.6%), #D6CFCF;',
+                              border: '1px solid #303236',
+                              borderRadius: '2.87px',
+                              p: '7.18px 11.49px',
+                              m: '8px 8px 8px 0px',
+                              fontSize: '10.0528px',
+                              fontWeight: 400,
+                            }}
+                          />
+                        ))}
+                        {member.extraExpertise.map((exp, i) => (
+                          <Chip
+                            key={i}
+                            label={exp}
+                            sx={{
+                              background: 'linear-gradient(158.2deg, #27282B 30.29%, #686868 124.6%), #D6CFCF;',
+                              border: '1px solid #303236',
+                              borderRadius: '2.87px',
+                              p: '7.18px 11.49px',
+                              m: '8px 8px 8px 0px',
+                              fontSize: '10.0528px',
+                              fontWeight: 400,
+                            }}
+                          />
+                        ))}
+                      </Box>
+                    </Box>
+                    <Box mt={2}>
+                      <Typography
+                        sx={{
+                          fontSize: '18px',
+                          fontWeight: 500,
+                        }}
+                      >
+                        How I want to contribute
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: '14px',
+                          fontWeight: 400,
+                          color: '#8A8F98',
+                        }}
+                      >
+                        {member.contribution}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </TabPanel>
+                <TabPanel value={tabId} index={1}>
+                  Projects
+                </TabPanel>
+                <TabPanel value={tabId} index={2}>
+                  Contribution
+                </TabPanel>
               </Box>
-              <Box></Box>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: 'flex',
+                  width: '100%',
+                  height: '100%',
+                  alignItems: 'center',
+                }}
+              >
+                <Box sx={{ display: 'flex', mx: 'auto', my: 'auto' }}>
+                  <Box>
+                    <Typography>Member Data</Typography>
+                  </Box>
+                  <Box sx={{ ml: 2 }}>
+                    <MemberCardChip label="Coming Soon" />
+                  </Box>
+                </Box>
+                <Box></Box>
+              </Box>
             </Box>
           </Box>
         </Box>

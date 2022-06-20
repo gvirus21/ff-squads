@@ -19,8 +19,6 @@ const LoginPage: NextPage = () => {
   const { data: account, isLoading } = useAccount()
   const { data: session, status } = useSession()
 
-  const { ref } = router.query
-
   const handleCloseSnackbar = () => {
     setopenSnackbar(false)
   }
@@ -30,11 +28,7 @@ const LoginPage: NextPage = () => {
   }
 
   if (account && status === 'authenticated') {
-    if (ref === 'creator') {
-      router.push('/community/forefront?ref=creator')
-    } else {
-      router.push('/community')
-    }
+    router.push('/community')
     return <PageLoading />
   }
 

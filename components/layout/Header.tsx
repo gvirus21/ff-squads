@@ -1,6 +1,8 @@
 import React from 'react'
 import { Toolbar, Link, Box, Typography } from '@mui/material'
 
+import UserProfile from 'components/layout/UserProfile'
+
 export default function Header() {
   return (
     <Toolbar
@@ -31,6 +33,7 @@ export default function Header() {
             FAQ
           </Typography>
         </Link>
+        <UserProfile />
       </Box>
     </Toolbar>
   )

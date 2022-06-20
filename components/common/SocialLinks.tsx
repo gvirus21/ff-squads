@@ -24,10 +24,7 @@ export default function SocialLinks({
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
-              sx={{
-                height: '100%',
-                mx: type === 'circle' ? '6px' : '1px',
-              }}
+              sx={{ height: '100%', mx: 1 }}
             >
               <Box
                 sx={{

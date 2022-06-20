@@ -130,17 +130,6 @@ const theme = createTheme({
         },
       },
     },
-    MuiDialog: {
-      styleOverrides: {
-        paper: {
-          background: '#1F2023',
-          minWidth: '71%',
-          marginLeft: '14.09%',
-          marginRight: '14.09%',
-          minHeight: '90%',
-        },
-      },
-    },
     MuiChip: {
       styleOverrides: {
         root: {

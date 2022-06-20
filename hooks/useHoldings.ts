@@ -7,10 +7,15 @@ import { useAccount, useSigner } from 'wagmi'
 import ERC20ABI from 'abis/erc20.json'
 import MulticallABI from 'abis/multicall2.json'
 
-export const useAllCommunityHoldings = (communities: Community[] | undefined) => {
+type CommunityTokenHoldings = {
+  communityId: string
+  tokenHoldings: number
+}
+
+export const useAllCommunityTokenHoldings = (communities: Community[] | undefined) => {
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
-  const [holdings, setHoldings] = useState<any[]>([])
+  const [holdings, setHoldings] = useState<CommunityTokenHoldings[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -57,13 +62,10 @@ export const useAllCommunityHoldings = (communities: Community[] | undefined) =>
           multicallContractSingleData(addresses, ERC20Interface, 'decimals', undefined),
         ])
         setHoldings(
-          communities.map((community, i) => {
-            let userHoldings = 0
-            if (balances[i] && decimals[i]) {
-              userHoldings = Number(utils.formatUnits(balances[i], decimals[i]))
-            }
-            return { communityId: community.shortId, userHoldings }
-          })
+          communities.map((community, i) => ({
+            communityId: community.shortId,
+            tokenHoldings: balances[i] && decimals[i] ? Number(utils.formatUnits(balances[i], decimals[i])) : 0,
+          }))
         )
       } catch (err) {
         console.log(err)
@@ -76,4 +78,31 @@ export const useAllCommunityHoldings = (communities: Community[] | undefined) =>
   }, [account, communities])
 
   return { holdings, isLoading }
+}
+
+export const useCommunityTokenHolding = (community: Community | undefined) => {
+  const { data: account } = useAccount()
+  const { data: signer } = useSigner()
+  const [holding, setHolding] = useState<CommunityTokenHoldings | undefined>(undefined)
+
+  useEffect(() => {
+    const getHolding = async (community: Community) => {
+      const contract = new Contract(community.tokenInfo.contract, ERC20ABI, signer?.provider)
+      let tokenHoldings = 0
+      try {
+        const [balance, decimals] = await Promise.all([contract.balanceOf(account?.address), contract.decimals()])
+        if (balance && decimals) {
+          tokenHoldings = Number(utils.formatUnits(balance, decimals))
+        }
+      } catch (err) {
+        console.log(err)
+      }
+      setHolding({ communityId: community.shortId, tokenHoldings })
+    }
+    if (account && community && signer) {
+      getHolding(community)
+    }
+  }, [account, community])
+
+  return holding
 }

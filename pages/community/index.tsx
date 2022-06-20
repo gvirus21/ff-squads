@@ -9,11 +9,11 @@ import Page from 'components/common/Page'
 import PageLoading from 'components/common/PageLoading'
 import { useCommunities } from 'hooks/useCommunity'
 import { Community } from 'types'
-import { useAllCommunityHoldings } from 'hooks/useHoldings'
+import { useAllCommunityTokenHoldings } from 'hooks/useHoldings'
 
 export default function CommunitiesPage() {
   const { data: communities } = useCommunities()
-  const { holdings, isLoading } = useAllCommunityHoldings(communities)
+  const { holdings, isLoading } = useAllCommunityTokenHoldings(communities)
   const [selectedCommunityId, setSelectedCommunityId] = useState<string | null>(null)
   const router = useRouter()
 
@@ -22,7 +22,7 @@ export default function CommunitiesPage() {
       return communities.filter((community: Community) => {
         const holding = holdings.find(({ communityId }) => communityId === community.shortId)
         if (!holding) return false
-        return holding.userHoldings >= community.minimumHoldingForMembership
+        return holding.tokenHoldings >= community.minimumHoldingForMembership
       })
     }
     return []
@@ -83,7 +83,7 @@ export default function CommunitiesPage() {
                         community={community}
                         selected={selectedCommunityId === community.shortId}
                         tokenHoldings={
-                          holdings.find(({ communityId }: any) => community.shortId === communityId)?.userHoldings
+                          holdings.find(({ communityId }: any) => community.shortId === communityId)?.tokenHoldings
                         }
                       />
                     </Box>
