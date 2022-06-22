@@ -1,14 +1,33 @@
-import React, { useState } from 'react'
-import { Box, Typography, CardMedia, Grid, Dialog, DialogTitle, IconButton } from '@mui/material'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { Box, Typography, CardMedia, Grid, Dialog, DialogTitle, IconButton, Avatar } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
+import { styled } from '@mui/material/styles'
+import SvgIcon from '@mui/material/SvgIcon'
+import ReactPlayer from 'react-player'
+import { Project } from '../../types'
+import BackIcon from '../../common/icons/BackIcon'
 
-import BackIcon from 'components/icons/BackIcon'
-import { Project } from 'types'
+const ReactModalVideo = styled(ReactPlayer)`
+  margin-top: 50px;
+`
+
+const ReactThumbnailVideo = styled(ReactPlayer)``
 
 function ProjectCard({ project }: { project: Project }) {
-  const { username, projectTitle, coverUrl, coverFileType, profileImageUrl, openToCollab, expertise, about } = project
+  const {
+    username,
+    projectTitle,
+    coverUrl,
+    coverFileType,
+    profileImageUrl,
+    isFeatured,
+    openToCollab,
+    expertise,
+    about,
+  } = project
 
-  const [dialogOpen, setDialogOpen] = React.useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const toggleDialog = () => setDialogOpen(!dialogOpen)
 
   return (
@@ -31,26 +50,21 @@ function ProjectCard({ project }: { project: Project }) {
         <Box display="flex" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
           <Box display="flex" justifyContent="center" marginTop="9px" sx={{ width: '100%' }}>
             {coverFileType === 'image' && (
-              <CardMedia
-                component="img"
-                src={coverUrl}
-                style={{
-                  height: '158px',
-                  width: '313.11px',
-                  borderRadius: '6px',
-                }}
-              />
+              <Box height="158px" width="313.11px">
+                {/* <Image
+                  // height={'158px'}
+                  // width={'313.11px'}
+                  // style={{
+                  //   borderRadius: '6px',
+                  // }}
+                  layout="fill"
+                  src={coverUrl}
+                  alt="cover-image-alt"
+                /> */}
+              </Box>
             )}
             {coverFileType === 'video' && (
-              <CardMedia
-                component="video"
-                src={coverUrl}
-                autoPlay
-                style={{
-                  height: '160px',
-                  borderRadius: '6px',
-                }}
-              />
+              <ReactThumbnailVideo url={coverUrl} height="158px" width="313px" playing loop muted controls={false} />
             )}
           </Box>
 
@@ -92,9 +106,10 @@ function ProjectCard({ project }: { project: Project }) {
           )}
 
           <Grid container sx={{ mt: '8px' }}>
-            {expertise.map((value) => {
+            {expertise.map((value: string, index: number) => {
               return (
                 <Grid
+                  key={index}
                   item
                   sx={{
                     background: 'linear-gradient(0deg, #27282B 21.49%, #686868 176.93%)',
@@ -104,7 +119,6 @@ function ProjectCard({ project }: { project: Project }) {
                     mr: '10px',
                     borderRadius: '4px',
                   }}
-                  key={value}
                 >
                   <Typography fontSize="12px">{value}</Typography>
                 </Grid>
@@ -115,6 +129,8 @@ function ProjectCard({ project }: { project: Project }) {
       </Box>
 
       <Dialog
+        fullWidth
+        maxWidth="lg"
         BackdropProps={{
           style: {
             background: '#25252585',
@@ -126,8 +142,7 @@ function ProjectCard({ project }: { project: Project }) {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '20vh',
-            width: '20vw',
+            background: 'transparent',
           },
         }}
         open={dialogOpen}
@@ -135,7 +150,7 @@ function ProjectCard({ project }: { project: Project }) {
         sx={{
           zIndex: 999999,
           height: '1000px',
-          width: '1500px',
+          width: '1100px',
           marginTop: 'auto',
           marginBottom: 'auto',
           marginLeft: 'auto',
@@ -155,6 +170,7 @@ function ProjectCard({ project }: { project: Project }) {
             top: '-70px',
             left: '-90px',
             zIndex: 999,
+            overflow: 'hidden'
           }}
         />
 
@@ -196,16 +212,7 @@ function ProjectCard({ project }: { project: Project }) {
                 />
               )}
               {coverFileType === 'video' && (
-                <CardMedia
-                  component="video"
-                  src={coverUrl}
-                  autoPlay
-                  style={{
-                    height: '450px',
-                    borderRadius: '6px',
-                    marginTop: '50px',
-                  }}
-                />
+                <ReactModalVideo url={coverUrl} height="450px" width="823px" muted={false} playing controls />
               )}
 
               <Box
@@ -270,20 +277,22 @@ function ProjectCard({ project }: { project: Project }) {
               >
                 <Box sx={{ width: '70%' }}>
                   <Box sx={{ display: 'flex', marginTop: '10px' }}>
-                    {expertise.map((exp: string) => (
-                      <Box
-                        sx={{
-                          border: 1,
-                          borderColor: '#903ed8',
-                          padding: '10px 15px',
-                          marginRight: '10px',
-                          borderRadius: '4px',
-                        }}
-                        key={exp}
-                      >
-                        <Typography sx={{ fontSize: '12px' }}>{exp}</Typography>
-                      </Box>
-                    ))}
+                    {expertise.map((exp: string, index: number) => {
+                      return (
+                        <Box
+                          key={index}
+                          sx={{
+                            border: 1,
+                            borderColor: '#903ed8',
+                            padding: '10px 15px',
+                            marginRight: '10px',
+                            borderRadius: '4px',
+                          }}
+                        >
+                          <Typography sx={{ fontSize: '12px' }}>{exp}</Typography>
+                        </Box>
+                      )
+                    })}
                   </Box>
 
                   <Box

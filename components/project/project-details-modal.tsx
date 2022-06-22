@@ -1,5 +1,4 @@
 import { Box, Typography, CardMedia } from '@mui/material'
-import React from 'react'
 
 type ModalProp = {
   thumbnail?: string
@@ -22,7 +21,6 @@ function ProjectDetailsModal({ thumbnail, projectTitle, profileImage, userName, 
       }}
     >
       <Box>
-        {/* {console.log('thumbnail: ', thumbnail)} */}
         <CardMedia component="img" src={thumbnail} />
       </Box>
       <Box>
@@ -35,16 +33,19 @@ function ProjectDetailsModal({ thumbnail, projectTitle, profileImage, userName, 
       <Box>
         {/* tags */}
         <Box>
-          {tags?.map((tag) => (
-            <Box key={tag}>
-              <Typography>{tag}</Typography>
-            </Box>
-          ))}
+          {tags?.map((tag: string, index: number) => {
+            return (
+              <Box key={index}>
+                <Typography>{tag}</Typography>
+              </Box>
+            )
+          })}
         </Box>
 
         {/* buttons */}
         <Box>
           {openToCollab && <Box>Connect to collab</Box>}
+
           <Box>Follow</Box>
         </Box>
       </Box>

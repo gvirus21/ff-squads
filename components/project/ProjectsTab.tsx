@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
-import { Box, Typography, useMediaQuery, Grid, useTheme, CardMedia, Collapse } from '@mui/material'
+import { Box, Typography, useMediaQuery, Grid, Chip, useTheme, CardMedia, Collapse } from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemButton from '@mui/material/ListItemButton'
 import { styled } from '@mui/material/styles'
 import Select from 'react-select'
+import ProjectData from '../../data/ProjectData.json'
+import ProjectDetailsModal from './project-details-modal'
+import { Project } from '../../types'
+import darkSelectStyle from '../../config/darkSelectStyle'
+import FilterChipDeleteIcon from '../../common/icons/FilterChipDeleteIcon'
 
-import ProjectDetailsModal from 'components/project/ProjectDetailsModal'
-import ProjectCard from 'components/project/ProjectCard'
-import ProjectData from 'components/project/data.json'
-import darkSelectStyle from 'config/darkSelectStyle'
-import { Project } from 'types'
+import ProjectCard from './project-card'
 
 const sortOptions = [
   {
@@ -31,14 +32,89 @@ const sortOptions = [
   },
 ]
 
+const SquadFilterChips = styled(Chip)`
+  background: #121212;
+  border-radius: 4px;
+  padding: 11.5px 12px 11.5px 16px;
+  font-size: 14px;
+  color: #9c9c9c;
+  font-weight: 400;
+  margin-right: 8px;
+`
+
 export default function ProjectsTab() {
   const [projectIsOpen, setProjectIsOpen] = useState(true)
   const [creationTypeIsOpen, setCreationTypeIsOpen] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [expertiseTags, setExpertiseTags] = useState<string[]>([])
+  const [filterTags, setFilterTags] = useState<string[]>([])
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(ProjectData)
 
   const drawerWidth = 288
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  const updateExpertTags = () => {
+    const tags: string[] = []
+
+    ProjectData.forEach((project: Project) => {
+      project.expertise.forEach((expTag) => {
+        if (!tags.includes(expTag)) {
+          tags.push(expTag)
+        }
+      })
+    })
+
+    setExpertiseTags(tags)
+  }
+
+  const updateFilteredProjects = () => {
+    let filteredProjectslist: Project[] = []
+
+    if (filterTags.includes('All')) {
+      filteredProjectslist = [...ProjectData]
+    }
+
+    if (filterTags.includes('Open to Collab')) {
+      const openToCollabProjects = ProjectData.filter((project) => project.openToCollab === true)
+
+      const updatedProjectList: Project[] = []
+
+      openToCollabProjects.forEach((_project: Project) => {
+        if (!filteredProjectslist.includes(_project)) {
+          updatedProjectList.push(_project)
+        }
+      })
+
+      filteredProjectslist = [...filteredProjectslist, ...updatedProjectList]
+    }
+
+    if (filterTags.includes('Featured')) {
+      const featuredProjects = ProjectData.filter((project) => project.isFeatured === true)
+
+      const updatedProjectList: Project[] = []
+
+      featuredProjects.forEach((_project: Project) => {
+        if (!filteredProjectslist.includes(_project)) {
+          updatedProjectList.push(_project)
+        }
+      })
+
+      filteredProjectslist = [...filteredProjectslist, ...updatedProjectList]
+    }
+
+    filterTags.forEach((tag: string) => {
+      ProjectData.forEach((_project: Project) => {
+        if (_project.expertise.includes(tag)) {
+          if (!filteredProjectslist.includes(_project)) {
+            filteredProjectslist.push(_project)
+          }
+        }
+      })
+    })
+
+    setFilteredProjects(filteredProjectslist)
+  }
 
   const ExpandLessIconSquad = styled(ExpandLessIcon)`
     color: #8b8f97;
@@ -58,6 +134,25 @@ export default function ProjectsTab() {
   const RoundListItemButton = styled(ListItemButton)`
     border-radius: 6px;
   `
+
+  useEffect(() => {
+    updateExpertTags()
+  }, [])
+
+  useEffect(() => {
+    updateFilteredProjects()
+  }, [filterTags])
+
+  const addToFilter = (tag: string) => {
+    if (!filterTags.includes(tag)) {
+      const tags = [...filterTags, tag]
+      setFilterTags(tags)
+    }
+  }
+
+  const removeFilterItem = (tag: string) => {
+    setFilterTags(filterTags.filter((x) => x !== tag))
+  }
 
   return (
     <Box mx={4} display="flex" flexDirection="column">
@@ -231,7 +326,7 @@ export default function ProjectsTab() {
         </Box>
       )}
 
-      <Box display="flex" sx={{ marginTop: { sx: '25px', lg: '0px' }, zIndex: 9999 }}>
+      <Box display="flex" sx={{ marginTop: { xs: '25px', lg: '0px' }, zIndex: 9999 }}>
         {!isMobile && (
           <Drawer
             sx={{
@@ -258,15 +353,34 @@ export default function ProjectsTab() {
                     <Grid container>
                       <Grid item>
                         <Box
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
+                          onClick={() => {
+                            addToFilter('All')
+                          }}
                           sx={{
                             padding: '8px',
                             marginRight: '10px',
                             marginBottom: '10px',
                             border: 1,
                             borderColor: '#8A8F98',
+                            cursor: 'pointer',
+                            borderRadius: '8px',
+                          }}
+                        >
+                          <Typography fontSize="14px">All</Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item>
+                        <Box
+                          onClick={() => {
+                            addToFilter('Featured')
+                          }}
+                          sx={{
+                            padding: '8px',
+                            marginRight: '10px',
+                            marginBottom: '10px',
+                            border: 1,
+                            borderColor: '#8A8F98',
+                            cursor: 'pointer',
                             borderRadius: '8px',
                           }}
                         >
@@ -275,12 +389,16 @@ export default function ProjectsTab() {
                       </Grid>
                       <Grid item>
                         <Box
+                          onClick={() => {
+                            addToFilter('Open to Collab')
+                          }}
                           sx={{
                             padding: '8px',
                             marginRight: '10px',
                             marginBottom: '10px',
                             border: 1,
                             borderColor: '#8A8F98',
+                            cursor: 'pointer',
                             borderRadius: '8px',
                           }}
                         >
@@ -294,73 +412,41 @@ export default function ProjectsTab() {
 
               <StyledList sx={{ marginBottom: '10px' }}>
                 <RoundListItemButton onClick={() => setCreationTypeIsOpen(!creationTypeIsOpen)}>
-                  <ListItemText primary="Creation Type" />
+                  <ListItemText primary="Project Type" />
                   {creationTypeIsOpen ? <ExpandLessIconSquad /> : <ExpandMoreIconSquad />}
                 </RoundListItemButton>
                 <Collapse in={creationTypeIsOpen} timeout="auto" unmountOnExit>
                   <Box sx={{ p: 1 }}>
+
                     <Grid container>
-                      <Grid item>
-                        <Box
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
-                          sx={{
-                            padding: '8px',
-                            marginRight: '10px',
-                            marginBottom: '10px',
-                            border: 1,
-                            lineHeight: '16.8px',
-                            borderColor: '#8A8F98',
-                            borderRadius: '8px',
-                          }}
-                        >
-                          <Typography fontSize="14px">Music Production</Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item>
-                        <Box
-                          sx={{
-                            padding: '8px',
-                            marginRight: '10px',
-                            marginBottom: '10px',
-                            border: 1,
-                            borderColor: '#8A8F98',
-                            borderRadius: '8px',
-                          }}
-                        >
-                          <Typography fontSize="14px">Soundscapes</Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item>
-                        <Box
-                          sx={{
-                            padding: '8px',
-                            marginRight: '10px',
-                            marginBottom: '10px',
-                            border: 1,
-                            borderColor: '#8A8F98',
-                            borderRadius: '8px',
-                          }}
-                        >
-                          <Typography fontSize="14px">Spirituality</Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item>
-                        <Box
-                          sx={{
-                            padding: '8px',
-                            marginRight: '10px',
-                            marginBottom: '10px',
-                            border: 1,
-                            borderColor: '#8A8F98',
-                            borderRadius: '8px',
-                          }}
-                        >
-                          <Typography fontSize="14px">Videography</Typography>
-                        </Box>
-                      </Grid>
+                      {expertiseTags.map((expertise: string, index: number) => {
+                        return (
+                          <Grid item key={index} >
+                            <Box
+                              onClick={() => {
+                                addToFilter(expertise)
+                              }}
+                              display="flex"
+                              justifyContent="center"
+                              alignItems="center"
+                              sx={{
+                                padding: '8px',
+                                marginRight: '10px',
+                                marginBottom: '10px',
+                                border: 1,
+                                lineHeight: '16.8px',
+                                borderColor: '#8A8F98',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              <Typography fontSize="14px">{expertise}</Typography>
+                            </Box>
+                          </Grid>
+                        )
+                      })}
                     </Grid>
+                    
                   </Box>
                 </Collapse>
               </StyledList>
@@ -368,9 +454,21 @@ export default function ProjectsTab() {
           </Drawer>
         )}
         <Box sx={{ marginLeft: '19px' }}>
+          {/* tags input container */}
           <Box>
-            <Typography sx={{ fontSize: '18px', marginTop: { xs: '25px', lg: '0px' } }}>Featured</Typography>
+            {filterTags.map((tag: string) => {
+              return (
+                <SquadFilterChips
+                  key={tag}
+                  label={tag}
+                  deleteIcon={<FilterChipDeleteIcon />}
+                  onDelete={() => removeFilterItem(tag)}
+                  clickable
+                />
+              )
+            })}
           </Box>
+
           <Box sx={{ maxWidth: '1400px' }}>
             <Grid
               container
@@ -379,15 +477,16 @@ export default function ProjectsTab() {
               rowSpacing={2}
               sx={{ mt: { xs: '32px', sm: '0' } }}
             >
-              {ProjectData.map((project: Project) => (
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={project._id}>
-                  <ProjectCard project={project} />
-                </Grid>
-              ))}
+              {filteredProjects.map((project: Project) => {
+                return (
+                  <Grid item key={project._id} xs={12} sm={12} md={6} lg={4} xl={3}>
+                    <ProjectCard project={project} />
+                  </Grid>
+                )
+              })}
             </Grid>
           </Box>
         </Box>
       </Box>
     </Box>
-  )
-}
+  )}

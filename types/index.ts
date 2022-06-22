@@ -95,18 +95,19 @@ export type CommunityProfileInfo = {
 }
 
 export type Project = {
-  _id: string
-  projectTitle: string
-  coverUrl: string
-  coverFileType: string
-  username: string
-  profileImageUrl: string
-  openToCollab: boolean
-  expertise: string[]
-  extraExpertise: string[]
-  socialLinks: string[]
-  createdAt: string
-  bio: string
-  contribution: string
-  about: string
-}
+	_id: string;
+	projectTitle: string;
+	coverUrl: string;
+	coverFileType: string;
+	username: string;
+	profileImageUrl: string;
+	isFeatured: boolean;
+	openToCollab: boolean;
+	expertise: string[];
+	extraExpertise: string[];
+	socialLinks: string[];
+	createdAt: string;
+	bio: string;
+	contribution: string;
+	about: string;
+};
