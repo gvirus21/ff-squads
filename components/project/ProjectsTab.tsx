@@ -47,7 +47,7 @@ export default function ProjectsTab() {
   const [creationTypeIsOpen, setCreationTypeIsOpen] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [expertiseTags, setExpertiseTags] = useState<string[]>([])
-  const [filterTags, setFilterTags] = useState<string[]>([])
+  const [filterTags, setFilterTags] = useState<string[]>(["All"])
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(ProjectData)
 
   const drawerWidth = 288

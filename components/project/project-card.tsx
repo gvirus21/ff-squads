@@ -50,17 +50,15 @@ function ProjectCard({ project }: { project: Project }) {
         <Box display="flex" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
           <Box display="flex" justifyContent="center" marginTop="9px" sx={{ width: '100%' }}>
             {coverFileType === 'image' && (
-              <Box height="158px" width="313.11px">
-                {/* <Image
-                  // height={'158px'}
-                  // width={'313.11px'}
-                  // style={{
-                  //   borderRadius: '6px',
-                  // }}
-                  layout="fill"
-                  src={coverUrl}
-                  alt="cover-image-alt"
-                /> */}
+              
+              <Box display="flex" alignItems="center">
+                <Image
+                  src={'/images/Profile.svg'}
+                  alt={'Thumbnail-alt'}
+                  width={300}
+                  height={160}
+                  style={{ background: '#252525e6', borderRadius: '6px' }}
+                />
               </Box>
             )}
             {coverFileType === 'video' && (
@@ -170,7 +168,7 @@ function ProjectCard({ project }: { project: Project }) {
             top: '-70px',
             left: '-90px',
             zIndex: 999,
-            overflow: 'hidden'
+            overflow: 'hidden',
           }}
         />
 
