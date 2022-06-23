@@ -47,8 +47,9 @@ export default function ProjectsTab() {
   const [creationTypeIsOpen, setCreationTypeIsOpen] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [expertiseTags, setExpertiseTags] = useState<string[]>([])
-  const [filterTags, setFilterTags] = useState<string[]>(["All"])
+  const [filterTags, setFilterTags] = useState<string[]>(['All'])
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(ProjectData)
+  const [sortOption, setSortOption] = useState<string>('Newest')
 
   const drawerWidth = 288
   const theme = useTheme()
@@ -281,7 +282,10 @@ export default function ProjectsTab() {
           </Box>
           {/* Sort option */}
           <Box width="140px" height="52px">
-            <Select options={sortOptions} styles={darkSelectStyle} value={{}} placeholder="Newest" />
+            <Select
+              options={sortOptions}
+              styles={darkSelectStyle}
+            />
           </Box>
         </Box>
       </Box>
@@ -417,11 +421,10 @@ export default function ProjectsTab() {
                 </RoundListItemButton>
                 <Collapse in={creationTypeIsOpen} timeout="auto" unmountOnExit>
                   <Box sx={{ p: 1 }}>
-
                     <Grid container>
                       {expertiseTags.map((expertise: string, index: number) => {
                         return (
-                          <Grid item key={index} >
+                          <Grid item key={index}>
                             <Box
                               onClick={() => {
                                 addToFilter(expertise)
@@ -446,7 +449,6 @@ export default function ProjectsTab() {
                         )
                       })}
                     </Grid>
-                    
                   </Box>
                 </Collapse>
               </StyledList>
@@ -489,4 +491,5 @@ export default function ProjectsTab() {
         </Box>
       </Box>
     </Box>
-  )}
+  )
+}
