@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import { Box, Typography, CardMedia, Grid, Dialog, DialogTitle, IconButton, Avatar } from '@mui/material'
+import { Box, Typography, Grid, Dialog, DialogTitle, IconButton, Avatar } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import { styled } from '@mui/material/styles'
 import SvgIcon from '@mui/material/SvgIcon'
 import ReactPlayer from 'react-player'
 import { Project } from '../../types'
-import BackIcon from '../../common/icons/BackIcon'
 
 const ReactModalVideo = styled(ReactPlayer)`
   margin-top: 50px;
@@ -50,10 +49,9 @@ function ProjectCard({ project }: { project: Project }) {
         <Box display="flex" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
           <Box display="flex" justifyContent="center" marginTop="9px" sx={{ width: '100%' }}>
             {coverFileType === 'image' && (
-              
               <Box display="flex" alignItems="center">
                 <Image
-                  src={'/images/Profile.svg'}
+                  src={coverUrl}
                   alt={'Thumbnail-alt'}
                   width={300}
                   height={160}
@@ -69,14 +67,12 @@ function ProjectCard({ project }: { project: Project }) {
           <Box sx={{ width: '90%', mt: '16px' }}>
             <Typography sx={{ fontSize: '18px' }}>{projectTitle}</Typography>
             <Box display="flex" alignItems="center" sx={{ mt: '10px' }}>
-              <CardMedia
-                component="img"
+              <Image
                 src={profileImageUrl}
-                style={{
-                  height: '17.83px',
-                  width: '17.83px',
-                  borderRadius: '100px',
-                }}
+                alt={'Thumbnail-alt'}
+                width={18}
+                height={15}
+                style={{ background: '#252525e6', borderRadius: '100px' }}
               />
               <Typography sx={{ fontSize: '12px', ml: '4px', color: '#969696' }}>{username}</Typography>
             </Box>
@@ -199,18 +195,29 @@ function ProjectCard({ project }: { project: Project }) {
             >
               {/* Cover banner */}
               {coverFileType === 'image' && (
-                <CardMedia
-                  component="img"
-                  src={coverUrl}
-                  style={{
-                    height: '450px',
-                    borderRadius: '6px',
-                    marginTop: '50px',
-                  }}
-                />
+                <Box style={{ marginTop: '50px' }}>
+                  <Image
+                    src={coverUrl}
+                    height="450px"
+                    width={'823px'}
+                    style={{
+                      borderRadius: '6px',
+                      marginTop: '50px',
+                    }}
+                    alt="cover"
+                  />
+                </Box>
               )}
               {coverFileType === 'video' && (
-                <ReactModalVideo url={coverUrl} height="450px" width="823px" muted={false} playing controls />
+                <ReactModalVideo
+                  url={coverUrl}
+                  height="450px"
+                  width="823px"
+                  muted={false}
+                  playing
+                  controls
+                  style={{ borderRadius: '6px' }}
+                />
               )}
 
               <Box
@@ -219,7 +226,7 @@ function ProjectCard({ project }: { project: Project }) {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  mt: '70px',
+                  mt: '60px',
                 }}
               >
                 <Typography
@@ -233,19 +240,16 @@ function ProjectCard({ project }: { project: Project }) {
                   {projectTitle}
                 </Typography>
 
-                {/* <Box sx={{}}>
-
-								</Box> */}
 
                 <Box
                   sx={{
                     display: 'flex',
-                    mt: '10px',
+                    mt: '15px',
                     justifyContent: 'space-between',
                   }}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <CardMedia component="img" src={profileImageUrl} sx={{ width: '18px', height: '18px' }} />
+                    <Image src={profileImageUrl} height={20} width={20} alt="profile-img" />
                     <Typography sx={{ mx: '5px', fontSize: '14px' }}>{username}</Typography>
                   </Box>
                   {openToCollab && (
