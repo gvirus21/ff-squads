@@ -53,7 +53,9 @@ export default function ProjectsTab() {
 
   const drawerWidth = 288
   const theme = useTheme()
+
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
 
   const updateExpertTags = () => {
     const tags: string[] = []
@@ -249,8 +251,8 @@ export default function ProjectsTab() {
                 xs: '254px',
                 sm: '420px',
                 md: '532px',
-                lg: '706px',
-                xl: '1095px',
+                lg: '680px',
+                xl: '1000px',
               },
               height: '52px',
               borderRadius: '8px',
@@ -282,10 +284,7 @@ export default function ProjectsTab() {
           </Box>
           {/* Sort option */}
           <Box width="140px" height="52px">
-            <Select
-              options={sortOptions}
-              styles={darkSelectStyle}
-            />
+            <Select options={sortOptions} styles={darkSelectStyle} />
           </Box>
         </Box>
       </Box>
@@ -331,7 +330,7 @@ export default function ProjectsTab() {
       )}
 
       <Box display="flex" sx={{ marginTop: { xs: '25px', lg: '0px' }, zIndex: 9999 }}>
-        {!isMobile && (
+        {!isTablet && (
           <Drawer
             sx={{
               width: drawerWidth,
@@ -455,9 +454,9 @@ export default function ProjectsTab() {
             </Box>
           </Drawer>
         )}
-        <Box sx={{ marginLeft: '19px' }}>
+        <Box sx={{ marginLeft: { xs: '-20px', lg: '19px' } }}>
           {/* tags input container */}
-          <Box>
+          <Box sx={{  margin: { xs: '0 auto', lg: '0'}, width: { xs: '70vw', lg: '50vw' } }}>
             {filterTags.map((tag: string) => {
               return (
                 <SquadFilterChips
@@ -471,22 +470,30 @@ export default function ProjectsTab() {
             })}
           </Box>
 
-          <Box sx={{ maxWidth: '1400px' }}>
-            <Grid
-              container
-              justifyContent={{ xs: 'center', sm: 'flex-start' }}
-              spacing={0}
-              rowSpacing={2}
-              sx={{ mt: { xs: '32px', sm: '0' } }}
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: { xs: 'center', lg: 'flex-start' },
+                pt: 1,
+              }}
             >
               {filteredProjects.map((project: Project) => {
                 return (
-                  <Grid item key={project._id} xs={12} sm={12} md={6} lg={4} xl={3}>
+                  <Box
+                    key={project._id}
+                    sx={{
+                      px: { lg: '5px', md: '5px', xs: 0, sm: 0 },
+                      py: { lg: '5px', md: '5px', xs: 2, sm: 1.5 },
+                      mx: { lg: '0px', md: '0px', xs: 'auto', sm: 'auto' },
+                    }}
+                  >
                     <ProjectCard project={project} />
-                  </Grid>
+                  </Box>
                 )
               })}
-            </Grid>
+            </Box>
           </Box>
         </Box>
       </Box>
