@@ -11,7 +11,7 @@ import PageLoading from 'components/common/PageLoading'
 import TabPanel from 'components/common/TabPanel'
 import AuthGuard from 'components/layout/AuthGuard'
 import MembersTab from 'components/member/MembersTab'
-import ProjectsTab from 'components/project/projectstab'
+import ProjectsTab from 'components/project/ProjectsTab'
 
 import { useCommunity } from 'hooks/useCommunity'
 import { useCommunityTokenHolding } from 'hooks/useHoldings'

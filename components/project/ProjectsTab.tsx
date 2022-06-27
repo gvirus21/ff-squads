@@ -14,6 +14,9 @@ import ProjectDetailsModal from './project-details-modal'
 import { Project } from '../../types'
 import darkSelectStyle from '../../config/darkSelectStyle'
 import FilterChipDeleteIcon from '../../common/icons/FilterChipDeleteIcon'
+// import AdjustIcon from '../../common/icons/AdjustIcon'
+import AdjustmentIcon from 'public/images/adjustment-icon.png'
+import Image from 'next/image'
 
 import ProjectCard from './project-card'
 
@@ -195,6 +198,7 @@ export default function ProjectsTab() {
         display="flex"
         sx={{
           flexDirection: { xs: 'column', lg: 'row' },
+          justifyContent: { xs: 'center', lg: 'flex-start' },
           alignItems: { xs: 'center', lg: 'flex-start' },
           zIndex: 99999,
         }}
@@ -208,9 +212,9 @@ export default function ProjectsTab() {
             background: 'linear-gradient(88.41deg, #444CFF 0%, #A93EDC 100%)',
             padding: '6px 41px',
             height: '52px',
-            width: { xs: '343px', lg: '269px' },
+            width: { xs: '290px', md: '343px', lg: '269px' },
             marginBottom: '20px',
-            marginRight: '19px',
+            marginRight: {xs: '0', lg: '19px'},
           }}
         >
           <Typography fontSize="18px" sx={{ whiteSpace: 'noWrap' }}>
@@ -235,7 +239,7 @@ export default function ProjectsTab() {
             width: {
               xs: '325px',
               sm: '528px',
-              md: '806px',
+              md: '650px',
               lg: '1042px',
               xl: '1386px',
             },
@@ -254,7 +258,7 @@ export default function ProjectsTab() {
                 lg: '680px',
                 xl: '1000px',
               },
-              height: '52px',
+              height: '46px',
               borderRadius: '8px',
               marginLeft: '19px',
             }}
@@ -283,9 +287,25 @@ export default function ProjectsTab() {
             />
           </Box>
           {/* Sort option */}
-          <Box width="140px" height="52px">
-            <Select options={sortOptions} styles={darkSelectStyle} />
-          </Box>
+          {isTablet ? (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '46px',
+                width: '46px',
+                background: '#27282B',
+                borderRadius: '8px',
+              }}
+            >
+              <Image src={AdjustmentIcon} alt="adjustment-gear" height="15.5px" width="17.5px" />
+            </Box>
+          ) : (
+            <Box width="140px" height="52px">
+              <Select options={sortOptions} styles={darkSelectStyle} />
+            </Box>
+          )}
         </Box>
       </Box>
       {isModalOpen && (
@@ -456,7 +476,7 @@ export default function ProjectsTab() {
         )}
         <Box sx={{ marginLeft: { xs: '-20px', lg: '19px' } }}>
           {/* tags input container */}
-          <Box sx={{  margin: { xs: '0 auto', lg: '0'}, width: { xs: '70vw', lg: '50vw' } }}>
+          <Box sx={{ margin: { xs: '0 auto', lg: '0' }, width: { xs: '70vw', lg: '50vw' } }}>
             {filterTags.map((tag: string) => {
               return (
                 <SquadFilterChips

@@ -6,7 +6,7 @@ import TimezoneSelect, {
 	Props as TimezoneSelectProps,
 } from 'react-timezone-select';
 
-import darkSelectStyle from '../../../config/darkSelectStyle';
+import darkSelectStyle from '../../config/darkSelectStyle';
 
 export type FormTimezoneProps = {
 	control?: Control<any, object>;

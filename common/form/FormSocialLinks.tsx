@@ -9,7 +9,7 @@ import {
 	TextField,
 } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
-import { SOCIAL_ICON_MAP } from '../../../config/constants';
+import { SOCIAL_ICON_MAP } from '../../config/constants';
 
 export type FormSocialLinksProps = {
 	control?: Control<any, object>;
