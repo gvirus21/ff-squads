@@ -14,7 +14,6 @@ import ProjectDetailsModal from './project-details-modal'
 import { Project } from '../../types'
 import darkSelectStyle from '../../config/darkSelectStyle'
 import FilterChipDeleteIcon from '../../common/icons/FilterChipDeleteIcon'
-// import AdjustIcon from '../../common/icons/AdjustIcon'
 import AdjustmentIcon from 'public/images/adjustment-icon.png'
 import Image from 'next/image'
 
@@ -46,6 +45,7 @@ const SquadFilterChips = styled(Chip)`
 `
 
 export default function ProjectsTab() {
+  const [searchTerm, setSearchTerm] = useState<string>('')
   const [projectIsOpen, setProjectIsOpen] = useState(true)
   const [creationTypeIsOpen, setCreationTypeIsOpen] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -214,7 +214,7 @@ export default function ProjectsTab() {
             height: '52px',
             width: { xs: '290px', md: '343px', lg: '269px' },
             marginBottom: '20px',
-            marginRight: {xs: '0', lg: '19px'},
+            marginRight: { xs: '0', lg: '19px' },
           }}
         >
           <Typography fontSize="18px" sx={{ whiteSpace: 'noWrap' }}>
@@ -276,6 +276,9 @@ export default function ProjectsTab() {
             <input
               type="text"
               placeholder="Search Projects"
+              onChange={(e) => {
+                setSearchTerm(e.target.value)
+              }}
               style={{
                 background: '#27282B',
                 width: '70%',
@@ -499,20 +502,31 @@ export default function ProjectsTab() {
                 pt: 1,
               }}
             >
-              {filteredProjects.map((project: Project) => {
-                return (
-                  <Box
-                    key={project._id}
-                    sx={{
-                      px: { lg: '5px', md: '5px', xs: 0, sm: 0 },
-                      py: { lg: '5px', md: '5px', xs: 2, sm: 1.5 },
-                      mx: { lg: '0px', md: '0px', xs: 'auto', sm: 'auto' },
-                    }}
-                  >
-                    <ProjectCard project={project} />
-                  </Box>
-                )
-              })}
+              {filteredProjects
+                .filter((project: Project) => {
+                  if (searchTerm === '') {
+                    return project
+                  } else if (
+                    project.projectTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    project.about.toLowerCase().includes(searchTerm.toLowerCase())
+                  ) {
+                    return project
+                  }
+                })
+                .map((project: Project) => {
+                  return (
+                    <Box
+                      key={project._id}
+                      sx={{
+                        px: { lg: '5px', md: '5px', xs: 0, sm: 0 },
+                        py: { lg: '5px', md: '5px', xs: 2, sm: 1.5 },
+                        mx: { lg: '0px', md: '0px', xs: 'auto', sm: 'auto' },
+                      }}
+                    >
+                      <ProjectCard project={project} />
+                    </Box>
+                  )
+                })}
             </Box>
           </Box>
         </Box>

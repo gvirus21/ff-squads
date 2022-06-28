@@ -42,7 +42,7 @@
     "profileImageUrl": "/local/profile.png",
     "isFeatured": false,
     "openToCollab": false,
-    "expertise": ["Collective Creation", "Music Production", "PhotoGraphy"],
+    "expertise": ["Music Production", "PhotoGraphy"],
     "extraExpertise": ["extra"],
     "socialLinks": ["www.discord.com", "www.twitter.com"],
     "createdAt": "20-03-2021",
@@ -67,6 +67,7 @@
     "contribution": "Lorem contribution...",
     "about": "Artist, designer, curator, and student of communications, art history, and web3 at Stanford University. Instigating subcultural creativity and considerate design via Silknode, the prototype of every creative platform, 10 years from now."
   },
+
   {
     "_id": "5",
     "projectTitle": "How a visual artist redefines success in graphic design",
@@ -84,8 +85,9 @@
     "contribution": "Lorem contribution...",
     "about": "Artist, designer, curator, and student of communications, art history, and web3 at Stanford University. Instigating subcultural creativity and considerate design via Silknode, the prototype of every creative platform, 10 years from now."
   },
+
   {
-    "_id": "5",
+    "_id": "6",
     "projectTitle": "How a visual artist redefines success in graphic design",
     "coverUrl": "https://youtu.be/aBfJtTm_XD4",
     "coverFileType": "video",
@@ -102,3 +104,4 @@
     "about": "Artist, designer, curator, and student of communications, art history, and web3 at Stanford University. Instigating subcultural creativity and considerate design via Silknode, the prototype of every creative platform, 10 years from now."
   }
 ]
+
