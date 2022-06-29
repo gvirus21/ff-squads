@@ -3,8 +3,11 @@ import { StylesConfig, GroupBase } from 'react-select'
 const config: StylesConfig<unknown, boolean, GroupBase<unknown>> = {
   control: (styles) => ({
     ...styles,
+    height: '46px',
     backgroundColor: 'transparent',
     color: '#fff',
+    border: 'transparent',
+    background: '#27282B',
   }),
   multiValue: (styles, { data }) => ({
     ...styles,
@@ -37,7 +40,7 @@ const config: StylesConfig<unknown, boolean, GroupBase<unknown>> = {
   }),
   input: (styles) => ({
     ...styles,
-    color: '#F5FFF4',
+    color: '#F2FFF4',
   }),
   option: (styles) => ({
     ...styles,

@@ -34,6 +34,11 @@ const sortOptions = [
   },
 ]
 
+type sortSelect = {
+  label: string
+  value: string
+}
+
 const SquadFilterChips = styled(Chip)`
   background: #121212;
   border-radius: 4px;
@@ -52,7 +57,7 @@ export default function ProjectsTab() {
   const [expertiseTags, setExpertiseTags] = useState<string[]>([])
   const [filterTags, setFilterTags] = useState<string[]>(['All'])
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(ProjectData)
-  const [sortOption, setSortOption] = useState<string>('Newest')
+  const [sortValue, setSortValue] = useState<sortSelect>({ label: 'Newest', value: 'Newest' })
 
   const drawerWidth = 288
   const theme = useTheme()
@@ -122,6 +127,10 @@ export default function ProjectsTab() {
     setFilteredProjects(filteredProjectslist)
   }
 
+  const handleSortOptionChange = (val: sortSelect) => {
+    setSortValue(val)
+  }
+
   const ExpandLessIconSquad = styled(ExpandLessIcon)`
     color: #8b8f97;
   `
@@ -155,6 +164,59 @@ export default function ProjectsTab() {
       setFilterTags(tags)
     }
   }
+
+  useEffect(() => {
+
+    if (sortValue.value === 'Newest') {
+      const filteredProjectsList = [...filteredProjects]
+       filteredProjectsList.sort((a: Project, b: Project): number => {
+         const aDate = new Date(a.createdAt)
+         const bDate = new Date(b.createdAt)
+
+         if (aDate > bDate) {
+          return -1
+         } else if (aDate < bDate) {
+           return 1
+        }
+         return 0
+       })
+
+       setFilteredProjects(filteredProjectsList)
+
+    } else if (sortValue.value === 'Oldest') {
+      
+      const filteredProjectsList = [...filteredProjects]
+      filteredProjectsList.sort((a: Project, b: Project): number => {
+        const aDate = new Date(a.createdAt)
+        const bDate = new Date(b.createdAt)
+
+        if (aDate > bDate) {
+          return 1
+        } else if (aDate < bDate) {
+          return -1
+        }
+        return 0
+      })
+
+      setFilteredProjects(filteredProjectsList)
+
+
+    } else if (sortValue.value === 'A-Z') {
+
+      const filteredProjectsList = [...filteredProjects]
+
+      filteredProjectsList.sort((a: Project, b: Project): number => {
+        if (a.projectTitle > b.projectTitle) {
+          return 1
+        } else if (a.projectTitle < b.projectTitle) {
+          return -1
+        }
+        return 0
+      })
+
+      setFilteredProjects(filteredProjectsList)
+    }
+  }, [sortValue])
 
   const removeFilterItem = (tag: string) => {
     setFilterTags(filterTags.filter((x) => x !== tag))
@@ -306,7 +368,12 @@ export default function ProjectsTab() {
             </Box>
           ) : (
             <Box width="140px" height="52px">
-              <Select options={sortOptions} styles={darkSelectStyle} />
+              <Select
+                options={sortOptions}
+                styles={darkSelectStyle}
+                value={sortValue}
+                onChange={handleSortOptionChange}
+              />
             </Box>
           )}
         </Box>
