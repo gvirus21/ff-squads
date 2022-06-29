@@ -127,7 +127,7 @@ export default function ProjectsTab() {
     setFilteredProjects(filteredProjectslist)
   }
 
-  const handleSortOptionChange = (val: sortSelect) => {
+  const handleSortOptionChange = (val: any) => {
     setSortValue(val)
   }
 
