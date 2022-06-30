@@ -13,7 +13,7 @@ import ProjectData from '../../data/ProjectData.json'
 import ProjectDetailsModal from './project-details-modal'
 import { Project } from '../../types'
 import darkSelectStyle from '../../config/darkSelectStyle'
-import FilterChipDeleteIcon from '../../common/icons/FilterChipDeleteIcon'
+import FilterChipDeleteIcon from '../icons/FilterChipDeleteIcon'
 import AdjustmentIcon from 'public/images/adjustment-icon.png'
 import Image from 'next/image'
 
