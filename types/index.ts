@@ -94,20 +94,26 @@ export type CommunityProfileInfo = {
   minimumHoldingForMembership: number
 }
 
+
 export type Project = {
-	_id: string;
-	projectTitle: string;
-	coverUrl: string;
-	coverFileType: string;
-	username: string;
-	profileImageUrl: string;
+  _id: string;
+  projectTitle: string;
+  thumbnail: string;
+  coverUrl: string;
+  coverFileType: string;
+  creatorName: string;
 	isFeatured: boolean;
-	openToCollab: boolean;
-	expertise: string[];
-	extraExpertise: string[];
-	socialLinks: string[];
-	createdAt: string;
-	bio: string;
-	contribution: string;
-	about: string;
-};
+    profileImageUrl: string;
+    openToCollab: boolean,
+    expertise: string[];
+    extraExpertise: string[];
+    socialLinks: {
+      website: string;
+      discord: string;
+      twitter: string;
+    },
+  createdAt: string;
+  about: string;
+  contribution: string;
+  intrestedToCollab: string[];
+}

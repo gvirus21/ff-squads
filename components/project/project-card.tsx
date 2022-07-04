@@ -15,8 +15,9 @@ const ReactThumbnailVideo = styled(ReactPlayer)``
 
 function ProjectCard({ project }: { project: Project }) {
   const {
-    username,
+    creatorName,
     projectTitle,
+    thumbnail,
     coverUrl,
     coverFileType,
     profileImageUrl,
@@ -48,20 +49,15 @@ function ProjectCard({ project }: { project: Project }) {
       >
         <Box display="flex" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
           <Box display="flex" justifyContent="center" marginTop="9px" sx={{ width: '100%' }}>
-            {coverFileType === 'image' && (
               <Box display="flex" alignItems="center">
                 <Image
-                  src={coverUrl}
+                  src={thumbnail}
                   alt={'Thumbnail-alt'}
                   width={300}
                   height={160}
                   style={{ background: '#252525e6', borderRadius: '6px' }}
                 />
               </Box>
-            )}
-            {coverFileType === 'video' && (
-              <ReactThumbnailVideo url={coverUrl} height="158px" width="313px" playing loop muted controls={false} />
-            )}
           </Box>
 
           <Box sx={{ width: '90%', mt: '16px' }}>
@@ -74,7 +70,7 @@ function ProjectCard({ project }: { project: Project }) {
                 height={15}
                 style={{ background: '#252525e6', borderRadius: '100px' }}
               />
-              <Typography sx={{ fontSize: '12px', ml: '4px', color: '#969696' }}>{username}</Typography>
+              <Typography sx={{ fontSize: '12px', ml: '4px', color: '#969696' }}>{creatorName}</Typography>
             </Box>
           </Box>
         </Box>
@@ -240,7 +236,6 @@ function ProjectCard({ project }: { project: Project }) {
                   {projectTitle}
                 </Typography>
 
-
                 <Box
                   sx={{
                     display: 'flex',
@@ -250,7 +245,7 @@ function ProjectCard({ project }: { project: Project }) {
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Image src={profileImageUrl} height={20} width={20} alt="profile-img" />
-                    <Typography sx={{ mx: '5px', fontSize: '14px' }}>{username}</Typography>
+                    <Typography sx={{ mx: '5px', fontSize: '14px' }}>{creatorName}</Typography>
                   </Box>
                   {openToCollab && (
                     <Box
